@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.fpt.projectfinal.models.Test;
 
-public interface testDao {
+public interface TestDao {
 	
 	public void updateTest(Test test);
 	

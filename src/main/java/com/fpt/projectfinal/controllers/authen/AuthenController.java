@@ -25,8 +25,7 @@ public class AuthenController {
 	@Autowired
 	AuthenService authenService;
 	
-	@Autowired
-	AccountDao dao;
+	
 	
 	@RequestMapping(value = "/getAllAccount", method = RequestMethod.GET, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
@@ -49,7 +48,7 @@ public class AuthenController {
 	@RequestMapping(value = "/getByEmail", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
 	public String getByEmail(@RequestBody Map<String, Object> payload) {
-		Account acc = dao.getAccountByEmail((String)payload.get("email"));
+		Account acc = authenService.getAccountByEmail((String)payload.get("email"));
 			return acc.getEmail();
 	}
 }

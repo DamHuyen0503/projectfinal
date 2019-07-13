@@ -16,9 +16,11 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "Category", uniqueConstraints = { @UniqueConstraint(columnNames = { "categoryID" }) })
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Category {
 	@Id
 	@Column(name = "categoryID")

@@ -12,7 +12,7 @@ public interface TestService {
 	
 	public void updateTest(Map<String, Object> payload);
 
-	public Test getTestById(int id);
+	public Map<String, Object> getTestById(int id);
 
 	public List<Test> getAllTest();
 }

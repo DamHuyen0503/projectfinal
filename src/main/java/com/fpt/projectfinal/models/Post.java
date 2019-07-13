@@ -17,9 +17,13 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "Post")
 @DiscriminatorValue("1")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Post {
 
 	@Id
@@ -48,11 +52,9 @@ public class Post {
 	@Column(name = "description", columnDefinition = "varchar(500)")
 	private String description;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "post_tag", joinColumns = {
-			@JoinColumn(name = "postID", nullable = true, updatable = true) }, inverseJoinColumns = {
-					@JoinColumn(name = "tagID", nullable = true, updatable = true) })
-	private Set<Tag> tag;
+	@JsonManagedReference
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "post",  cascade = CascadeType.ALL)
+	public Set<Tag> tag;
 
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -63,6 +65,7 @@ public class Post {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "userID")
 	private User user;
+	
 
 	public Post() {
 		super();

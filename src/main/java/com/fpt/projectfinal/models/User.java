@@ -55,21 +55,10 @@ public class User {
 	@OneToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "email", nullable = false)
     private Account account;
-
+	
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL,mappedBy="user",fetch = FetchType.LAZY)
 	private Set<Post> post; 
-	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-	@JsonIgnore
-	private Set<NoteProcess> nodeProcess; 
-	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-	@JsonIgnore
-	private Set<UserRole> userRole;
-	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-	@JsonIgnore
-	private Set<UserAccess> userAcces; 
 	
 	public User() {
 		super();

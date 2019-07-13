@@ -37,6 +37,26 @@ public class Answer {
 	public Answer() {
 		super();
 	}
+	
+	
+
+	
+
+
+
+	public Answer(String content, int score, String image, Question question) {
+		super();
+		this.content = content;
+		this.score = score;
+		this.image = image;
+		this.question = question;
+	}
+
+
+
+
+
+
 
 	public Integer getAnswerID() {
 		return AnswerID;

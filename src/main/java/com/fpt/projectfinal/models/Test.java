@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @DiscriminatorValue("2")
 public class Test extends Post {
 
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL,mappedBy="test",fetch = FetchType.LAZY)
 	private Set<Question> question; 
 	

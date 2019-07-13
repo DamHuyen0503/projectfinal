@@ -36,6 +36,18 @@ public class Result {
 	public Result() {
 		super();
 	}
+	
+	
+
+	public Result(int highestPoint, int lowestPoint, String content, Test test) {
+		super();
+		this.highestPoint = highestPoint;
+		this.lowestPoint = lowestPoint;
+		this.content = content;
+		this.test = test;
+	}
+
+
 
 	public Integer getResultID() {
 		return resultID;
