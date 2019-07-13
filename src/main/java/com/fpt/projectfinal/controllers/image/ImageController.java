@@ -1,0 +1,45 @@
+package com.fpt.projectfinal.controllers.image;
+
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.fpt.projectfinal.models.Image;
+import com.fpt.projectfinal.services.image.ImageService;
+
+@CrossOrigin
+@RestController
+public class ImageController {
+
+	@Autowired
+	private ImageService imageService;
+	
+    // GET: Hiển thị trang form upload
+    @RequestMapping(value = "/uploadOneFile/{imageName}", method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public @ResponseBody byte[] getImage(@PathVariable(name="imageName") String imageName) throws IOException {
+      
+        return IOUtils.toByteArray(imageService.inputStream(imageName));
+    }
+    
+    
+    // POST: Sử lý Upload
+    @RequestMapping(value = "/uploadOneFile", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
+    public @ResponseBody String uploadOneFileHandlerPOST(HttpServletRequest request, //
+            Model model, //
+            @ModelAttribute("image") Image image) {
+        return imageService.doUpload(request, model, image);
+ 
+    }
+}
