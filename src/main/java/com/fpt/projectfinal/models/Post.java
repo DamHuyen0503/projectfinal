@@ -23,7 +23,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity
 @Table(name = "Post")
 @DiscriminatorValue("1")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Post {
 
 	@Id
@@ -52,17 +51,17 @@ public class Post {
 	@Column(name = "description", columnDefinition = "varchar(500)")
 	private String description;
 
-	@JsonManagedReference
+
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "post",  cascade = CascadeType.ALL)
 	public Set<Tag> tag;
 
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne( cascade = CascadeType.ALL)
 	@JoinColumn(name = "categoryID")
 	private Category category;
 	
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "userID")
 	private User user;
 	

@@ -19,6 +19,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.fpt.projectfinal.daos.category.CategoryDao;
 import com.fpt.projectfinal.models.Category;
 import com.fpt.projectfinal.models.Post;
 @Repository
@@ -27,6 +28,9 @@ public class PostDaoImpl implements PostDao {
 
 	@Autowired
 	SessionFactory session;
+	
+	@Autowired
+	CategoryDao categoryDao;
 
 	@Override
 	public void addPost(Post post) {
@@ -79,6 +83,8 @@ public class PostDaoImpl implements PostDao {
 	@Override
 	public List<Post> getPostDataForTable(String sort, String order, Integer page, Integer categoryID,
 			String searchString) {
+		Category category = categoryDao.getCategoryByID(categoryID);
+		Category testCate = categoryDao.getCategoryByID(1);
 		ProjectionList projectionList = Projections.projectionList();
 		CriteriaBuilder cb = session.getCurrentSession().getCriteriaBuilder();
 		CriteriaQuery<Post> cr = cb.createQuery(Post.class);
@@ -86,11 +92,11 @@ public class PostDaoImpl implements PostDao {
 		cr.distinct(true);
 		if (categoryID != 0) {
 			cr.where(cb.notEqual(root.get("status"), 3), cb.notEqual(root.get("status"), 0),
-					cb.like(root.get("title"), "%" + searchString + "%"), cb.notEqual(root.get("categoryID"), 1),
-					cb.equal(root.get("categoryID"), categoryID));
+					cb.like(root.get("title"), "%" + searchString + "%"), cb.notEqual(root.get("category"), testCate),
+					cb.equal(root.get("category"), category));
 		} else
 			cr.where(cb.notEqual(root.get("status"), 3), cb.notEqual(root.get("status"), 0),
-					cb.notEqual(root.get("categoryID"), 1), cb.like(root.get("title"), "%" + searchString + "%"));
+					cb.notEqual(root.get("category"), testCate), cb.like(root.get("title"), "%" + searchString + "%"));
 		if ("asc".equals(order)) {
 			cr.orderBy(cb.asc(root.get(sort)));
 		} else {

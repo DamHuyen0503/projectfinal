@@ -35,7 +35,7 @@ public class HibernateConfig {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName(env.getProperty("DriverClassName"));
 		dataSource.setUrl(env.getProperty("url"));
-		dataSource.setUsername(env.getProperty("username"));
+		dataSource.setUsername(env.getProperty("name"));
 		dataSource.setPassword(env.getProperty("password"));
 
 		return dataSource;

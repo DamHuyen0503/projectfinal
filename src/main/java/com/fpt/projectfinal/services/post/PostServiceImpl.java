@@ -37,7 +37,9 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public Post getPostById(int id) {
-		return postDao.getPostById(id);
+		Post p = postDao.getPostById(id);
+		p.setTag(tagDao.getTagByPost(p));
+		return p;
 	}
 
 	@Override
@@ -58,7 +60,11 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public List<Post> getPostDataForTable(String sort, String order, Integer page, Integer categoryID,
 			String searchString) {
-		return postDao.getPostDataForTable(sort, order, page, categoryID, searchString);
+	 List<Post> list = postDao.getPostDataForTable(sort, order, page, categoryID, searchString);
+	 for(Post p : list) {
+		 p.setTag(tagDao.getTagByPost(p));
+	 }
+	 return list;
 	}
 
 	@Override

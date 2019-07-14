@@ -1,5 +1,6 @@
 package com.fpt.projectfinal.controllers.category;
 
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 
@@ -56,7 +57,7 @@ public class CategoryController {
 		}
     }
 	
-	@RequestMapping(value = "/updateCategory",method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
+	@RequestMapping(value = "/updateCategory",method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE})
 	public ResponseEntity<Object> updateCategory(@RequestBody Category category,UriComponentsBuilder builder) {
 		try {
 			categoryService.updateCategory(category);

@@ -33,7 +33,7 @@ public class PostController {
 	@Autowired
 	PostService postService;
 
-	@RequestMapping(value = "/getAllPost", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+	@RequestMapping(value = "/getAllPost", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object> getAllPost() {
 		try {
@@ -68,7 +68,7 @@ public class PostController {
 		return out;
 	}
 
-	@RequestMapping(value = "/addPost", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
+	@RequestMapping(value = "/addPost", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<Object> addPost(@RequestBody Post payload) {
 
 		try {
