@@ -47,7 +47,7 @@ public class CategoryController {
 	public ResponseEntity<Object> createCategory(@RequestBody Category category,UriComponentsBuilder builder) {
 		try {
 			categoryService.addCategory(category);
-	        return new ResponseEntity<>(category, HttpStatus.CREATED);
+	        return new ResponseEntity<>(category, HttpStatus.OK);
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -61,7 +61,7 @@ public class CategoryController {
 	public ResponseEntity<Object> updateCategory(@RequestBody Category category,UriComponentsBuilder builder) {
 		try {
 			categoryService.updateCategory(category);
-	        return new ResponseEntity<>(category, HttpStatus.CREATED);
+	        return new ResponseEntity<>(category, HttpStatus.OK);
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -77,7 +77,7 @@ public class CategoryController {
 		
 		try {
 			Category category =categoryService.getCategoryByID(categoryID);
-	        return new ResponseEntity<>(category, HttpStatus.FOUND);
+	        return new ResponseEntity<>(category, HttpStatus.OK);
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -92,7 +92,7 @@ public class CategoryController {
 	public ResponseEntity<Object> getCountCategory() {
 		try {
 			List<Map<String, Object>> listCategory =categoryService.CountCategory();
-	        return new ResponseEntity<>(listCategory, HttpStatus.FOUND);
+	        return new ResponseEntity<>(listCategory, HttpStatus.OK);
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

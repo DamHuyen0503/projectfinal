@@ -30,9 +30,9 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
-	 String username = request.getParameter("username");
+	 String username = request.getParameter("email");
     String password = request.getParameter("password");
-
+    
     System.out.printf("JWTLoginFilter.attemptAuthentication: username/password= %s,%s", username, password);
     System.out.println();
 
