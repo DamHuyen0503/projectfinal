@@ -1,25 +1,29 @@
 package com.fpt.projectfinal.utils;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.expression.ParseException;
+
 public class ConvertDateTime {
-	public static Date ConvertDate(String dateTime) {
+	@Autowired
+	SessionFactory session;
+	public static Date ConvertDate(String dateTime) throws Exception {
 		
-		String s = dateTime.substring(0, dateTime.length()-2);
-		System.out.println(s);
-//		LocalDateTime start = LocalDateTime.parse((String) notemap.get("startTime"));
-//		LocalDateTime end = LocalDateTime.parse((String) notemap.get("endTime"));
-//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//		String startStr = start.format(formatter);
-//		String endStr = start.format(formatter);
-////		
-//
-//		Date startTime = (Date) formatter.parse(startStr);
-//		Date endTime = (Date) formatter.parse(endStr);
 		
-		return null;
-		
+	        
+
+	           DateFormat sdf = new SimpleDateFormat("yyyy-mm");
+	           Date startDate = null;
+	        try {
+	            startDate = sdf.parse(dateTime);
+	        } catch (ParseException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	        }
+			return startDate;
 	}
 }

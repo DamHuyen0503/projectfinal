@@ -39,7 +39,7 @@ public class TagDaoImpl implements TagDao {
 	@Override
 	public Set<Tag> getTagByTest(Test test) {
 		PersistenceUnitUtil impl = session.getPersistenceUnitUtil();
-		if(!impl.isLoaded(test.getTag())) {
+		if(!impl.isLoaded(test.getTags())) {
 			CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
 			CriteriaQuery<Tag> query = builder.createQuery(Tag.class);
 			Root<Tag> root = query.from(Tag.class);
@@ -47,13 +47,13 @@ public class TagDaoImpl implements TagDao {
 			List<Tag> tags = session.getCurrentSession().createQuery(query).getResultList();
 			return new HashSet<Tag>(tags);
 		}
-		return  test.getTag();
+		return  test.getTags();
 	}
 
 	@Override
 	public Set<Tag> getTagByPost(Post post) {
 		PersistenceUnitUtil impl = session.getPersistenceUnitUtil();
-		if(!impl.isLoaded(post.getTag())) {
+		if(!impl.isLoaded(post.getTags())) {
 			CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
 			CriteriaQuery<Tag> query = builder.createQuery(Tag.class);
 			Root<Tag> root = query.from(Tag.class);
@@ -61,7 +61,7 @@ public class TagDaoImpl implements TagDao {
 			List<Tag> tags = session.getCurrentSession().createQuery(query).getResultList();
 			return new HashSet<Tag>(tags);
 		}
-		return  post.getTag();
+		return  post.getTags();
 	}
 
 }

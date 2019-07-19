@@ -15,8 +15,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.fpt.projectfinal.daos.user.UserDAO;
-import com.fpt.projectfinal.daos.user.UserDaoImpl;
 import com.fpt.projectfinal.services.authentication.TokenAuthenticationService;
 
 

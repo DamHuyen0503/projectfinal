@@ -38,7 +38,7 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public Post getPostById(int id) {
 		Post p = postDao.getPostById(id);
-		p.setTag(tagDao.getTagByPost(p));
+		p.setTags(tagDao.getTagByPost(p));
 		return p;
 	}
 
@@ -46,7 +46,7 @@ public class PostServiceImpl implements PostService {
 	public List<Post> getAllPost() {
 		List<Post> list =  postDao.getAllPost();
 		for(Post p:list) {
-			p.setTag(tagDao.getTagByPost(p));
+			p.setTags(tagDao.getTagByPost(p));
 		}
 		return list;
 	}
@@ -62,7 +62,7 @@ public class PostServiceImpl implements PostService {
 			String searchString) {
 	 List<Post> list = postDao.getPostDataForTable(sort, order, page, categoryID, searchString);
 	 for(Post p : list) {
-		 p.setTag(tagDao.getTagByPost(p));
+		 p.setTags(tagDao.getTagByPost(p));
 	 }
 	 return list;
 	}
@@ -80,7 +80,7 @@ public class PostServiceImpl implements PostService {
 		}
 		List<Post> list = postDao.getPostByCategory(category);
 		for(Post p:list) {
-			p.setTag(tagDao.getTagByPost(p));
+			p.setTags(tagDao.getTagByPost(p));
 			p.setCategory(category);
 			
 		}

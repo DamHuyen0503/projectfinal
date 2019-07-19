@@ -1,4 +1,4 @@
-package com.fpt.projectfinal.models;
+	package com.fpt.projectfinal.models;
 
 import java.util.Date;
 import java.util.Set;
@@ -121,7 +121,7 @@ public class MedicalRecord {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "medicalRecord")
 	@JsonIgnore
-	private Set<NoteProcess> nodeProcess; 
+	private Set<NoteProcess> noteProcess; 
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "medicalRecord")
 	@JsonIgnore
@@ -174,15 +174,15 @@ public class MedicalRecord {
 		this.result = result;
 		this.client = client;
 	}
+	public Set<NoteProcess> getNoteProcess() {
+		return noteProcess;
+	}
+
+	public void setNoteProcess(Set<NoteProcess> noteProcess) {
+		this.noteProcess = noteProcess;
+	}
 
 	
-	public Set<NoteProcess> getNodeProcess() {
-		return nodeProcess;
-	}
-
-	public void setNodeProcess(Set<NoteProcess> nodeProcess) {
-		this.nodeProcess = nodeProcess;
-	}
 
 	public Set<UserAccess> getUserAccess() {
 		return userAccess;

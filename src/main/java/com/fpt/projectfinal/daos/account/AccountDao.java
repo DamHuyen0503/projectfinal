@@ -1,8 +1,11 @@
 package com.fpt.projectfinal.daos.account;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.fpt.projectfinal.models.Account;
+import com.fpt.projectfinal.models.Role;
 
 
 public interface AccountDao {
@@ -29,6 +32,7 @@ public interface AccountDao {
 	 * get all account
 	 */
 	public List<Account> getAllAccount();
+	public Set<Account> getAccountByRole(Role role);
 }
 
 

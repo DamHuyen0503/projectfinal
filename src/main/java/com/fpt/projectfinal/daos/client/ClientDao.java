@@ -1,7 +1,11 @@
 package com.fpt.projectfinal.daos.client;
 
 import java.util.List;
+import java.util.Set;
+
+import com.fpt.projectfinal.models.Answer;
 import com.fpt.projectfinal.models.Client;
+import com.fpt.projectfinal.models.MedicalRecord;
 
 public interface ClientDao {
 	
@@ -12,4 +16,6 @@ public interface ClientDao {
 	public String updateClient(Client client);
 	
 	public Client getClientByID(int id);
+	
+	public Client getClientByMedicalRecord(MedicalRecord medicalRecord);
 }

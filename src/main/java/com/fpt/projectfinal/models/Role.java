@@ -1,5 +1,6 @@
 package com.fpt.projectfinal.models;
 
+import java.util.Collection;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -9,6 +10,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -19,17 +23,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Role {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "roleID")
 	private int roleID;
 
 	@Column(name = "Name", unique = true)
 	private String name;
 
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "role")
 	@JsonIgnore
-	private Set<UserRole> userRole; 
+	 @ManyToMany(mappedBy = "roles")
+	    private Set<Account> account;
+	   
 	
 	public Role() {
 		super();
@@ -56,6 +60,19 @@ public class Role {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+
+	public Set<Account> getAccount() {
+		return account;
+	}
+
+	public void setAccount(Set<Account> account) {
+		this.account = account;
+	}
+
+
+	
+	
 	
 	
 }

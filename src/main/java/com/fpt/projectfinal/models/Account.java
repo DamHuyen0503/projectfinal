@@ -1,10 +1,16 @@
 package com.fpt.projectfinal.models;
 
+import java.util.Collection;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -17,31 +23,32 @@ public class Account {
 
 	@Id
 	@Column(name = "email", nullable = false)
-	private String  email;
+	private String email;
 
 	@Column(name = "password")
 	private String password;
+
 	
-	@JsonManagedReference
-	@OneToOne(fetch = FetchType.LAZY,
-            cascade =  CascadeType.ALL,
-            mappedBy = "account")
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "account")
 	private User user;
+
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "email", referencedColumnName = "email"), 
+									 inverseJoinColumns = @JoinColumn(name = "roleID", referencedColumnName = "roleID"))
+	private Set<Role> roles;
 
 	public Account() {
 		super();
 	}
-	
-	
 
+	
 	public Account(String email, String password, User user) {
 		super();
 		this.email = email;
 		this.password = password;
 		this.user = user;
 	}
-
-
 
 	public String getEmail() {
 		return email;
@@ -67,10 +74,14 @@ public class Account {
 		this.user = user;
 	}
 
-	
-	
-	
-	
-	
-	
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
 }

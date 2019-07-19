@@ -53,7 +53,7 @@ public class Post {
 
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "post",  cascade = CascadeType.ALL)
-	public Set<Tag> tag;
+	public Set<Tag> tags;
 
 	
 	@ManyToOne( cascade = CascadeType.ALL)
@@ -126,12 +126,14 @@ public class Post {
 		this.description = description;
 	}
 
-	public Set<Tag> getTag() {
-		return tag;
+	
+
+	public Set<Tag> getTags() {
+		return tags;
 	}
 
-	public void setTag(Set<Tag> tag) {
-		this.tag = tag;
+	public void setTags(Set<Tag> tags) {
+		this.tags = tags;
 	}
 
 	public User getUser() {

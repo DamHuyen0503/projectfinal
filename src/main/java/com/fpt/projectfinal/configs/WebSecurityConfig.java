@@ -1,8 +1,5 @@
 package com.fpt.projectfinal.configs;
 
-import java.util.Arrays;
-import java.util.Collections;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,9 +14,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.fpt.projectfinal.services.authentication.UserDetailServiceImpl;
 
@@ -66,6 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	                // No need authentication.
 	                // .antMatchers("/").permitAll()
 	                .antMatchers(HttpMethod.POST, "/login").permitAll() //
+	                .antMatchers(HttpMethod.GET, "/uploadOneFile/**").permitAll() //
 	                .antMatchers(HttpMethod.POST, "/addAccount").permitAll()
 	                
 	                // Need authentication.

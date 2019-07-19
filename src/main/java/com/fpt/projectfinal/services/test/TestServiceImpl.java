@@ -76,7 +76,7 @@ public class TestServiceImpl implements TestService {
 		}
 		
 		test.setQuestion(new HashSet(questions));
-		test.setTag(tagDao.getTagByTest(test));
+		test.setTags(tagDao.getTagByTest(test));
 		test.setResult(resultDao.getResultByTest(test));
 		Map<String, Object> map = new HashMap<>();
 		if (test.getCategory().getCategoryID() != 1) {
@@ -108,7 +108,7 @@ public class TestServiceImpl implements TestService {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		map.put("email user", username);
 		List<String> tags = new ArrayList();
-		for (Tag tag : test.getTag()) {
+		for (Tag tag : test.getTags()) {
 			tags.add(tag.getContent());
 		}
 		map.put("tags", tags);
@@ -164,7 +164,7 @@ public class TestServiceImpl implements TestService {
 			}
 			tags.add(new Tag(obj, new Date()));
 		}
-		test.setTag(tags);
+		test.setTags(tags);
 		Set<Question> questions = new HashSet<>();
 		ArrayList<Object> question_list = (ArrayList<Object>) payload.get("questions");
 		for (Object quest : question_list) {
@@ -230,7 +230,7 @@ public class TestServiceImpl implements TestService {
 			}
 			tags.add(new Tag(obj, new Date()));
 		}
-		test.setTag(tags);
+		test.setTags(tags);
 		Set<Question> questions = new HashSet<>();
 		ArrayList<Object> question_list = (ArrayList<Object>) payload.get("questions");
 		for (Object quest : question_list) {

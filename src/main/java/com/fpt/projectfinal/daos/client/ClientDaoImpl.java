@@ -1,7 +1,10 @@
 package com.fpt.projectfinal.daos.client;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.PersistenceUnitUtil;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -11,8 +14,9 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.fpt.projectfinal.models.Category;
+import com.fpt.projectfinal.models.Answer;
 import com.fpt.projectfinal.models.Client;
+import com.fpt.projectfinal.models.MedicalRecord;
 
 @Repository
 @Transactional
@@ -29,13 +33,13 @@ public class ClientDaoImpl implements ClientDao {
 	@Override
 	public String addClient(Client client) {
 		this.session.getCurrentSession().save(client);
-		return null;
+		return "sucessfull";
 	}
 
 	@Override
 	public String updateClient(Client client) {
 		this.session.getCurrentSession().update(client);
-		return null;
+		return "sucessfull";
 	}
 
 	@Override
@@ -50,6 +54,23 @@ public class ClientDaoImpl implements ClientDao {
 		} else
 			
 		return null;
+	}
+
+	@Override
+	public Client getClientByMedicalRecord(MedicalRecord medicalRecord) {
+
+		
+		PersistenceUnitUtil impl = session.getPersistenceUnitUtil();
+		if(!impl.isLoaded(medicalRecord.getClient())) {
+			CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
+			CriteriaQuery<Client> query = builder.createQuery(Client.class);
+			Root<Client> root = query.from(Client.class);
+			query.select(root).where(builder.equal(root.get("medicalRecord"), medicalRecord));
+			Client clients = (Client) session.getCurrentSession().createQuery(query).getResultList();
+			return clients;
+		}
+		return (Client) medicalRecord.getClient();
+		
 	}
 
 }

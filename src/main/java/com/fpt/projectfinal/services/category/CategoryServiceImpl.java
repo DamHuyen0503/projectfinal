@@ -56,8 +56,8 @@ public class CategoryServiceImpl implements CategoryService {
 			cmap.put("image", c.getImage());
 			cmap.put("status", c.getStatus());
 			cmap.put("description", c.getDescription());
-			cmap.put("createDate", c.getCreatedDate());
-			cmap.put("modifieldDate", c.getModifiedDate());
+			cmap.put("createdDate", c.getCreatedDate());
+			cmap.put("modifiedDate", c.getModifiedDate());
 			cmap.put("numberOfPosts", c.getPost().size());
 			map.add(cmap);
 		}

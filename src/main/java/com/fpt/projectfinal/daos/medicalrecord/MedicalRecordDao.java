@@ -10,4 +10,8 @@ public interface MedicalRecordDao {
 	public void addMedicalRecord(MedicalRecord medicalRecord);
 	
 	public Map<String, Date> getMedicalRecordID(MedicalRecord medicalRecord);
+	
+	public boolean checkExitMedicalRecord(String medicalRecordID);
+	
+	public MedicalRecord getMedicalRecordByID(String medicalRecordID);
 }
