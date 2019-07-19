@@ -21,7 +21,7 @@ public class UserRole {
 	@Column(name = "userRoleID")
 	private int userRoleID;
 
-	@Column(name = "CreatedDate", unique = true)
+	@Column(name = "CreatedDate", unique = true, updatable = false)
 	private Date CreatedDate;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

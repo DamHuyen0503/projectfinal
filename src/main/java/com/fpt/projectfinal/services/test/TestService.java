@@ -8,7 +8,7 @@ import com.fpt.projectfinal.models.Test;
 public interface TestService {
 	
 
-	public void addTest(Map<String, Object> payload);
+	public String addTest(Map<String, Object> payload);
 	
 	public void updateTest(Map<String, Object> payload);
 

@@ -40,7 +40,7 @@ public class Category {
 	@Column(name = "description",columnDefinition="varchar(500)")
 	private String description;
 
-	@Column(name = "createdDate")
+	@Column(name = "createdDate", updatable = false)
 	private Date createdDate;
 
 	@Column(name = "modifiedDate")

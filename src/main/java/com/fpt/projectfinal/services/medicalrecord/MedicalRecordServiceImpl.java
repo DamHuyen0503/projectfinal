@@ -85,6 +85,8 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 
 		Client client = clientDao.getClientByID((int) payload.get("clientID"));
 		medicalRecord.setClient(client);
+		
+		
 		Set<NoteProcess> notes = new HashSet<>();
 		ArrayList<Object> note_list = (ArrayList<Object>) payload.get("notes");
 		for (Object result : note_list) {

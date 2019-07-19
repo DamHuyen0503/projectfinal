@@ -42,7 +42,7 @@ public class Post {
 	@Column(name = "content", length = 99999)
 	private String content;
 
-	@Column(name = "createdDate")
+	@Column(name = "createdDate", updatable = false)
 	private Date createdDate;
 
 	@Column(name = "modifiedDate")

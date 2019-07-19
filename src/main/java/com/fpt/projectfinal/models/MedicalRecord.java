@@ -19,10 +19,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "MedicalRecord")
 public class MedicalRecord {
 	@Id
-	@Column(name = "MedicalRecordID", nullable = false)
+	@Column(name = "medicalRecordID", nullable = false)
 	private String medicalRecordID;
 
-	@Column(name = "CreatedDate")
+	@Column(name = "CreatedDate", updatable = false)
 	private Date createDate;
 
 	@Column(name = "Status")

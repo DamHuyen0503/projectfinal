@@ -36,4 +36,10 @@ public class NoteProcessDaoImpl implements NoteProcessDao{
 		return new ArrayList<>(medicalRecord.getNoteProcess());
 	}
 
+	@Override
+	public List<NoteProcess> getNoteProcessByMedicalRecordID(String medicalRecordID) {
+		
+		return null;
+	}
+
 }

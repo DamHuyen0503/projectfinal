@@ -133,8 +133,10 @@ public class TestServiceImpl implements TestService {
 	}
 
 	@Override
-	public void addTest(Map<String, Object> payload) {
-
+	public String addTest(Map<String, Object> payload) {
+		if (payload.get("status") == null) {
+			return "status null";
+		}
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Account acc = accountDao.getAccountByEmail(username);
 		Category category = categoryDao.getCategoryByID(1);
@@ -185,6 +187,8 @@ public class TestServiceImpl implements TestService {
 			questions.add(q);
 		}
 		test.setQuestion(questions);
+		
+		
 		Set<Result> results = new HashSet<>();
 		ArrayList<Object> result_list = (ArrayList<Object>) payload.get("results");
 		for (Object result : result_list) {
@@ -195,7 +199,7 @@ public class TestServiceImpl implements TestService {
 		}
 		test.setResult(results);
 		testDao.addTest(test);
-
+		return "successful";
 	}
 
 	@Override

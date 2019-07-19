@@ -44,7 +44,7 @@ public class CategoryDaoImpl implements CategoryDao {
 
 	@Override
 	public void updateCategory(Category category) {
-
+		
 		this.session.getCurrentSession().update(category);
 	}
 

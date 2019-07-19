@@ -36,7 +36,7 @@ public class User {
 	@Column(name = "Avatar")
 	private String avatar;
 	
-	@Column(name = "CreatedDate")
+	@Column(name = "CreatedDate", updatable = false)
 	private Date createdDate;
 	
 	@Column(name = "PhoneNumber")

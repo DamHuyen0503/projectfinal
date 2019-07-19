@@ -8,7 +8,7 @@ import com.fpt.projectfinal.models.Post;
 
 public interface PostService {
 
-	public void addPost(Map<String, Object> payload);
+	public String addPost(Map<String, Object> payload);
 	
 	public void updatePost(Post post);
 

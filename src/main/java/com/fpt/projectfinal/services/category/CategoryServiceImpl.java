@@ -24,16 +24,22 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public void addCategory(Category category) {
+	public String addCategory(Category category) {
+		if (category.getName() == null) {
+			return "name null";
+		}
+		if (category.getStatus() == null) {
+			return "status null";
+		}
 		category.setCreatedDate(new Date());
 		category.setModifiedDate(new Date());
 		categorydao.addCategory(category);
-
+		return "successful";
 	}
 
 	@Override
 	public void updateCategory(Category category) {
-
+		
 		category.setModifiedDate(new Date());
 		categorydao.updateCategory(category);
 

@@ -101,9 +101,13 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public void addPost(Map<String, Object> payload) {
+	public String addPost(Map<String, Object> payload) {
+		if (payload.get("status") == null ) {
+			return "status null";
+		}
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Account acc = accountDao.getAccountByEmail(username);
+		
 		Category category = categoryDao.getCategoryByID((int)payload.get("categoryID"));
 		Post post = new Post();
 		post.setUser(acc.getUser());
@@ -113,7 +117,9 @@ public class PostServiceImpl implements PostService {
 		post.setContent((String) payload.get("content"));
 		post.setImage((String) payload.get("image"));
 		post.setDescription((String) payload.get("description"));
-
+		post.setStatus((int)payload.get("status"));
+		
+		
 		List<Tag> listTag = tagDao.getAllTag();
 		Set<Tag> tags = new HashSet<>();
 		ArrayList<String> tagObjs = (ArrayList<String>) payload.get("tags");
@@ -132,8 +138,9 @@ public class PostServiceImpl implements PostService {
 			tags.add(new Tag(obj, new Date()));
 		}
 		post.setTags(tags);
-		postDao.addPost(post);
 		
+		postDao.addPost(post);
+		return "successful";
 	}
 
 }

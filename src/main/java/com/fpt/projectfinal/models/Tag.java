@@ -31,7 +31,7 @@ public class Tag {
 	@Column(name = "content", unique = true)
 	private String content;
 
-	@Column(name = "createDate")
+	@Column(name = "createDate", updatable = false)
 	private Date createdDate;
 	
 	@JsonBackReference

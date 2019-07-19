@@ -36,7 +36,7 @@ public class Client {
 	@Column (name = "Email")
 	private String email;
 	
-	@Column (name = "CreatedDate")
+	@Column (name = "CreatedDate", updatable = false)
 	private Date createdDate;
 	
 	@Column (name = "PhoneNumber")

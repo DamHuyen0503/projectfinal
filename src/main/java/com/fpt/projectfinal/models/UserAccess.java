@@ -25,7 +25,7 @@ public class UserAccess {
 	@Column(name = "Status")
 	private Integer Status;
 
-	@Column(name = "StartedDate")
+	@Column(name = "StartedDate", updatable = false)
 	private Date StartedDate;
 
 	@Column(name = "FinishedDate")

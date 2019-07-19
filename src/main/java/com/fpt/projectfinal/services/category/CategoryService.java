@@ -9,7 +9,7 @@ public interface CategoryService {
 
 	public List<Category> getAllCategory();
 
-	public void addCategory(Category category);
+	public String addCategory(Category category);
 
 	public void updateCategory(Category category);
 
