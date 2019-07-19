@@ -48,7 +48,7 @@ public class Category {
 	
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "category")
-	
+	@JsonIgnore
 	private Set<Post> post; 
 
 	public Category() {
