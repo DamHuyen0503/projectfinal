@@ -1,15 +1,25 @@
 package com.fpt.projectfinal.services.post;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.fpt.projectfinal.daos.account.AccountDao;
 import com.fpt.projectfinal.daos.category.CategoryDao;
 import com.fpt.projectfinal.daos.post.PostDao;
 import com.fpt.projectfinal.daos.tag.TagDao;
+import com.fpt.projectfinal.models.Account;
 import com.fpt.projectfinal.models.Category;
 import com.fpt.projectfinal.models.Post;
+import com.fpt.projectfinal.models.Tag;
+import com.fpt.projectfinal.models.Test;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -23,12 +33,10 @@ public class PostServiceImpl implements PostService {
 	@Autowired
 	CategoryDao categoryDao;
 
-	@Override
-	public void addPost(Post post) {
-		postDao.addPost(post);
 
-	}
-
+	@Autowired
+	AccountDao accountDao;
+	
 	@Override
 	public void updatePost(Post post) {
 		postDao.updatePost(post);
@@ -90,6 +98,42 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public List<Post> getAllDraft() {
 		return postDao.getAllDraft();
+	}
+
+	@Override
+	public void addPost(Map<String, Object> payload) {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Account acc = accountDao.getAccountByEmail(username);
+		Category category = categoryDao.getCategoryByID((int)payload.get("categoryID"));
+		Post post = new Post();
+		post.setUser(acc.getUser());
+		post.setCreatedDate(new Date());
+		post.setTitle((String) payload.get("title"));
+		post.setCategory(category);
+		post.setContent((String) payload.get("content"));
+		post.setImage((String) payload.get("image"));
+		post.setDescription((String) payload.get("description"));
+
+		List<Tag> listTag = tagDao.getAllTag();
+		Set<Tag> tags = new HashSet<>();
+		ArrayList<String> tagObjs = (ArrayList<String>) payload.get("tags");
+		for (String obj : tagObjs) {
+			boolean exist = false;
+			for (Tag tag : listTag) {
+				if (obj.equalsIgnoreCase(tag.getContent())) {
+					tags.add(tag);
+					exist = true;
+					break;
+				}
+			}
+			if (exist) {
+				continue;
+			}
+			tags.add(new Tag(obj, new Date()));
+		}
+		post.setTags(tags);
+		postDao.addPost(post);
+		
 	}
 
 }

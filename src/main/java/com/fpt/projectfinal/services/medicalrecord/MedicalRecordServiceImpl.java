@@ -150,8 +150,15 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 		mapRecord.put("cause", medicalRecord.getCause());
 		mapRecord.put("method", medicalRecord.getMethod());
 		mapRecord.put("problem", medicalRecord.getProblem());
-		Client client = clientDao.getClientByMedicalRecord(medicalRecord);
-		mapRecord.put("clientID", client.getClientID());
+		mapRecord.put("clientID", medicalRecord.getClient().getClientID());
+		
+//		Set<Client> client = clientDao.getClientByMedicalRecord(medicalRecord);
+//		if (client.size() >0) {
+//			mapRecord.put("clientID", ((Client) client).getClientID());
+//		}
+//		else {
+//			System.out.println("client null");
+//		}
 		
 //		List<Map<String, Object>> notes = new ArrayList<>();
 //		for (NoteProcess note : medicalRecord.getNoteProcess()) {

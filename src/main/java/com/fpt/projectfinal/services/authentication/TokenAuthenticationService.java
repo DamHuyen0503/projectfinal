@@ -3,6 +3,7 @@ package com.fpt.projectfinal.services.authentication;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,6 +16,8 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import com.auth0.json.mgmt.users.User;
@@ -38,26 +41,42 @@ public class TokenAuthenticationService {
      
     static final String HEADER_STRING = "Authorization";
  
-    public  static  void addAuthentication(HttpServletResponse res, String username) throws IOException {
-        String JWT = Jwts.builder().setSubject(username)
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
-                .signWith(SignatureAlgorithm.HS512, SECRET).compact();
-        res.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + JWT);
-        res.setContentType("application/json");
-        
-    }
+    public static void addAuthentication(HttpServletResponse res, String username, List<String> roles)
+			throws IOException {
+		String JWT = Jwts.builder().setSubject(username)
+				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
+				.signWith(SignatureAlgorithm.HS512, SECRET).claim("role", roles).compact();
+		res.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + JWT);
+		res.setContentType("application/json");
+
+	}
+
  
     public static Authentication getAuthentication(HttpServletRequest request) {
-        String token = request.getHeader(HEADER_STRING);
-        if (token != null) {
-            // parse the token.
-            String user = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token.replace(TOKEN_PREFIX, "")).getBody()
-                    .getSubject();
- 
-            return user != null ? new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList()) : null;
-        }
-        return null;
-    }
+		String token = request.getHeader(HEADER_STRING);
+		if (token != null) {
+			// parse the token.
+			String user = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token.replace(TOKEN_PREFIX, "")).getBody()
+					.getSubject();
+			@SuppressWarnings("unchecked")
+			List<String> r = (List<String>) Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
+					.getBody().get("role");
+			
+			List<GrantedAuthority> grantlist = new ArrayList<>();
+			if (r != null) {
+				for (String role : r) {
+					// ROLE_USER, ROLE_ADMIN,..
+					
+					GrantedAuthority authority = new SimpleGrantedAuthority((String)role);
+					grantlist.add(authority);
+
+				}
+			}
+
+			return user != null ? new UsernamePasswordAuthenticationToken(user, null, grantlist) : null;
+		}
+		return null;
+	}
     
     @Autowired
     public TokenAuthenticationService() {

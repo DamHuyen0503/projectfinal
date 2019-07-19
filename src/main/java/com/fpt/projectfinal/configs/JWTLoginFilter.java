@@ -2,12 +2,14 @@ package com.fpt.projectfinal.configs;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -43,9 +45,9 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 			Authentication authResult) throws IOException, ServletException {
 
 		System.out.println("JWTLoginFilter.successfulAuthentication:");
-
+		List<String> roles = authResult.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
 		// Write Authorization to Headers of Response.
-		TokenAuthenticationService.addAuthentication(response, authResult.getName());
+		TokenAuthenticationService.addAuthentication(response, authResult.getName(), roles);
 
 		String authorizationString = response.getHeader("Authorization");
 		

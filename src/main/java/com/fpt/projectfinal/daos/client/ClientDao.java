@@ -6,6 +6,7 @@ import java.util.Set;
 import com.fpt.projectfinal.models.Answer;
 import com.fpt.projectfinal.models.Client;
 import com.fpt.projectfinal.models.MedicalRecord;
+import com.fpt.projectfinal.models.Question;
 
 public interface ClientDao {
 	
@@ -17,5 +18,7 @@ public interface ClientDao {
 	
 	public Client getClientByID(int id);
 	
-	public Client getClientByMedicalRecord(MedicalRecord medicalRecord);
+//	public Client getClientByMedicalRecord(MedicalRecord medicalRecord);
+	
+	public Set<Client> getClientByMedicalRecord(MedicalRecord medicalRecord);
 }

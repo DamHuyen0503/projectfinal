@@ -116,7 +116,7 @@ public class MedicalRecord {
 	private String result;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "client")
+	@JoinColumn(name = "clientID")
 	private Client client;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "medicalRecord")

@@ -38,7 +38,7 @@ public class PostController {
 	public ResponseEntity<Object> getAllPost() {
 		try {
 			List<Post> list = postService.getAllPost();
-			return new ResponseEntity<>(list, HttpStatus.FOUND);
+			return new ResponseEntity<>(list, HttpStatus.OK);
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -69,7 +69,7 @@ public class PostController {
 	}
 
 	@RequestMapping(value = "/addPost", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<Object> addPost(@RequestBody Post payload) {
+	public ResponseEntity<Object> addPost(@RequestBody  Map<String, Object> payload) {
 
 		try {
 

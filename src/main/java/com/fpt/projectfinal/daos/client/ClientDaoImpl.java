@@ -56,21 +56,36 @@ public class ClientDaoImpl implements ClientDao {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Client getClientByMedicalRecord(MedicalRecord medicalRecord) {
-
-		
+	public Set<Client> getClientByMedicalRecord(MedicalRecord medicalRecord) {
 		PersistenceUnitUtil impl = session.getPersistenceUnitUtil();
 		if(!impl.isLoaded(medicalRecord.getClient())) {
 			CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
 			CriteriaQuery<Client> query = builder.createQuery(Client.class);
 			Root<Client> root = query.from(Client.class);
 			query.select(root).where(builder.equal(root.get("medicalRecord"), medicalRecord));
-			Client clients = (Client) session.getCurrentSession().createQuery(query).getResultList();
-			return clients;
+			List<Client> cls = session.getCurrentSession().createQuery(query).getResultList();
+			return new HashSet<>(cls);
 		}
-		return (Client) medicalRecord.getClient();
-		
+		return (Set<Client>) medicalRecord.getClient();
 	}
+
+//	@Override
+//	public Client getClientByMedicalRecord(MedicalRecord medicalRecord) {
+//
+//		
+//		PersistenceUnitUtil impl = session.getPersistenceUnitUtil();
+//		if(!impl.isLoaded(medicalRecord.getClient())) {
+//			CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
+//			CriteriaQuery<Client> query = builder.createQuery(Client.class);
+//			Root<Client> root = query.from(Client.class);
+//			query.select(root).where(builder.equal(root.get("MedicalRecord"), medicalRecord));
+//			Client clients = (Client) session.getCurrentSession().createQuery(query).getResultList();
+//			return clients;
+//		}
+//		return (Client) medicalRecord.getClient();
+//		
+//	}
 
 }
