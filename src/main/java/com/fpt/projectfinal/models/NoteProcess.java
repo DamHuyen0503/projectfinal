@@ -38,7 +38,6 @@ public class NoteProcess {
 	@JoinColumn(name = "medicalRecordID")
 	private MedicalRecord  medicalRecord;
 	
-	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "userID")
 	private User user;
@@ -103,6 +102,23 @@ public class NoteProcess {
 	public void setEvaluation(int evaluation) {
 		this.evaluation = evaluation;
 	}
+
+	public MedicalRecord getMedicalRecord() {
+		return medicalRecord;
+	}
+
+	public void setMedicalRecord(MedicalRecord medicalRecord) {
+		this.medicalRecord = medicalRecord;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	
 	
 }

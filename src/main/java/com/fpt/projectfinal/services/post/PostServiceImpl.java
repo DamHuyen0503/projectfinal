@@ -38,9 +38,45 @@ public class PostServiceImpl implements PostService {
 	AccountDao accountDao;
 	
 	@Override
-	public void updatePost(Post post) {
+	public String updatePost(Map<String, Object> payload) {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Account acc = accountDao.getAccountByEmail(username);
+		
+		Category category = categoryDao.getCategoryByID((int)payload.get("categoryID"));
+		Post post = new Post();
+		post.setUser(acc.getUser());
+		post.setModifiedDate(new Date());
+		post.setPostID((int) payload.get("postID"));
+		post.setTitle((String) payload.get("title"));
+		post.setCategory(category);
+		post.setContent((String) payload.get("content"));
+		post.setImage((String) payload.get("image"));
+		post.setDescription((String) payload.get("description"));
+		post.setStatus((int)payload.get("status"));
+		
+		
+		List<Tag> listTag = tagDao.getAllTag();
+		Set<Tag> tags = new HashSet<>();
+		ArrayList<String> tagObjs = (ArrayList<String>) payload.get("tags");
+		for (String obj : tagObjs) {
+			boolean exist = false;
+			for (Tag tag : listTag) {
+				if (obj.equalsIgnoreCase(tag.getContent())) {
+					tags.add(tag);
+					exist = true;
+					break;
+				}
+			}
+			if (exist) {
+				continue;
+			}
+			tags.add(new Tag(obj, new Date()));
+		}
+		post.setTags(tags);
+		
 		postDao.updatePost(post);
-
+		return "successful";
+	
 	}
 
 	@Override

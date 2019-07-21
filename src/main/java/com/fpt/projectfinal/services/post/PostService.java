@@ -10,7 +10,7 @@ public interface PostService {
 
 	public String addPost(Map<String, Object> payload);
 	
-	public void updatePost(Post post);
+	public String updatePost(Map<String, Object> payload);
 
 	public Post getPostById(int id);
 

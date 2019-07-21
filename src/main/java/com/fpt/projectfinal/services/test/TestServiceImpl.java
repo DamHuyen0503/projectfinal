@@ -206,7 +206,7 @@ public class TestServiceImpl implements TestService {
 	public void updateTest(Map<String, Object> payload) {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Account acc = accountDao.getAccountByEmail(username);
-		Category category = categoryDao.getCategoryByID(1);
+		Category category = categoryDao.getCategoryByID((int)payload.get("categoryID"));
 		Test test = new Test();
 		test.setPostID((int) payload.get("postID"));
 		test.setUser(acc.getUser());

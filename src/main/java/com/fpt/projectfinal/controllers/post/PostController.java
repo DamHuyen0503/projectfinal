@@ -85,7 +85,7 @@ public class PostController {
 	}
 
 	@RequestMapping(value = "/updatePost", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Object> updatePost(@RequestBody Post payload) {
+	public ResponseEntity<Object> updatePost(@RequestBody Map<String, Object> payload) {
 
 		try {
 			postService.updatePost(payload);

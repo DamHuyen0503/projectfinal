@@ -117,10 +117,10 @@ public class MedicalRecord {
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "clientID")
+	
 	private Client client;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "medicalRecord")
-	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "medicalRecord")
 	private Set<NoteProcess> noteProcess; 
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "medicalRecord")

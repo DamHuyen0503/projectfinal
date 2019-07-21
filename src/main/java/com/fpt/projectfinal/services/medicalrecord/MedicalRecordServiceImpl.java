@@ -15,10 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.fpt.projectfinal.daos.account.AccountDao;
 import com.fpt.projectfinal.daos.client.ClientDao;
 import com.fpt.projectfinal.daos.medicalrecord.MedicalRecordDao;
 import com.fpt.projectfinal.daos.noteProcess.NoteProcessDao;
 import com.fpt.projectfinal.daos.user.UserDAO;
+import com.fpt.projectfinal.models.Account;
 import com.fpt.projectfinal.models.Answer;
 import com.fpt.projectfinal.models.Category;
 import com.fpt.projectfinal.models.Client;
@@ -40,6 +42,12 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 	
 	@Autowired
 	NoteProcessDao noteProcessDao;
+	
+	@Autowired
+	UserDAO userDao;
+	
+	@Autowired 
+	AccountDao accountDao;
 
 	@Override
 	public Map<String, Object> addMedicalRecord(Map<String, Object> payload) {
@@ -89,10 +97,26 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 		
 		Set<NoteProcess> notes = new HashSet<>();
 		ArrayList<Object> note_list = (ArrayList<Object>) payload.get("notes");
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Account acc = accountDao.getAccountByEmail(username);
 		for (Object result : note_list) {
 			Map<String, Object> resultmap = (Map) result;
 			try {
-				notes.add(new NoteProcess(ConvertDateTime.ConvertDate((String)resultmap.get("startTime")), ConvertDateTime.ConvertDate((String)resultmap.get("endTime")), (String)resultmap.get("content"), (int)resultmap.get("evaluation")));
+				NoteProcess note = new NoteProcess(
+						ConvertDateTime.ConvertDate(
+								(String)resultmap.get("startTime")
+								), 
+						ConvertDateTime.ConvertDate(
+								(String)resultmap.get("endTime")
+								), 
+						(String)resultmap.get("content"), 
+						(int)resultmap.get("evaluation")
+						);
+				
+				note.setMedicalRecord(medicalRecord);
+				note.setUser(acc.getUser());
+				notes.add(note);
+			
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
