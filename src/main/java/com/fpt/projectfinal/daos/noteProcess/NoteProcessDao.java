@@ -8,7 +8,7 @@ import com.fpt.projectfinal.models.NoteProcess;
 
 public interface NoteProcessDao {
 	
-	public Map<String, Object> getNoteProcessByMedicalRecord(MedicalRecord medicalRecord);
+	public List<NoteProcess> getNoteProcessByMedicalRecord(MedicalRecord medicalRecord);
 	
-	public Map<String, Object> getNoteProcessByMedicalRecordID (String medicalRecordID);
+	public List<NoteProcess> getNoteProcessByMedicalRecordID (String medicalRecordID);
 }

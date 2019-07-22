@@ -29,12 +29,11 @@ public class NoteProcessDaoImpl implements NoteProcessDao{
 	@Autowired 
 	MedicalRecordDao medicalRecorDao;
 	
-	@Autowired 
-	MedicalRecordService medicalRecordService;
+
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public Map<String, Object> getNoteProcessByMedicalRecord(MedicalRecord medicalRecord) {
+	public List<NoteProcess> getNoteProcessByMedicalRecord(MedicalRecord medicalRecord) {
 		PersistenceUnitUtil impl = session.getPersistenceUnitUtil();
 		if(!impl.isLoaded(medicalRecord.getNoteProcess())) {
 			CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
@@ -42,16 +41,24 @@ public class NoteProcessDaoImpl implements NoteProcessDao{
 			Root<NoteProcess> root = query.from(NoteProcess.class);
 			query.select(root).where(builder.equal(root.get("medicalRecord"), medicalRecord));
 			List<NoteProcess> notes =  session.getCurrentSession().createQuery(query).getResultList();
-			return (Map<String, Object>) notes;
+			return notes;
 		}
-		return   (Map<String, Object>) medicalRecord.getNoteProcess();
+		return   (List<NoteProcess>) medicalRecord.getNoteProcess();
 	}
 
 	@Override
-	public Map<String, Object> getNoteProcessByMedicalRecordID(String medicalRecordID) {
-		@SuppressWarnings("unused")
-		Map<String, Object> medicalRecord =   medicalRecordService.getMedicalRecordByID(medicalRecordID);
-		return getNoteProcessByMedicalRecord((MedicalRecord) medicalRecord);
+	public List<NoteProcess> getNoteProcessByMedicalRecordID(String medicalRecordID) {
+		MedicalRecord medicalRecord = medicalRecorDao.getMedicalRecordByID(medicalRecordID);
+		PersistenceUnitUtil impl = session.getPersistenceUnitUtil();
+		if(!impl.isLoaded(medicalRecord.getNoteProcess())) {
+			CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
+			CriteriaQuery<NoteProcess> query = builder.createQuery(NoteProcess.class);
+			Root<NoteProcess> root = query.from(NoteProcess.class);
+			query.select(root).where(builder.equal(root.get("medicalRecord"), medicalRecord));
+			List<NoteProcess> notes =  session.getCurrentSession().createQuery(query).getResultList();
+			return  notes;
+		}
+		return    (List<NoteProcess>) medicalRecord.getNoteProcess();
 	}
 
 }

@@ -12,7 +12,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -22,7 +25,8 @@ public class MedicalRecord {
 	@Column(name = "medicalRecordID", nullable = false)
 	private String medicalRecordID;
 
-	@Column(name = "CreatedDate", updatable = false)
+	@Column(name = "CreatedDate", updatable = false, columnDefinition="DATETIME")
+	@Temporal(TemporalType.DATE)
 	private Date createDate;
 
 	@Column(name = "Status")

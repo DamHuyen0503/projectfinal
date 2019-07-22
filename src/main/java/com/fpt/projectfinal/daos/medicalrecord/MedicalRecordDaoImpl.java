@@ -70,6 +70,26 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao{
 		return null;
 	}
 
+	@Override
+	public void updateMedicalRecord(MedicalRecord medicalRecord) {
+		this.session.getCurrentSession().update(medicalRecord);
+		
+	}
+
+	@Override
+	public List<MedicalRecord> getMedicalRecordByDay(Date day) {
+		CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
+		CriteriaQuery<MedicalRecord> query = builder.createQuery(MedicalRecord.class);
+		Root<MedicalRecord> root = query.from(MedicalRecord.class);
+		query.select(root).where(builder.equal(root.get("createDate"), day));
+		List<MedicalRecord> medicals = session.getCurrentSession().createQuery(query).getResultList();
+		if(medicals.size()>0){
+			
+			return medicals;
+		}
+		return null;
+	}
+
 	
 
 }
