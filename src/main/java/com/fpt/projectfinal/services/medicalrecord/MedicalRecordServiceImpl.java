@@ -1,7 +1,5 @@
 package com.fpt.projectfinal.services.medicalrecord;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.tomcat.jni.Mmap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -21,15 +18,9 @@ import com.fpt.projectfinal.daos.medicalrecord.MedicalRecordDao;
 import com.fpt.projectfinal.daos.noteProcess.NoteProcessDao;
 import com.fpt.projectfinal.daos.user.UserDAO;
 import com.fpt.projectfinal.models.Account;
-import com.fpt.projectfinal.models.Answer;
-import com.fpt.projectfinal.models.Category;
 import com.fpt.projectfinal.models.Client;
 import com.fpt.projectfinal.models.MedicalRecord;
 import com.fpt.projectfinal.models.NoteProcess;
-import com.fpt.projectfinal.models.Question;
-import com.fpt.projectfinal.models.Result;
-import com.fpt.projectfinal.models.Tag;
-import com.fpt.projectfinal.models.Test;
 import com.fpt.projectfinal.utils.ConvertDateTime;
 
 @Service
@@ -178,9 +169,7 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 	@Override
 	public void updateMedicalRecord(Map<String, Object> payload) {
 		Map<String, Object> mapOutput = new HashMap<String, Object>();
-		
 		MedicalRecord medicalRecord = new MedicalRecord();
-
 		medicalRecord.setMedicalRecordID((String) payload.get("medicalRecordID"));
 		medicalRecord.setCreateDate(new Date());
 		medicalRecord.setStatus((int) payload.get("status"));
@@ -253,9 +242,10 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 	}
 
 	@Override
-	public List<Map<String, Object>> getMedicalRecordByDay(java.sql.Date day) {
+	public List<Map<String, Object>> getMedicalRecordByDay(Date day) {
 		List<Map<String, Object>> result = new ArrayList<>();
 		Map<String,  Object> mapMedical = new HashMap<>();
+		
 		List<MedicalRecord> medicalRecords = medicalRecordDao.getMedicalRecordByDay(day);
 		for (MedicalRecord medicalRecord : medicalRecords) {
 			Map<String, Object> mapRecord = new HashMap<>();
@@ -291,11 +281,11 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 			mapRecord.put("method", medicalRecord.getMethod());
 			mapRecord.put("problem", medicalRecord.getProblem());
 			mapRecord.put("clientID", medicalRecord.getClient().getClientID());
-			mapMedical.put("medicalRecord", mapRecord);
-			
+			result.add(mapRecord);
 		}
-		result.add(mapMedical);
+		
 		return result;
 	}
+
 
 }

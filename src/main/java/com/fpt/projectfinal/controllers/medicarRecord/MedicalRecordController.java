@@ -1,15 +1,15 @@
 package com.fpt.projectfinal.controllers.medicarRecord;
 
-import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +24,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fpt.projectfinal.controllers.category.CategoryController;
 import com.fpt.projectfinal.services.medicalrecord.MedicalRecordService;
-import com.fpt.projectfinal.utils.ConvertDateTime;
 
 @RestController
 @CrossOrigin
@@ -90,12 +89,29 @@ public class MedicalRecordController {
 	
 	@RequestMapping(value = "/getMedicalRecordByDay", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
-	public ResponseEntity<Object>  getMedicalRecordByDay(@RequestParam  Date day) throws Exception{
-		String d = day+ " 00:00:00"; 
-		Date s = (Date) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2017-11-15 15:30:14");
+	public ResponseEntity<Object>  getMedicalRecordByDay(@RequestParam  String day) throws Exception{
+	
+//		System.out.println("check");
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:MM:ss");
+//		Date date = sdf.parse("201"
+//				+ "9/07/22 00:00:00"); 
+//		
+//		System.out.println("date: "+date);
+//		 String sDate1="2019/07/22 00:00:00";  
+//		    Date date = (Date) new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);  
+//		    System.out.println(sDate1+"\t"+ date);  
+		
+		 DateFormat sourceFormat = new SimpleDateFormat("dd/MM/yyyy");
+		 
+	        String dateInString = "13/2/2019";
+
 		try {
-			List<Map<String, Object>> map= medicalRecordService.getMedicalRecordByDay(s);
+			Date date = sourceFormat.parse(day);
+			System.out.println(day);
+        	System.out.println(sourceFormat.format(date));
+			List<Map<String, Object>> map= medicalRecordService.getMedicalRecordByDay(date);
 	        return new ResponseEntity<>(map, HttpStatus.CREATED);
+//			return null;
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

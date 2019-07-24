@@ -1,9 +1,13 @@
 package com.fpt.projectfinal.daos.medicalrecord;
 
+import java.beans.Expression;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -11,6 +15,7 @@ import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -78,16 +83,24 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao{
 
 	@Override
 	public List<MedicalRecord> getMedicalRecordByDay(Date day) {
+		
 		CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
 		CriteriaQuery<MedicalRecord> query = builder.createQuery(MedicalRecord.class);
 		Root<MedicalRecord> root = query.from(MedicalRecord.class);
-		query.select(root).where(builder.equal(root.get("createDate"), day));
+		javax.persistence.criteria.Expression<Date> expression = root.get("createDate");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//		builder.greaterThanOrEqualTo(expression,day);
+//		builder.lessThanOrEqualTo(expression, new Date(day.getTime()+ TimeUnit.DAYS.toMillis(1)));
+		
+		System.out.println(new Date(day.getTime()+ TimeUnit.DAYS.toMillis(1)).toString());
+			query.select(root).where(builder.between(expression, day, new Date(day.getTime()+ TimeUnit.DAYS.toMillis(1))));
+	
 		List<MedicalRecord> medicals = session.getCurrentSession().createQuery(query).getResultList();
 		if(medicals.size()>0){
-			
+			System.out.println(medicals.size());
 			return medicals;
 		}
-		return null;
+		return null;	
 	}
 
 	
