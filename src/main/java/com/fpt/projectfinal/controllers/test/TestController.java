@@ -32,8 +32,6 @@ public class TestController {
 	@RequestMapping(value = "/addTest", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Object> addTest(@RequestBody Map<String, Object> payload) {
 				
-		System.out.print((String)payload.get("title"));
-		testService.addTest(payload);
 		try {
 			System.out.print((String)payload.get("title"));
 			testService.addTest(payload);

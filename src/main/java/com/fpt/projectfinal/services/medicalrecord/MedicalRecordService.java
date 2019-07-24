@@ -1,6 +1,6 @@
 package com.fpt.projectfinal.services.medicalrecord;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 

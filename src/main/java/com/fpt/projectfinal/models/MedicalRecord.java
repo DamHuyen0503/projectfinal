@@ -24,8 +24,8 @@ public class MedicalRecord {
 	@Id
 	@Column(name = "medicalRecordID", nullable = false)
 	private String medicalRecordID;
-
-	@Column(name = "CreatedDate", updatable = false, columnDefinition="DATETIME")
+	
+	@Column(name = "CreatedDate", updatable = false)
 	@Temporal(TemporalType.DATE)
 	private Date createDate;
 

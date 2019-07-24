@@ -34,7 +34,6 @@ public class Tag {
 	@Column(name = "createDate", updatable = false)
 	private Date createdDate;
 	
-	@JsonBackReference
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "post_tag", joinColumns = {
 			@JoinColumn(name = "tagID", nullable = true, updatable = true) }, inverseJoinColumns = {
