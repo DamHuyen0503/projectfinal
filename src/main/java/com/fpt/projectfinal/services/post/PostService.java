@@ -12,7 +12,7 @@ public interface PostService {
 	
 	public String updatePost(Map<String, Object> payload);
 
-	public Post getPostById(int id);
+	public Map<String, Object> getPostById(int id);
 
 	public List<Post> getAllPost();
 

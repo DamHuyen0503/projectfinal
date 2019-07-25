@@ -2,6 +2,7 @@ package com.fpt.projectfinal.services.post;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -80,10 +81,27 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public Post getPostById(int id) {
-		Post p = postDao.getPostById(id);
-		p.setTags(tagDao.getTagByPost(p));
-		return p;
+	public Map<String, Object> getPostById(int id) {
+		Post post = postDao.getPostById(id);
+		
+		post.setTags(tagDao.getTagByPost(post));
+		Map<String, Object> map = new HashMap<>();
+		map.put("postID", post.getPostID());
+		map.put("content",post.getContent());
+		map.put("createdDate",post.getCreatedDate());
+		map.put("description",post.getDescription());
+		map.put("image",post.getImage());
+		map.put("status",post.getStatus());
+		map.put("title",post.getTitle());
+		map.put("user",post.getUser());
+		map.put("category",post.getCategory());
+		map.put("modifiedDate",post.getModifiedDate());
+		List<String> tags = new ArrayList();
+		for (Tag tag : post.getTags()) {
+			tags.add(tag.getContent());
+		}
+		map.put("tags", tags);
+		return map;
 	}
 
 	@Override

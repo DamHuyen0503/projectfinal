@@ -52,7 +52,11 @@ public class Post {
 	private String description;
 
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "post",  cascade = CascadeType.ALL)
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "post_tag", joinColumns = {
+			@JoinColumn(name = "postID", nullable = true, updatable = true) }, inverseJoinColumns = {
+					@JoinColumn(name = "tagID", nullable = true, updatable = true) })
 	public Set<Tag> tags;
 
 	

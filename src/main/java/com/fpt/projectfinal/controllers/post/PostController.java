@@ -125,8 +125,8 @@ public class PostController {
 	
 	@RequestMapping(value = "/getDetailPost/{postID}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
-	public Post getDetailPost(@PathVariable(value = "postID") Integer postID ) {
-		Post list =postService.getPostById(postID);
+	public Map<String, Object> getDetailPost(@PathVariable(value = "postID") Integer postID ) {
+		Map<String, Object> list =postService.getPostById(postID);
 		return list;
 	}
 	

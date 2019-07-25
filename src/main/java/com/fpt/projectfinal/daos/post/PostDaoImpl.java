@@ -49,14 +49,15 @@ public class PostDaoImpl implements PostDao {
 		CriteriaQuery<Post> query = builder.createQuery(Post.class);
 		Root<Post> root = query.from(Post.class);
 		query.select(root).where(builder.equal(root.get("postID"), id));
-		List<Post> tests = session.getCurrentSession().createQuery(query).getResultList();
-		if (tests.size() > 0) {
+		List<Post> posts = session.getCurrentSession().createQuery(query).getResultList();
+		if (posts.size() > 0) {
 
-			return tests.get(0);
+			return posts.get(0);
 		}
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Post> getAllPost() {
 		return this.session.getCurrentSession().createQuery("from Post").list();

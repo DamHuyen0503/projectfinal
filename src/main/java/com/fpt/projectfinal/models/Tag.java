@@ -34,10 +34,7 @@ public class Tag {
 	@Column(name = "createDate", updatable = false)
 	private Date createdDate;
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "post_tag", joinColumns = {
-			@JoinColumn(name = "tagID", nullable = true, updatable = true) }, inverseJoinColumns = {
-					@JoinColumn(name = "postID", nullable = true, updatable = true) })
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "tags",  cascade = CascadeType.ALL)
 	private Set<Post> post;
 	
 	
