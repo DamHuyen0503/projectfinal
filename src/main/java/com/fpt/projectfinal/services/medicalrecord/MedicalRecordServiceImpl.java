@@ -43,7 +43,8 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 	@Override
 	public Map<String, Object> addMedicalRecord(Map<String, Object> payload) {
 		Map<String, Object> mapOutput = new HashMap<String, Object>();
-		
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Account acc = accountDao.getAccountByEmail(username);
 		MedicalRecord medicalRecord = new MedicalRecord();
 
 		medicalRecord.setMedicalRecordID((String) payload.get("medicalRecordID"));
@@ -88,8 +89,8 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 		
 		Set<NoteProcess> notes = new HashSet<>();
 		ArrayList<Object> note_list = (ArrayList<Object>) payload.get("notes");
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		Account acc = accountDao.getAccountByEmail(username);
+//		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+//		Account acc = accountDao.getAccountByEmail(username);
 		for (Object result : note_list) {
 			Map<String, Object> resultmap = (Map) result;
 			try {
