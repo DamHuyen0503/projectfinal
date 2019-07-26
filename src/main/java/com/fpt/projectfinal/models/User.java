@@ -60,6 +60,10 @@ public class User {
 	@OneToMany(cascade = CascadeType.ALL,mappedBy="user",fetch = FetchType.LAZY)
 	private Set<Post> post; 
 	
+	@OneToMany(cascade = CascadeType.ALL,mappedBy="user",fetch = FetchType.LAZY)
+	@JsonIgnore
+	private Set<UserTest> userTest;
+	
 	public User() {
 		super();
 	}
@@ -150,6 +154,14 @@ public class User {
 
 	public void setPost(Set<Post> post) {
 		this.post = post;
+	}
+
+	public Set<UserTest> getUserTest() {
+		return userTest;
+	}
+
+	public void setUserTest(Set<UserTest> userTest) {
+		this.userTest = userTest;
 	}
 
 	

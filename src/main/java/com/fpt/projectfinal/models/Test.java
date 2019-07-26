@@ -25,7 +25,9 @@ public class Test extends Post {
 	@JsonIgnore
 	private Set<Result> result;
 	
-	
+	@OneToMany(cascade = CascadeType.ALL,mappedBy="test",fetch = FetchType.LAZY)
+	@JsonIgnore
+	private Set<UserTest> userTest;
 	
 
 	public Test() {
@@ -46,6 +48,14 @@ public class Test extends Post {
 
 	public void setResult(Set<Result> result) {
 		this.result = result;
+	}
+
+	public Set<UserTest> getUserTest() {
+		return userTest;
+	}
+
+	public void setUserTest(Set<UserTest> userTest) {
+		this.userTest = userTest;
 	} 
 	
 	

@@ -22,7 +22,8 @@ import com.fpt.projectfinal.daos.question.QusetionDaoImpl;
 import com.fpt.projectfinal.daos.result.ResultDao;
 import com.fpt.projectfinal.daos.tag.TagDao;
 import com.fpt.projectfinal.daos.test.TestDao;
-import com.fpt.projectfinal.daos.user.UserDAO;
+import com.fpt.projectfinal.daos.user.UserDao;
+import com.fpt.projectfinal.daos.userTest.UserTestDao;
 import com.fpt.projectfinal.models.Account;
 import com.fpt.projectfinal.models.Answer;
 import com.fpt.projectfinal.models.Category;
@@ -37,7 +38,7 @@ import com.fpt.projectfinal.models.User;
 public class TestServiceImpl implements TestService {
 
 	@Autowired
-	UserDAO userDao;
+	UserDao userDao;
 
 	@Autowired
 	CategoryDao categoryDao;
@@ -60,9 +61,35 @@ public class TestServiceImpl implements TestService {
 	@Autowired
 	ResultDao resultDao;
 
-	
+	@Autowired 
+	UserTestDao userTestDao;
 
-	
+	@Override
+	public List<Map<String, Object>> getAllTest() {
+		List<Map<String, Object>> result = new ArrayList<>();
+		List<Post> tests = testDao.getAllTest();
+//		Map<String, Object> result = new HashMap<>();
+		for(Post test : tests) {
+			Map<String, Object> mapTest = new HashMap<>();
+			System.out.println("user" + test.getPostID());
+			User user = userDao.getUserByTest(test);
+			int count = userTestDao.countUserByTest(test);
+			mapTest.put("postID", test.getPostID());
+			mapTest.put("title", test.getTitle());
+			mapTest.put("description", test.getDescription());
+			mapTest.put("image", test.getImage());
+			mapTest.put("status", test.getStatus());
+			mapTest.put("userID", user.getUserID());
+			mapTest.put("userName", user.getFirstName());
+			mapTest.put("categoryID", 1);
+			mapTest.put("modifiedDate", test.getModifiedDate());
+			mapTest.put("createdDate", test.getCreatedDate());
+			mapTest.put("participants", count);
+			result.add(mapTest);
+			
+		}
+		return result;
+	}
 	@Override
 	public Map<String, Object> getTestById(int id) {
 		
@@ -126,11 +153,7 @@ public class TestServiceImpl implements TestService {
 //		return test;
 	}
 
-	@Override
-	public List<Test> getAllTest() {
 
-		return null;
-	}
 
 	@Override
 	public String addTest(Map<String, Object> payload) {

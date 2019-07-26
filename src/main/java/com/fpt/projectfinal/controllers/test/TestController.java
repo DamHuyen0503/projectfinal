@@ -1,5 +1,6 @@
 package com.fpt.projectfinal.controllers.test;
 
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -81,5 +82,20 @@ public class TestController {
 		
 	}
 	
-	
+	@RequestMapping(value = "/getAllTest", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+	@ResponseBody
+	public ResponseEntity<Object>  getAllTest(){
+		
+		try {
+			List<Map<String, Object>> map= testService.getAllTest();
+	        return new ResponseEntity<>(map, HttpStatus.CREATED);
+		} catch (NullPointerException e) {
+			logger.warn(e.getMessage(), e);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+	}
 }

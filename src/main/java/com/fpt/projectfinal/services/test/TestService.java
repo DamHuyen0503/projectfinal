@@ -14,5 +14,5 @@ public interface TestService {
 
 	public Map<String, Object> getTestById(int id);
 
-	public List<Test> getAllTest();
+	public List<Map<String, Object>> getAllTest();
 }

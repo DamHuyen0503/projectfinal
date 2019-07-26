@@ -16,7 +16,7 @@ import com.fpt.projectfinal.daos.account.AccountDao;
 import com.fpt.projectfinal.daos.client.ClientDao;
 import com.fpt.projectfinal.daos.medicalrecord.MedicalRecordDao;
 import com.fpt.projectfinal.daos.noteProcess.NoteProcessDao;
-import com.fpt.projectfinal.daos.user.UserDAO;
+import com.fpt.projectfinal.daos.user.UserDao;
 import com.fpt.projectfinal.models.Account;
 import com.fpt.projectfinal.models.Client;
 import com.fpt.projectfinal.models.MedicalRecord;
@@ -35,7 +35,7 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 	NoteProcessDao noteProcessDao;
 	
 	@Autowired
-	UserDAO userDao;
+	UserDao userDao;
 	
 	@Autowired 
 	AccountDao accountDao;

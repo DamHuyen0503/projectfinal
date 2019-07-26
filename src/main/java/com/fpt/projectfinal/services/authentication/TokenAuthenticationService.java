@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 
 import com.auth0.json.mgmt.users.User;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fpt.projectfinal.daos.user.UserDAO;
+import com.fpt.projectfinal.daos.user.UserDao;
 import com.fpt.projectfinal.daos.user.UserDaoImpl;
 
 import io.jsonwebtoken.Jwts;
@@ -31,7 +31,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class TokenAuthenticationService {
 	
 	@Autowired
-	UserDAO userDao ; 
+	UserDao userDao ; 
 	
 	static final long EXPIRATIONTIME = 864_000_000; // 10 days
     
