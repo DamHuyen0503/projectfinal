@@ -15,4 +15,6 @@ public interface SliderDAO {
 	public void deleteSlider(Integer sliderID);
 	
 	public Slider byId(Integer sliderID);
+	
+	public Slider getSliderByID(Integer sliderID);
 }

@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
+import com.fpt.projectfinal.models.Category;
 import com.fpt.projectfinal.models.Post;
 import com.fpt.projectfinal.models.Slider;
 import com.fpt.projectfinal.services.slider.SliderService;
@@ -36,7 +37,7 @@ public class SliderController {
 	public ResponseEntity<Object> getAllSlider() {
 		try {
 			List<Slider> list = sliderService.getAllSlider();
-			return new ResponseEntity<>(list, HttpStatus.FOUND);
+			return new ResponseEntity<>(list, HttpStatus.OK);
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -69,7 +70,7 @@ public class SliderController {
 
 		try {
 			sliderService.updateSlider(slider);
-			return new ResponseEntity<>("Successful", HttpStatus.CREATED);
+			return new ResponseEntity<>("Successful", HttpStatus.OK);
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -102,6 +103,22 @@ public class SliderController {
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@RequestMapping(value = "/getSliderByID/{sliderID}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+	@ResponseBody
+	public ResponseEntity<Object> getSliderByID(@PathVariable(value = "sliderID") Integer sliderID ) {
+		
+		try {
+			Slider slider =sliderService.getSliderByID(sliderID);
+	        return new ResponseEntity<>(slider, HttpStatus.OK);
+		} catch (NullPointerException e) {
+			logger.warn(e.getMessage(), e);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
