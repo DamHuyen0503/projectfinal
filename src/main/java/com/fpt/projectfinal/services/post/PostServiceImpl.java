@@ -181,6 +181,7 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public String addPost(Map<String, Object> payload) {
+		Category category = null;
 		if (payload.get("status") == null) {
 			return "status null";
 		}
@@ -196,11 +197,14 @@ public class PostServiceImpl implements PostService {
 		if (payload.get("image").toString().length() >255) {
 			return "image more than 255";
 		}
+		if (payload.get("categoryID") != null) {
+			category = categoryDao.getCategoryByID((int)payload.get("categoryID"));
+		}
 		try {
 			String username = SecurityContextHolder.getContext().getAuthentication().getName();
 			Account acc = accountDao.getAccountByEmail(username);
 			
-			Category category = categoryDao.getCategoryByID((int)payload.get("categoryID"));
+			
 			Post post = new Post();
 			post.setUser(acc.getUser());
 			post.setCreatedDate(new Date());
