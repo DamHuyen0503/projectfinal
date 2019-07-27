@@ -40,6 +40,7 @@ public class PostServiceImpl implements PostService {
 	
 	@Override
 	public String updatePost(Map<String, Object> payload) {
+		Category category = null;
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Post post = new Post();
 		if (username == null) {
@@ -58,11 +59,13 @@ public class PostServiceImpl implements PostService {
 		if (payload.get("image").toString().length() >255) {
 			return "image more than 255";
 		}
-		
+		if (payload.get("categoryID") != null) {
+			category = categoryDao.getCategoryByID((int)payload.get("categoryID"));
+		}
 		try {
 			Account acc = accountDao.getAccountByEmail(username);
 			
-			Category category = categoryDao.getCategoryByID((int)payload.get("categoryID"));
+		
 		
 			post.setUser(acc.getUser());
 			post.setModifiedDate(new Date());
@@ -220,7 +223,7 @@ public class PostServiceImpl implements PostService {
 			Set<Tag> tags = new HashSet<>();
 			ArrayList<String> tagObjs = (ArrayList<String>) payload.get("tags");
 			for (String obj : tagObjs) {
-				boolean exist = false;
+				boolean exist = false;	
 				for (Tag tag : listTag) {
 					if (obj.equalsIgnoreCase(tag.getContent())) {
 						tags.add(tag);
