@@ -12,4 +12,6 @@ public interface SliderService {
 	public void updateSlider(Slider slider);
 	
 	public void deleteSlider(Integer sliderID);
+	
+	public Slider getSliderByID(Integer sliderID);
 }

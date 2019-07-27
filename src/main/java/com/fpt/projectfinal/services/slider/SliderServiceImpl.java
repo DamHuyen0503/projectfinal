@@ -63,4 +63,9 @@ public class SliderServiceImpl implements SliderService {
 		sliderDAO.deleteSlider(sliderID);
 	}
 
+	@Override
+	public Slider getSliderByID(Integer sliderID) {
+		return this.sliderDAO.getSliderByID(sliderID);
+	}
+
 }

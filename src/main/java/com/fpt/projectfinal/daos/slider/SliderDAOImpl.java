@@ -14,6 +14,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.fpt.projectfinal.models.Category;
 import com.fpt.projectfinal.models.Slider;
 import com.fpt.projectfinal.models.Test;
 
@@ -71,6 +72,19 @@ public class SliderDAOImpl implements SliderDAO {
 	@Override
 	public Slider byId(Integer sliderID) {
 		return (Slider)  this.session.getCurrentSession().load(Slider.class, sliderID);
+	}
+
+	@Override
+	public Slider getSliderByID(Integer sliderID) {
+		CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
+		CriteriaQuery<Slider> query = builder.createQuery(Slider.class);
+		Root<Slider> root = query.from(Slider.class);
+		query.select(root).where(builder.equal(root.get("sliderID"), sliderID));
+		List<Slider> sliders = session.getCurrentSession().createQuery(query).getResultList();
+		if (sliders.size() > 0) {
+			return sliders.get(0);
+		} else
+		return null;
 	}
 
 }
