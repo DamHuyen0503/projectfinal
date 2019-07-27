@@ -163,6 +163,14 @@ public class Client {
 		return fullName;
 	}
 
+	public Set<MedicalRecord> getMedicalRecord() {
+		return medicalRecord;
+	}
+
+	public void setMedicalRecord(Set<MedicalRecord> medicalRecord) {
+		this.medicalRecord = medicalRecord;
+	}
+
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
 	}

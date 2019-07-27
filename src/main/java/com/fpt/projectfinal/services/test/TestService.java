@@ -10,7 +10,7 @@ public interface TestService {
 
 	public String addTest(Map<String, Object> payload);
 	
-	public void updateTest(Map<String, Object> payload);
+	public String updateTest(Map<String, Object> payload);
 
 	public Map<String, Object> getTestById(int id);
 
