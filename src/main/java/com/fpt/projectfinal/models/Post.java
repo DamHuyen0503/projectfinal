@@ -53,7 +53,7 @@ public class Post {
 
 
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "post_tag", joinColumns = {
 			@JoinColumn(name = "postID", nullable = true, updatable = true) }, inverseJoinColumns = {
 					@JoinColumn(name = "tagID", nullable = true, updatable = true) })
