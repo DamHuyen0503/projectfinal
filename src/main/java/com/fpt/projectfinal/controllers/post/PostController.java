@@ -64,7 +64,7 @@ public class PostController {
 			hm.put("title", post.getTitle());
 			hm.put("createdDate", post.getCreatedDate());
 			hm.put("status", post.getStatus());
-			
+			hm.put("image",post.getImage());
 			
 		
 			out.add(hm);
@@ -77,8 +77,8 @@ public class PostController {
 
 		try {
 
-			postService.addPost(payload);
-			return new ResponseEntity<>("Successful", HttpStatus.CREATED);
+		
+			return new ResponseEntity<>(	postService.addPost(payload), HttpStatus.CREATED);
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -92,8 +92,8 @@ public class PostController {
 	public ResponseEntity<Object> updatePost(@RequestBody Map<String, Object> payload) {
 
 		try {
-			postService.updatePost(payload);
-			return new ResponseEntity<>("Successful", HttpStatus.CREATED);
+			
+			return new ResponseEntity<>(postService.updatePost(payload), HttpStatus.CREATED);
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

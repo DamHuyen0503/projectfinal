@@ -40,43 +40,71 @@ public class PostServiceImpl implements PostService {
 	
 	@Override
 	public String updatePost(Map<String, Object> payload) {
+		Category category = null;
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		Account acc = accountDao.getAccountByEmail(username);
-		
-		Category category = categoryDao.getCategoryByID((int)payload.get("categoryID"));
 		Post post = new Post();
-		post.setUser(acc.getUser());
-		post.setModifiedDate(new Date());
-		post.setPostID((int) payload.get("postID"));
-		post.setTitle((String) payload.get("title"));
-		post.setCategory(category);
-		post.setContent((String) payload.get("content"));
-		post.setImage((String) payload.get("image"));
-		post.setDescription((String) payload.get("description"));
-		post.setStatus((int)payload.get("status"));
-		
-		
-		List<Tag> listTag = tagDao.getAllTag();
-		Set<Tag> tags = new HashSet<>();
-		ArrayList<String> tagObjs = (ArrayList<String>) payload.get("tags");
-		for (String obj : tagObjs) {
-			boolean exist = false;
-			for (Tag tag : listTag) {
-				if (obj.equalsIgnoreCase(tag.getContent())) {
-					tags.add(tag);
-					exist = true;
-					break;
-				}
-			}
-			if (exist) {
-				continue;
-			}
-			tags.add(new Tag(obj, new Date()));
+		if (username == null) {
+			return "token fail";
 		}
-		post.setTags(tags);
 		
-		postDao.updatePost(post);
-		return "successful";
+		if (payload.get("postID") == null) {
+			return "postID null";
+		}
+		if (payload.get("title").toString().length() >255) {
+			return "title more than 255";
+		}
+		if (payload.get("description").toString().length() >255) {
+			return "description more than 255";
+		}
+		if (payload.get("image").toString().length() >255) {
+			return "image more than 255";
+		}
+		if (payload.get("categoryID") != null) {
+			category = categoryDao.getCategoryByID((int)payload.get("categoryID"));
+		}
+		try {
+			Account acc = accountDao.getAccountByEmail(username);
+			
+		
+		
+			post.setUser(acc.getUser());
+			post.setModifiedDate(new Date());
+			post.setPostID((int) payload.get("postID"));
+			post.setTitle((String) payload.get("title"));
+			post.setCategory(category);
+			post.setContent((String) payload.get("content"));
+			post.setImage((String) payload.get("image"));
+			post.setDescription((String) payload.get("description"));
+			post.setStatus((int)payload.get("status"));
+			
+			
+			List<Tag> listTag = tagDao.getAllTag();
+			Set<Tag> tags = new HashSet<>();
+			@SuppressWarnings("unchecked")
+			ArrayList<String> tagObjs = (ArrayList<String>) payload.get("tags");
+			for (String obj : tagObjs) {
+				boolean exist = false;
+				for (Tag tag : listTag) {
+					if (obj.equalsIgnoreCase(tag.getContent())) {
+						tags.add(tag);
+						exist = true;
+						break;
+					}
+				}
+				if (exist) {
+					continue;
+				}
+				tags.add(new Tag(obj, new Date()));
+			}
+			post.setTags(tags);
+			
+			postDao.updatePost(post);
+			return "successful";
+		}catch (Exception e) {
+			e.getMessage();
+			return "update fail";
+		}
+		
 	
 	}
 
@@ -156,45 +184,67 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public String addPost(Map<String, Object> payload) {
-		if (payload.get("status") == null ) {
+		Category category = null;
+		if (payload.get("status") == null) {
 			return "status null";
 		}
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		Account acc = accountDao.getAccountByEmail(username);
-		
-		Category category = categoryDao.getCategoryByID((int)payload.get("categoryID"));
-		Post post = new Post();
-		post.setUser(acc.getUser());
-		post.setCreatedDate(new Date());
-		post.setTitle((String) payload.get("title"));
-		post.setCategory(category);
-		post.setContent((String) payload.get("content"));
-		post.setImage((String) payload.get("image"));
-		post.setDescription((String) payload.get("description"));
-		post.setStatus((int)payload.get("status"));
-		
-		
-		List<Tag> listTag = tagDao.getAllTag();
-		Set<Tag> tags = new HashSet<>();
-		ArrayList<String> tagObjs = (ArrayList<String>) payload.get("tags");
-		for (String obj : tagObjs) {
-			boolean exist = false;
-			for (Tag tag : listTag) {
-				if (obj.equalsIgnoreCase(tag.getContent())) {
-					tags.add(tag);
-					exist = true;
-					break;
-				}
-			}
-			if (exist) {
-				continue;
-			}
-			tags.add(new Tag(obj, new Date()));
+		if ((int)payload.get("status") <0 || (int) payload.get("status")>4) {
+			return "status not valid";
 		}
-		post.setTags(tags);
+		if (payload.get("title").toString().length() >255) {
+			return "title more than 255";
+		}
+		if (payload.get("description").toString().length() >255) {
+			return "description more than 255";
+		}
+		if (payload.get("image").toString().length() >255) {
+			return "image more than 255";
+		}
+		if (payload.get("categoryID") != null) {
+			category = categoryDao.getCategoryByID((int)payload.get("categoryID"));
+		}
+		try {
+			String username = SecurityContextHolder.getContext().getAuthentication().getName();
+			Account acc = accountDao.getAccountByEmail(username);
+			
+			
+			Post post = new Post();
+			post.setUser(acc.getUser());
+			post.setCreatedDate(new Date());
+			post.setTitle((String) payload.get("title"));
+			post.setCategory(category);
+			post.setContent((String) payload.get("content"));
+			post.setImage((String) payload.get("image"));
+			post.setDescription((String) payload.get("description"));
+			post.setStatus((int)payload.get("status"));
+			
+			
+			List<Tag> listTag = tagDao.getAllTag();
+			Set<Tag> tags = new HashSet<>();
+			ArrayList<String> tagObjs = (ArrayList<String>) payload.get("tags");
+			for (String obj : tagObjs) {
+				boolean exist = false;	
+				for (Tag tag : listTag) {
+					if (obj.equalsIgnoreCase(tag.getContent())) {
+						tags.add(tag);
+						exist = true;
+						break;
+					}
+				}
+				if (exist) {
+					continue;
+				}
+				tags.add(new Tag(obj, new Date()));
+			}
+			post.setTags(tags);
+			
+			postDao.addPost(post);
+			return "successful";
+		} catch (Exception e) {
+			e.getMessage();
+			return "add fail";
+		}
 		
-		postDao.addPost(post);
-		return "successful";
 	}
 
 	@Override

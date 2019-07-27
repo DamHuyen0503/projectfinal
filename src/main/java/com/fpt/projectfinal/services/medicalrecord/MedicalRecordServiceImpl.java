@@ -288,5 +288,11 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 		return result;
 	}
 
+	@Override
+	public Map<String, Object> getMedicalRecordByClient(Client client) {
+		
+		return null;
+	}
+
 
 }

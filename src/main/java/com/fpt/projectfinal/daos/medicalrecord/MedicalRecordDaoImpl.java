@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import javax.persistence.PersistenceUnitUtil;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -23,6 +24,7 @@ import com.fpt.projectfinal.models.Category;
 import com.fpt.projectfinal.models.Client;
 import com.fpt.projectfinal.models.MedicalRecord;
 import com.fpt.projectfinal.models.Test;
+import com.fpt.projectfinal.models.User;
 @Repository
 @Transactional
 public class MedicalRecordDaoImpl implements MedicalRecordDao{
@@ -101,6 +103,20 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao{
 			return medicals;
 		}
 		return null;	
+	}
+
+	@Override
+	public List<MedicalRecord> getMedicalRecordByClient( Client client) {
+		PersistenceUnitUtil impl = session.getPersistenceUnitUtil();
+		if(!impl.isLoaded(client.getMedicalRecord())) {
+			CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
+			CriteriaQuery<MedicalRecord> query = builder.createQuery(MedicalRecord.class);
+			Root<MedicalRecord> root = query.from(MedicalRecord.class);
+			query.select(root).where(builder.equal(root.get("client"), client));
+			List<MedicalRecord> medicalRecords = session.getCurrentSession().createQuery(query).getResultList();
+			return medicalRecords;
+		}
+		return (List<MedicalRecord>) client.getMedicalRecord();
 	}
 
 	

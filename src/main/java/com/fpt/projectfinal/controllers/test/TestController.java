@@ -34,9 +34,8 @@ public class TestController {
 	public ResponseEntity<Object> addTest(@RequestBody Map<String, Object> payload) {
 				
 		try {
-			System.out.print((String)payload.get("title"));
-			testService.addTest(payload);
-	        return new ResponseEntity<>("successful", HttpStatus.CREATED);
+			
+	        return new ResponseEntity<>(testService.addTest(payload), HttpStatus.CREATED);
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -50,11 +49,9 @@ public class TestController {
 	@RequestMapping(value = "/updateTest", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Object> updateTest(@RequestBody Map<String, Object> payload) {
 				
-		testService.updateTest(payload);
 		try {
-			System.out.print((String)payload.get("title"));
-			testService.addTest(payload);
-	        return new ResponseEntity<>("successful", HttpStatus.CREATED);
+			
+	        return new ResponseEntity<>(testService.updateTest(payload), HttpStatus.CREATED);
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
