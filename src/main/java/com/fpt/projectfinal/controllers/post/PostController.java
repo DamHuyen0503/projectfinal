@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fpt.projectfinal.controllers.category.CategoryController;
 import com.fpt.projectfinal.models.Post;
 import com.fpt.projectfinal.services.post.PostService;
+import com.fpt.projectfinal.services.tag.TagService;
 //
 @CrossOrigin
 @RestController
@@ -32,6 +33,9 @@ public class PostController {
 
 	@Autowired
 	PostService postService;
+	
+	@Autowired
+	TagService tagService;
 
 	@RequestMapping(value = "/getAllPost", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	@ResponseBody
@@ -138,6 +142,14 @@ public class PostController {
 		result.put("listPost", postService.getPostDataForTable(sort, order, page,categoryID,searchString));
 				//return searchString;//trả về list Post theo điều kiện sort by cái gì, sắp xếp theo chiều order gửi về , ở trang bao nhiêu, từ category nào và search bằng từ khóa n
 		return result;
+	}
+	
+	@RequestMapping(value = "/getPostsByTagID", method = RequestMethod.GET, produces = {
+			MediaType.APPLICATION_JSON_VALUE })
+	@ResponseBody
+	public List<Post> getPostsByTagID(@RequestParam Integer tagID, @RequestParam Integer page) {
+		List<Post> list = postService.getPostsByTagID(tagID,page);
+		return list;
 	}
 	
 	

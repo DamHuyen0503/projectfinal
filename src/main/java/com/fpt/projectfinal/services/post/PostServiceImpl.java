@@ -197,4 +197,9 @@ public class PostServiceImpl implements PostService {
 		return "successful";
 	}
 
+	@Override
+	public List<Post> getPostsByTagID(Integer tagID, Integer page) {
+		return postDao.getPostsByTagID(tagID, page);
+	}
+
 }

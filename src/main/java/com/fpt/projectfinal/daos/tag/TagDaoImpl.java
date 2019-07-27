@@ -1,6 +1,8 @@
 package com.fpt.projectfinal.daos.tag;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -33,7 +35,8 @@ public class TagDaoImpl implements TagDao {
 		query.select(root);
 		List<Tag> tags = session.getCurrentSession().createQuery(query).getResultList();
 		return tags;
-		
+
+//		return this.session.getCurrentSession().createQuery("from Tag").list();
 	}
 
 	@Override
@@ -63,5 +66,6 @@ public class TagDaoImpl implements TagDao {
 		}
 		return  post.getTags();
 	}
+
 
 }
