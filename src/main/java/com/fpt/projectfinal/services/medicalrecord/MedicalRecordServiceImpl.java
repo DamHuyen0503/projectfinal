@@ -40,14 +40,13 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 	@Autowired 
 	AccountDao accountDao;
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Map<String, Object> addMedicalRecord(Map<String, Object> payload) {
 		Map<String, Object> mapOutput = new HashMap<String, Object>();
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Account acc = accountDao.getAccountByEmail(username);
 		MedicalRecord medicalRecord = new MedicalRecord();
-
-		medicalRecord.setMedicalRecordID((String) payload.get("medicalRecordID"));
 		medicalRecord.setCreateDate(new Date());
 		medicalRecord.setStatus((int) payload.get("status"));
 		medicalRecord.setPyschologyType((String) payload.get("pshychologyType"));
@@ -169,9 +168,10 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 
 	@Override
 	public void updateMedicalRecord(Map<String, Object> payload) {
+		@SuppressWarnings("unused")
 		Map<String, Object> mapOutput = new HashMap<String, Object>();
 		MedicalRecord medicalRecord = new MedicalRecord();
-		medicalRecord.setMedicalRecordID((String) payload.get("medicalRecordID"));
+		medicalRecord.setMedicalRecordID((int) payload.get("medicalRecordID"));
 		medicalRecord.setCreateDate(new Date());
 		medicalRecord.setStatus((int) payload.get("status"));
 		medicalRecord.setPyschologyType((String) payload.get("pshychologyType"));

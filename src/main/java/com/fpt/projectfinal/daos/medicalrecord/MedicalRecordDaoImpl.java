@@ -49,7 +49,7 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao{
 	}
 
 	@Override
-	public boolean checkExitMedicalRecord(String medicalRecordID) {
+	public boolean checkExitMedicalRecord(int medicalRecordID) {
 		CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
 		CriteriaQuery<MedicalRecord> query = builder.createQuery(MedicalRecord.class);
 		Root<MedicalRecord> root = query.from(MedicalRecord.class);

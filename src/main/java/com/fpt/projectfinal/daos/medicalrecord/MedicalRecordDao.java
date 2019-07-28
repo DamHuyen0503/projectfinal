@@ -13,7 +13,7 @@ public interface MedicalRecordDao {
 	
 	public Map<String, Date> getMedicalRecordID(MedicalRecord medicalRecord);
 	
-	public boolean checkExitMedicalRecord(String medicalRecordID);
+	public boolean checkExitMedicalRecord(int medicalRecordID);
 	
 	public MedicalRecord getMedicalRecordByID(String medicalRecordID);
 	

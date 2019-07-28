@@ -39,8 +39,8 @@ public class MedicalRecordController {
 	public ResponseEntity<Object> createMedicalRecord(@RequestBody Map<String, Object> payload, UriComponentsBuilder builder) {
 
 		try {
-			medicalRecordService.addMedicalRecord(payload);
-			return new ResponseEntity<>(payload, HttpStatus.CREATED);
+			
+			return new ResponseEntity<>(medicalRecordService.addMedicalRecord(payload), HttpStatus.CREATED);
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

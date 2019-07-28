@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,7 +25,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class MedicalRecord {
 	@Id
 	@Column(name = "medicalRecordID", nullable = false)
-	private String medicalRecordID;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int medicalRecordID;
 	
 	@Column(name = "CreatedDate", updatable = false)
 	@Temporal(TemporalType.DATE)
@@ -136,7 +139,7 @@ public class MedicalRecord {
 		super();
 	}
 
-	public MedicalRecord(String medicalRecordID, Date createDate, int status, String pyschologyType, Date modifiedDate,
+	public MedicalRecord(int medicalRecordID, Date createDate, int status, String pyschologyType, Date modifiedDate,
 			String job, String currentAddress, String noteOfRelatives, String relativesPhone,
 			String relativesRelationship, String relativesName, String otherStatus, String learningResult,
 			String health, String friendStatus, String familyStatus, String solutionInPast, String reactHistory,
@@ -196,11 +199,11 @@ public class MedicalRecord {
 		this.userAccess = userAccess;
 	}
 
-	public String getMedicalRecordID() {
+	public int getMedicalRecordID() {
 		return medicalRecordID;
 	}
 
-	public void setMedicalRecordID(String medicalRecordID) {
+	public void setMedicalRecordID(int medicalRecordID) {
 		this.medicalRecordID = medicalRecordID;
 	}
 
