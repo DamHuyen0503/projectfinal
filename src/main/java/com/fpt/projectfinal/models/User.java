@@ -51,8 +51,8 @@ public class User {
 	@Column(name = "DOB")
 	private Date DOB;
 	
-	@JsonBackReference
-	@OneToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
+	
+	@OneToOne( optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "email", nullable = false)
     private Account account;
 	

@@ -2,6 +2,7 @@ package com.fpt.projectfinal.daos.role;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.PersistenceUnitUtil;
@@ -26,6 +27,7 @@ public class RoleDaoImpl implements RoleDao{
 
 	
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Role> getAllRole() {
 		return this.session.getCurrentSession().createQuery("from Role").list();
@@ -51,12 +53,7 @@ public class RoleDaoImpl implements RoleDao{
 
 
 
-	@Override
-	public void updateRole() {
-		
-		
-	}
-
+	
 
 
 	@Override
@@ -78,6 +75,30 @@ public class RoleDaoImpl implements RoleDao{
 	@Override
 	public Set<Role> getRolebyAccount(Account account) {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	@Override
+	public void updateRole(Role role) {
+		this.session.getCurrentSession().update(role);
+		
+	}
+
+
+
+	@Override
+	public Role getRoleByID(int roleID) {
+		CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
+		CriteriaQuery<Role> query = builder.createQuery(Role.class);
+		Root<Role> root = query.from(Role.class);
+		query.select(root).where(builder.equal(root.get("roleID"), roleID));
+		List<Role> roles = session.getCurrentSession().createQuery(query).getResultList();
+		if(roles.size()>0){
+			
+			return  roles.get(0);
+		}
 		return null;
 	}
 

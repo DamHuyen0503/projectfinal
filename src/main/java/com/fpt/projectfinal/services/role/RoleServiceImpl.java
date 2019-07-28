@@ -2,6 +2,7 @@ package com.fpt.projectfinal.services.role;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -14,8 +15,10 @@ import org.springframework.stereotype.Service;
 
 import com.fpt.projectfinal.daos.account.AccountDao;
 import com.fpt.projectfinal.daos.role.RoleDao;
+import com.fpt.projectfinal.daos.user.UserDao;
 import com.fpt.projectfinal.models.Account;
 import com.fpt.projectfinal.models.Role;
+import com.fpt.projectfinal.models.User;
 
 
 @Service
@@ -27,6 +30,8 @@ public class RoleServiceImpl implements RoleService {
 	@Autowired
 	AccountDao accDao;
 	
+	@Autowired
+	UserDao userDao;
 	
 
 	@Override
@@ -46,11 +51,7 @@ public class RoleServiceImpl implements RoleService {
 				.map(r -> r.getAuthority()).collect(Collectors.toSet());
 		return roles;
 	}
-	@Override
-	public void updateRole() {
-		
-		
-	}
+
 	@Override
 	public Set<Role> getRoleByID(String roleName) {
 		@SuppressWarnings("unused")
@@ -58,7 +59,11 @@ public class RoleServiceImpl implements RoleService {
 		role = roleDao.getRoleByName(roleName);
 		return null;
 	}
-
-
+	@Override
+	public String updateRole(Map<String, Object> payload) {
+		return null;
+		
+		}
+	
 
 }

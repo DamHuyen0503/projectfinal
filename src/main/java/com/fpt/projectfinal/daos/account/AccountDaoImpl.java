@@ -74,4 +74,25 @@ public class AccountDaoImpl implements AccountDao{
 		return role.getAccount();
 	}
 
+	@Override
+	public void updateAccount(Account account) {
+		this.session.getCurrentSession().update(account);
+		
+	}
+
+	@Override
+	public Account getAccountByUser(User user) {
+		PersistenceUnitUtil impl = session.getPersistenceUnitUtil();
+		if(!impl.isLoaded(user.getAccount())) {
+			CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
+			CriteriaQuery<Account> query = builder.createQuery(Account.class);
+			Root<Account> root = query.from(Account.class);
+			query.select(root).where(builder.equal(root.join("user"), user));
+			List<Account> accs = session.getCurrentSession().createQuery(query).getResultList();
+			return accs.get(0);
+		}
+		return user.getAccount();
+		
+	}
+
 }

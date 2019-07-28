@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.fpt.projectfinal.models.Account;
 import com.fpt.projectfinal.models.Role;
+import com.fpt.projectfinal.models.User;
 
 
 public interface AccountDao {
@@ -32,7 +33,12 @@ public interface AccountDao {
 	 * get all account
 	 */
 	public List<Account> getAllAccount();
+	
 	public Set<Account> getAccountByRole(Role role);
+	
+	public void updateAccount (Account account);
+	
+	public Account getAccountByUser(User user);
 }
 
 

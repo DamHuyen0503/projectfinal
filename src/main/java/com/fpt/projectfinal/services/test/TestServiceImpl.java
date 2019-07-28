@@ -95,6 +95,7 @@ public class TestServiceImpl implements TestService {
 	public Map<String, Object> getTestById(int id) {
 		
 		Map<String, Object> map = new HashMap<>();
+		
 		if (id == 0) {
 			map.put("message", "id null");
 			return map;
@@ -133,6 +134,7 @@ public class TestServiceImpl implements TestService {
 			mapQuest.put("score", quest.getScore());
 			quests.add(mapQuest);
 		}
+		map.put("postID",id);
 		map.put("questions", quests);
 		map.put("title", test.getTitle());
 		map.put("content", test.getContent());

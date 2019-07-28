@@ -29,7 +29,7 @@ public class Account {
 	private String password;
 
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "account")
+	@OneToOne( cascade = CascadeType.ALL, mappedBy = "account")
 	private User user;
 
 	@JsonIgnore

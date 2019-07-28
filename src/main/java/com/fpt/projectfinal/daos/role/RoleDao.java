@@ -11,9 +11,12 @@ public interface RoleDao {
 	
 	public List<Role> getAllRole();
 	
-	public void updateRole();
+	public void updateRole(Role role);
 	
 	public Set<Role> getRoleByName(String roleName);
 	
 	public Set<Role> getRolebyAccount(Account account);
+	
+	public Role getRoleByID(int roleID);
+	
 }

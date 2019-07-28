@@ -28,4 +28,6 @@ public interface AuthenService {
 	 * get account by email
 	 */
 	public Account getAccountByEmail(String email);
+	
+	public String updateAccount(Map<String, Object> payload);
 }
