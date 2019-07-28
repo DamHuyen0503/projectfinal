@@ -69,7 +69,7 @@ public class ClientServiceImpl implements ClientService{
 		result.put("dob", client.getDob());
 		result.put("address", client.getAddress());
 		
-		result.put("phonenumber", client.getPhoneNumber());
+		result.put("phoneNumber", client.getPhoneNumber());
 		result.put("note", client.getNote());
 		result.put("alias", client.getAlias());
 		result.put("ssn", client.getSsn());

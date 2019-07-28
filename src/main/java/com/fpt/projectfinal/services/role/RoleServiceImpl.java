@@ -1,5 +1,6 @@
 package com.fpt.projectfinal.services.role;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -49,6 +50,13 @@ public class RoleServiceImpl implements RoleService {
 	public void updateRole() {
 		
 		
+	}
+	@Override
+	public Set<Role> getRoleByID(String roleName) {
+		@SuppressWarnings("unused")
+		Set<Role> role = new HashSet<>();
+		role = roleDao.getRoleByName(roleName);
+		return null;
 	}
 
 

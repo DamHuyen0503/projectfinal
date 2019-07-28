@@ -16,6 +16,8 @@ import org.springframework.stereotype.Repository;
 
 import com.fpt.projectfinal.models.Account;
 import com.fpt.projectfinal.models.Role;
+import com.fpt.projectfinal.models.Tag;
+import com.fpt.projectfinal.models.Test;
 @Repository
 @Transactional
 public class RoleDaoImpl implements RoleDao{
@@ -53,6 +55,30 @@ public class RoleDaoImpl implements RoleDao{
 	public void updateRole() {
 		
 		
+	}
+
+
+
+	@Override
+	public Set<Role> getRoleByName(String roleName) {
+		CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
+		CriteriaQuery<Role> query = builder.createQuery(Role.class);
+		Root<Role> root = query.from(Role.class);
+		query.select(root).where(builder.equal(root.get("name"), roleName));
+		List<Role> roles = session.getCurrentSession().createQuery(query).getResultList();
+		if(roles.size()>0){
+			
+			return  new HashSet<Role>(roles);
+		}
+		return null;
+	}
+
+
+
+	@Override
+	public Set<Role> getRolebyAccount(Account account) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -39,6 +39,13 @@ public class Role {
 		super();
 	}
 
+	
+	public Role(String name) {
+		super();
+		this.name = name;
+	}
+
+
 	public Role(int roleID, String name) {
 		super();
 		this.roleID = roleID;

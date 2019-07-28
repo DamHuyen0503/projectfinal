@@ -119,6 +119,7 @@ public class TestServiceImpl implements TestService {
 		for (Question quest : test.getQuestion()) {
 			Map<String, Object> mapQuest = new HashMap();
 			List<Map<String, Object>> answers = new ArrayList<>();
+			mapQuest.put("questionID", quest.getQuestionID());
 			for (Answer ans : quest.getAnswer()) {
 				Map<String, Object> mapAns = new HashMap();
 				mapAns.put("answerID", ans.getAnswerID());
@@ -127,7 +128,7 @@ public class TestServiceImpl implements TestService {
 				mapAns.put("score", ans.getScore());
 				answers.add(mapAns);
 			}
-			mapQuest.put("anwsers", answers);
+			mapQuest.put("answers", answers);
 			mapQuest.put("content", quest.getContent());
 			mapQuest.put("score", quest.getScore());
 			quests.add(mapQuest);

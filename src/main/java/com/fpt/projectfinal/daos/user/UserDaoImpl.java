@@ -65,5 +65,9 @@ public class UserDaoImpl implements UserDao {
 		}
 		return test.getUser();
 	}
+	@Override
+	public void updateUser(User user) {
+		this.session.getCurrentSession().update(user);
+	}
 
 }

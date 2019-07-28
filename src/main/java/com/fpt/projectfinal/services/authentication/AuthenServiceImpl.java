@@ -2,8 +2,10 @@ package com.fpt.projectfinal.services.authentication;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -11,7 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fpt.projectfinal.daos.account.AccountDao;
+import com.fpt.projectfinal.daos.role.RoleDao;
 import com.fpt.projectfinal.models.Account;
+import com.fpt.projectfinal.models.Role;
+import com.fpt.projectfinal.models.Tag;
 import com.fpt.projectfinal.models.User;
 
 @Service
@@ -20,6 +25,9 @@ public class AuthenServiceImpl implements AuthenService {
 	@Autowired
 	private AccountDao accDao;
 
+	@Autowired
+	private RoleDao roleDao;
+	
 	@Override @Transactional
 	public List<Account> getAllAccount() {
 		
@@ -46,8 +54,11 @@ public class AuthenServiceImpl implements AuthenService {
 		u.setPhoneNumber((String)mapUser.get("phoneNumber"));
 		u.setAvatar((String)mapUser.get("avatar"));
 		u.setDOB((Date)mapUser.get("DOB"));
+		acc.setRoles(roleDao.getRoleByName("User"));
 		u.setAccount(acc);
 		acc.setUser(u);
+		
+		
 		return accDao.addAccount(acc);
 		
 	}

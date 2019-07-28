@@ -11,4 +11,6 @@ public interface UserDao {
 	public User getUserByID(int userID);
 	
 	public User getUserByTest(Post test);
+	
+	public void updateUser(User user);
 }

@@ -15,4 +15,6 @@ public interface RoleService {
 	public Set<String> getRoleByToken(String Token);
 	
 	public void updateRole();
+	
+	public Set<Role> getRoleByID(String RoleName);
 }
