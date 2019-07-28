@@ -17,6 +17,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "User")
@@ -51,7 +52,7 @@ public class User {
 	@Column(name = "DOB")
 	private Date DOB;
 	
-	
+	@JsonManagedReference
 	@OneToOne( optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "email", nullable = false)
     private Account account;
