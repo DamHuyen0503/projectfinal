@@ -6,6 +6,7 @@ import java.util.Map;
 import com.fpt.projectfinal.models.Category;
 import com.fpt.projectfinal.models.Post;
 
+
 public interface PostService {
 
 	public String addPost(Map<String, Object> payload);
@@ -16,6 +17,8 @@ public interface PostService {
 
 	public List<Post> getAllPost();
 
+	public List<Post> getPostsByTagID(Integer tagID, Integer page);
+	
 	public Long getCountPostDataForTable(String sort, String order, Integer page, Integer categoryID,
 			String searchString);
 

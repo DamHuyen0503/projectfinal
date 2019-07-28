@@ -7,6 +7,9 @@ import java.util.Map;
 import javax.persistence.PersistenceUnitUtil;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
@@ -21,8 +24,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.fpt.projectfinal.daos.category.CategoryDao;
+import com.fpt.projectfinal.daos.tag.TagDao;
 import com.fpt.projectfinal.models.Category;
 import com.fpt.projectfinal.models.Post;
+import com.fpt.projectfinal.models.Tag;
+
 @Repository
 @Transactional
 public class PostDaoImpl implements PostDao {
@@ -32,6 +38,9 @@ public class PostDaoImpl implements PostDao {
 	
 	@Autowired
 	CategoryDao categoryDao;
+	
+	@Autowired
+	TagDao tagDao;
 
 	@Override
 	public void addPost(Post post) {
@@ -66,39 +75,36 @@ public class PostDaoImpl implements PostDao {
 	@Override
 	public Long getCountPostDataForTable(String sort, String order, Integer page, Integer categoryID,
 			String searchString) {
-		ProjectionList projectionList = Projections.projectionList();
-		Criteria crit = session.getCurrentSession().createCriteria(Post.class);
-		crit.add(Restrictions.ne("status", 3));
-		crit.add(Restrictions.ne("status", 0));
+		CriteriaBuilder cb = session.getCurrentSession().getCriteriaBuilder();
+		CriteriaQuery<Long> cr = cb.createQuery(Long.class);
+		Root<Post> root = cr.from(Post.class);
+		cr.select(cb.count(root));
+		ParameterExpression<Integer> p = cb.parameter(Integer.class);
+		cr.distinct(true);
 		if (categoryID != 0) {
-			crit.add(Restrictions.eq("categoryID", categoryID));
-		}
-		crit.add(Restrictions.like("title", searchString, MatchMode.ANYWHERE));
-		projectionList.add(Projections.count("postID").as("count"));
-		crit.setProjection(projectionList);
-
-		crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		List<Long> results = crit.list();
-		return results.get(0);
+			cr.where(cb.notEqual(root.get("status"), 3), cb.notEqual(root.get("status"), 0),
+					cb.like(root.get("title"), "%" + searchString + "%"), cb.notEqual(root.get("category"), 1),
+					cb.equal(root.get("category"), categoryID));
+		} else
+			cr.where(cb.notEqual(root.get("status"), 3), cb.notEqual(root.get("status"), 0),
+					cb.notEqual(root.get("category"), 0), cb.like(root.get("title"), "%" + searchString + "%"));
+		return session.getCurrentSession().createQuery(cr).getSingleResult();
 	}
 
 	@Override
 	public List<Post> getPostDataForTable(String sort, String order, Integer page, Integer categoryID,
 			String searchString) {
-		Category category = categoryDao.getCategoryByID(categoryID);
-		Category testCate = categoryDao.getCategoryByID(1);
-		ProjectionList projectionList = Projections.projectionList();
 		CriteriaBuilder cb = session.getCurrentSession().getCriteriaBuilder();
 		CriteriaQuery<Post> cr = cb.createQuery(Post.class);
 		Root<Post> root = cr.from(Post.class);
 		cr.distinct(true);
 		if (categoryID != 0) {
 			cr.where(cb.notEqual(root.get("status"), 3), cb.notEqual(root.get("status"), 0),
-					cb.like(root.get("title"), "%" + searchString + "%"), cb.notEqual(root.get("category"), testCate),
-					cb.equal(root.get("category"), category));
+					cb.like(root.get("title"), "%" + searchString + "%"), cb.notEqual(root.get("category"), 1),
+					cb.equal(root.get("category"), categoryID));
 		} else
 			cr.where(cb.notEqual(root.get("status"), 3), cb.notEqual(root.get("status"), 0),
-					cb.notEqual(root.get("category"), testCate), cb.like(root.get("title"), "%" + searchString + "%"));
+					cb.notEqual(root.get("category"), 0), cb.like(root.get("title"), "%" + searchString + "%"));
 		if ("asc".equals(order)) {
 			cr.orderBy(cb.asc(root.get(sort)));
 		} else {
@@ -143,6 +149,25 @@ public class PostDaoImpl implements PostDao {
 		allDraft = (List<Post>) session.getCurrentSession().createQuery(sql).list();
 
 		return allDraft;
+	}
+
+	@Override
+	public List<Post> getPostsByTagID(Integer tagID, Integer page) {
+		
+		CriteriaBuilder cb = session.getCurrentSession().getCriteriaBuilder();
+		CriteriaQuery<Post> cr = cb.createQuery(Post.class);
+		Root<Post> root = cr.from(Post.class);
+		Join<Post, Tag> join = root.join("tags", JoinType.INNER);
+		cr.select(root).where(cb.equal(join.get("tagID"), tagID));
+		
+		Query<Post> query = session.getCurrentSession().createQuery(cr);
+		query.setFirstResult((page-1) * 2);
+		query.setMaxResults(2);
+
+		
+		List<Post> tags = query.getResultList();
+
+		return tags;
 	}
 
 }

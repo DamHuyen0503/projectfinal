@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tag", uniqueConstraints = { @UniqueConstraint(columnNames = { "tagID" }) })
@@ -34,6 +35,7 @@ public class Tag {
 	@Column(name = "createDate", updatable = false)
 	private Date createdDate;
 	
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "tags",  cascade = CascadeType.ALL)
 	private Set<Post> post;
 	

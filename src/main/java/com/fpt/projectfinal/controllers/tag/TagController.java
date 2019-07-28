@@ -29,4 +29,5 @@ public class TagController {
 		List<Tag> list = tagService.getAllTag();
 		return list;
 	}
+
 }

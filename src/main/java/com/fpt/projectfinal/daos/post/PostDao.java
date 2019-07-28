@@ -25,4 +25,6 @@ public interface PostDao {
 	public List<Post> getPostByCategory(Category category); 
 	
 	public List<Post> getAllDraft();
+	
+	public List<Post> getPostsByTagID(Integer tagID, Integer page);
 }
