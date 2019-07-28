@@ -18,7 +18,7 @@ public interface AccountDao {
 	 * 12/07/2019
 	 * add account
 	 */
-	public int addAccount(Account acc);
+	public void addAccount(Account acc);
 	
 	/*
 	 * huyendt

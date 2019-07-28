@@ -27,15 +27,15 @@ public class AccountDaoImpl implements AccountDao{
 	public  SessionFactory session;
 	
 	@Override
-	public int addAccount(Account acc) {
+	public void addAccount(Account acc) {
 		try {
 			this.session.getCurrentSession().save(acc);
 		}catch (Exception e) {
 			System.out.print(e);
-			return 0;
+		
 		}
 		
-		return 1;
+	
 	}
 	
 	@Override

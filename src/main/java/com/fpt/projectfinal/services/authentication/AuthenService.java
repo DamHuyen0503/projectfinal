@@ -14,7 +14,7 @@ public interface AuthenService {
 	 * 12/07/2019
 	 * add new account
 	 */
-	public int addAccount(Map<String,Object> payload);
+	public String addAccount(Map<String,Object> payload);
 	/*
 	 * huyendt
 	 * 12/07/2019

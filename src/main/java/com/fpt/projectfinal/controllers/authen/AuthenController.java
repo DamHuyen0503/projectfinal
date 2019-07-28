@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fpt.projectfinal.controllers.category.CategoryController;
 import com.fpt.projectfinal.daos.account.AccountDao;
 import com.fpt.projectfinal.models.Account;
+import com.fpt.projectfinal.models.Post;
 import com.fpt.projectfinal.services.authentication.AuthenService;
 
 @CrossOrigin
@@ -43,12 +44,18 @@ public class AuthenController {
 	
 	@RequestMapping(value = "/addAccount", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
-	public String addAccount(@RequestBody Map<String, Object> payload) {
-		int result = authenService.addAccount(payload);
-		if (result==0) {
-			return "add fail";
+	public ResponseEntity<Object> addAccount(@RequestBody Map<String, Object> payload) {
+		
+		try {
+			return new ResponseEntity<>(authenService.addAccount(payload), HttpStatus.OK);
+		} catch (NullPointerException e) {
+			logger.warn(e.getMessage(), e);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return "susscessful";
+		
 	}
 	
 	@RequestMapping(value = "/getByEmail", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })

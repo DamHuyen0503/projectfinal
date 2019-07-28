@@ -48,7 +48,20 @@ public class AuthenServiceImpl implements AuthenService {
 	}
 
 	@Override
-	public int addAccount(Map<String, Object> payload) {
+	public String addAccount(Map<String, Object> payload) {
+		List<Account> accounts = accDao.getAllAccount();
+		for (Account account : accounts) {
+			 if (account.getEmail().equals(payload.get("email"))) {
+				 return "email duplicate";
+			 }
+		}
+		if (payload.get("password") == null) {
+			return "password null";
+		}
+		if (payload.get("password").equals("")) {
+			return "password empty";
+		}
+		
 		Account acc = new Account();
 		acc.setEmail((String)payload.get("email"));
 		acc.setPassword((String)payload.get("password"));
@@ -64,9 +77,9 @@ public class AuthenServiceImpl implements AuthenService {
 		acc.setRoles(roleDao.getRoleByName("User"));
 		u.setAccount(acc);
 		acc.setUser(u);
+		 accDao.addAccount(acc);
 		
-		
-		return accDao.addAccount(acc);
+		return "successful";
 		
 	}
 
