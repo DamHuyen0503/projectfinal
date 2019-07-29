@@ -1,5 +1,6 @@
 package com.fpt.projectfinal.services.user;
 
+import java.util.List;
 import java.util.Map;
 
 import com.fpt.projectfinal.models.Test;
@@ -14,4 +15,6 @@ public interface UserService {
 	public User getUserByTest(Test test);
 	
 	public String updateUser(Map<String, Object> payload);
+	
+	public List<Map<String, Object>> getAllUser(Map<String, Object> payload);
 }

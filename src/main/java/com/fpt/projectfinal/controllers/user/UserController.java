@@ -1,5 +1,6 @@
 package com.fpt.projectfinal.controllers.user;
 
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fpt.projectfinal.controllers.category.CategoryController;
+import com.fpt.projectfinal.models.Post;
 import com.fpt.projectfinal.models.User;
 import com.fpt.projectfinal.services.user.UserService;
 
@@ -58,4 +60,24 @@ public class UserController {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+
+	@RequestMapping(value = "/getAllUser", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	@ResponseBody
+	public ResponseEntity<Object> getAllPost(@RequestBody Map<String, Object> payload) {
+		try {
+			List<Map<String, Object>> list = userService.getAllUser(payload);
+			if (list != null) {
+				return new ResponseEntity<>(list, HttpStatus.OK);
+			}
+			return new ResponseEntity<>(list, HttpStatus.BAD_REQUEST);
+		} catch (NullPointerException e) {
+			logger.warn(e.getMessage(), e);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 }

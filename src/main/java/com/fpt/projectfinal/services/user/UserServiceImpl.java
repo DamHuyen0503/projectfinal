@@ -1,5 +1,8 @@
 package com.fpt.projectfinal.services.user;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +58,27 @@ public class UserServiceImpl implements UserService{
 		}catch (Exception e) {
 			return "update fail";
 		}
+	}
+
+	@Override
+	public List<Map<String, Object>> getAllUser(Map<String, Object> payload) {
+		List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
+		List<User> listUser = userDao.getAllUser(payload);
+		for (User user : listUser) {
+			Map<String, Object> u = new HashMap<String, Object>();
+			u.put("address", user.getAddress());
+			u.put("userID", user.getUserID());
+			u.put("firstName", user.getFirstName());
+			u.put("createdDate", user.getCreatedDate());
+			u.put("avatar", user.getAvatar());
+			u.put("dob", user.getDOB());
+			u.put("gender", user.getGender());
+			u.put("lastName", user.getLastName());
+			u.put("phoneNumber", user.getPhoneNumber());
+			
+			result.add(u);
+		}
+		return result;
 	}
 
 }

@@ -143,8 +143,18 @@ public class TestServiceImpl implements TestService {
 		map.put("image", test.getImage());
 		map.put("createdDate", test.getCreatedDate());
 		map.put("modifiedDate", test.getModifiedDate());
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		map.put("email user", username);
+//		
+		User user = test.getUser();
+		
+		Map<String, Object> u = new HashMap<>();
+		u.put("address", user.getAddress());
+		u.put("avatar", user.getAvatar());
+		u.put("createdDate", user.getCreatedDate());
+		u.put("dob", user.getDOB());
+		u.put("firstName", user.getFirstName());
+		u.put("lastName", user.getLastName());
+		u.put("phoneNumber", user.getPhoneNumber());
+		map.put("user", u);
 		List<String> tags = new ArrayList();
 		for (Tag tag : test.getTags()) {
 			tags.add(tag.getContent());

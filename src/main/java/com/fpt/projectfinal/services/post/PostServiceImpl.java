@@ -21,6 +21,7 @@ import com.fpt.projectfinal.models.Category;
 import com.fpt.projectfinal.models.Post;
 import com.fpt.projectfinal.models.Tag;
 import com.fpt.projectfinal.models.Test;
+import com.fpt.projectfinal.models.User;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -121,9 +122,20 @@ public class PostServiceImpl implements PostService {
 		map.put("image",post.getImage());
 		map.put("status",post.getStatus());
 		map.put("title",post.getTitle());
-		map.put("user",post.getUser());
+		
 		map.put("category",post.getCategory());
 		map.put("modifiedDate",post.getModifiedDate());
+		User user = post.getUser();
+		
+		Map<String, Object> u = new HashMap<>();
+		u.put("address", user.getAddress());
+		u.put("avatar", user.getAvatar());
+		u.put("createdDate", user.getCreatedDate());
+		u.put("dob", user.getDOB());
+		u.put("firstName", user.getFirstName());
+		u.put("lastName", user.getLastName());
+		u.put("phoneNumber", user.getPhoneNumber());
+		map.put("user", u);
 		List<String> tags = new ArrayList();
 		for (Tag tag : post.getTags()) {
 			tags.add(tag.getContent());

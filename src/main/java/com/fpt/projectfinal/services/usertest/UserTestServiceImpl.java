@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.fpt.projectfinal.daos.test.TestDao;
@@ -30,11 +31,9 @@ public class UserTestServiceImpl implements UserTestService {
 		UserTest userTest = new UserTest();
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
-			System.out.println("postID:"+payload.get("postID"));
-			System.out.println("userID:"+payload.get("userID"));
-		
+			String username = SecurityContextHolder.getContext().getAuthentication().getName();
 			Test test =	testDao.getTestById((int)payload.get("postID"));
-			User user = userDao.getUserByID((int)payload.get("userID"));
+			User user = userDao.getUserByEmail(username);
 			userTest.setDate(new Date());
 			userTest.setTest(test);
 			userTest.setUser(user);
