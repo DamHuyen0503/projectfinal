@@ -21,7 +21,7 @@ public class UserTest {
 	@Id
 	@Column(name = "id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 
 	@Column(name = "result")
 	private int result;
@@ -34,15 +34,17 @@ public class UserTest {
 	@JoinColumn(name="postID")
 	private Test test;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name="userID")
 	private User user;
 
-	public int getId() {
+	
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

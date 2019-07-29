@@ -53,6 +53,7 @@ public class User {
 	private Date DOB;
 	
 	@JsonManagedReference
+	
 	@OneToOne( optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "email", nullable = false)
     private Account account;
@@ -61,9 +62,9 @@ public class User {
 	@OneToMany(cascade = CascadeType.ALL,mappedBy="user",fetch = FetchType.LAZY)
 	private Set<Post> post; 
 	
-	@OneToMany(cascade = CascadeType.ALL,mappedBy="user",fetch = FetchType.LAZY)
-	@JsonIgnore
-	private Set<UserTest> userTest;
+//	@OneToMany(cascade = CascadeType.ALL,mappedBy="user",fetch = FetchType.LAZY)
+//	@JsonIgnore
+//	private Set<UserTest> userTest;
 	
 	public User() {
 		super();
@@ -157,13 +158,6 @@ public class User {
 		this.post = post;
 	}
 
-	public Set<UserTest> getUserTest() {
-		return userTest;
-	}
-
-	public void setUserTest(Set<UserTest> userTest) {
-		this.userTest = userTest;
-	}
 
 	
 	

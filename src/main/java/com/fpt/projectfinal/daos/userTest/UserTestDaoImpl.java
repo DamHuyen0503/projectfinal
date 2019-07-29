@@ -22,9 +22,9 @@ public class UserTestDaoImpl implements UserTestDao{
 	SessionFactory session;
 	
 	@Override
-	public String addUserTest(UserTest userTest) {
+	public void addUserTest(UserTest userTest) {
 		this.session.getCurrentSession().save(userTest);
-		return "successful";
+	
 	}
 
 	@Override

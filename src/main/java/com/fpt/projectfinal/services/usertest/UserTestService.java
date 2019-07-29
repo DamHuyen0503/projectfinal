@@ -7,7 +7,7 @@ import com.fpt.projectfinal.models.UserTest;
 
 public interface UserTestService {
 	
-	public Map<String, Object> addUserTest(Map<String, Object> payload);
+	public String addUserTest(Map<String, Object> payload);
 	
 	public List<UserTest> getUserTestByPostID(int postID);
 

@@ -4,7 +4,8 @@ import com.fpt.projectfinal.models.Post;
 import com.fpt.projectfinal.models.UserTest;
 
 public interface UserTestDao {
-	public String addUserTest(UserTest userTest);
+	
+	public void addUserTest(UserTest userTest);
 	
 	public int countUserByTest(Post test);
 }

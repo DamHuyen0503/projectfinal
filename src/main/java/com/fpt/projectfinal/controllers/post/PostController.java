@@ -78,7 +78,7 @@ public class PostController {
 		try {
 
 		
-			return new ResponseEntity<>(	postService.addPost(payload), HttpStatus.CREATED);
+			return new ResponseEntity<>(postService.addPost(payload), HttpStatus.CREATED);
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
