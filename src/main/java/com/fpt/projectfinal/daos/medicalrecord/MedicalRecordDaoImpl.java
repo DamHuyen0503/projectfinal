@@ -42,12 +42,7 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao{
 	
 	}
 
-	@Override
-	public Map<String, Date> getMedicalRecordID(MedicalRecord medicalRecord) {
-		
-		return null;
-	}
-
+	
 	@Override
 	public boolean checkExitMedicalRecord(int medicalRecordID) {
 		CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
@@ -64,7 +59,7 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao{
 	}
 
 	@Override
-	public MedicalRecord getMedicalRecordByID(String medicalRecordID) {
+	public MedicalRecord getMedicalRecordByID(int medicalRecordID) {
 		CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
 		CriteriaQuery<MedicalRecord> query = builder.createQuery(MedicalRecord.class);
 		Root<MedicalRecord> root = query.from(MedicalRecord.class);
@@ -105,6 +100,7 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao{
 		return null;	
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<MedicalRecord> getMedicalRecordByClient( Client client) {
 		PersistenceUnitUtil impl = session.getPersistenceUnitUtil();
@@ -117,6 +113,13 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao{
 			return medicalRecords;
 		}
 		return (List<MedicalRecord>) client.getMedicalRecord();
+	}
+
+
+	@Override
+	public void deleteMedical(MedicalRecord medicalRecord) {
+		this.session.getCurrentSession().delete(medicalRecord);
+		
 	}
 
 	

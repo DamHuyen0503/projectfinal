@@ -10,5 +10,5 @@ public interface NoteProcessDao {
 	
 	public List<NoteProcess> getNoteProcessByMedicalRecord(MedicalRecord medicalRecord);
 	
-	public List<NoteProcess> getNoteProcessByMedicalRecordID (String medicalRecordID);
+	public List<NoteProcess> getNoteProcessByMedicalRecordID (int medicalRecordID);
 }

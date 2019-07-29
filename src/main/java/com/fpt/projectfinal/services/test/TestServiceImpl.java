@@ -67,7 +67,8 @@ public class TestServiceImpl implements TestService {
 	@Override
 	public List<Map<String, Object>> getAllTest() {
 		List<Map<String, Object>> result = new ArrayList<>();
-		List<Post> tests = testDao.getAllTest();
+		Category category = categoryDao.getCategoryByID(1);
+		List<Post> tests = testDao.getAllTest(category);
 //		Map<String, Object> result = new HashMap<>();
 		for(Post test : tests) {
 			Map<String, Object> mapTest = new HashMap<>();

@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.fpt.projectfinal.daos.category.CategoryDao;
+import com.fpt.projectfinal.daos.post.PostDao;
 import com.fpt.projectfinal.daos.question.QuestionDao;
+import com.fpt.projectfinal.models.Category;
 import com.fpt.projectfinal.models.Post;
 import com.fpt.projectfinal.models.Test;
 
@@ -28,6 +30,9 @@ public class TestDaoImpl implements TestDao {
 	
 	@Autowired
 	QuestionDao questionDao;
+	
+	@Autowired 
+	PostDao postDao;
 	
 	@Override
 	public void addTest(com.fpt.projectfinal.models.Test test) {
@@ -56,8 +61,8 @@ public class TestDaoImpl implements TestDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Post> getAllTest() {
-		return this.session.getCurrentSession().createQuery("from Post").list();
+	public List<Post> getAllTest(Category category) {
+		return postDao.getPostByCategory(category);
 	}
 
 	

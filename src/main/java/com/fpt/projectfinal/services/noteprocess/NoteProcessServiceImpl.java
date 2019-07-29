@@ -22,7 +22,7 @@ public class NoteProcessServiceImpl  implements NoteProcessServices{
 	MedicalRecordDao medicalRecorDao;
 	
 	@Override
-	public Map<String, Object> getNoteProcessByMedicalRecordID(String medicalRecordID) {
+	public Map<String, Object> getNoteProcessByMedicalRecordID(int medicalRecordID) {
 	
 		List<NoteProcess> notes =   noteprocessDao.getNoteProcessByMedicalRecordID(medicalRecordID);
 		Map<String, Object> map = new HashMap<String, Object>();

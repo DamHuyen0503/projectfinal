@@ -53,7 +53,7 @@ public class MedicalRecordController {
 	
 	@RequestMapping(value = "/getMedicalRecordByID", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
-	public ResponseEntity<Object>  getMedicalRecordByID(@RequestParam  String medicalRecordID){
+	public ResponseEntity<Object>  getMedicalRecordByID(@RequestParam  int medicalRecordID){
 		System.out.println("check get medical Record by ID");
 		try {
 			Map<String, Object> map= medicalRecordService.getMedicalRecordByID(medicalRecordID);
@@ -90,21 +90,7 @@ public class MedicalRecordController {
 	@RequestMapping(value = "/getMedicalRecordByDay", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object>  getMedicalRecordByDay(@RequestParam  String day) throws Exception{
-	
-//		System.out.println("check");
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:MM:ss");
-//		Date date = sdf.parse("201"
-//				+ "9/07/22 00:00:00"); 
-//		
-//		System.out.println("date: "+date);
-//		 String sDate1="2019/07/22 00:00:00";  
-//		    Date date = (Date) new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);  
-//		    System.out.println(sDate1+"\t"+ date);  
-		
 		 DateFormat sourceFormat = new SimpleDateFormat("dd/MM/yyyy");
-		 
-	        String dateInString = "13/2/2019";
-
 		try {
 			Date date = sourceFormat.parse(day);
 			System.out.println(day);
@@ -121,4 +107,24 @@ public class MedicalRecordController {
 		}
 		
 	}
+	
+	@RequestMapping(value = "/deleteMedicalRecord", method = RequestMethod.DELETE,
+
+			produces = { MediaType.APPLICATION_JSON_VALUE })
+	@ResponseBody
+	public ResponseEntity<Object> deleteMedicalRecord(@RequestParam int medicalRecordID) {
+
+		try {
+			
+			return new ResponseEntity<>(medicalRecordService.deleteMedicalRecord(medicalRecordID), HttpStatus.CREATED);
+		} catch (NullPointerException e) {
+			logger.warn(e.getMessage(), e);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+	
 }

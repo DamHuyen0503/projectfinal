@@ -11,15 +11,16 @@ public interface MedicalRecordDao {
 
 	public void addMedicalRecord(MedicalRecord medicalRecord);
 	
-	public Map<String, Date> getMedicalRecordID(MedicalRecord medicalRecord);
 	
 	public boolean checkExitMedicalRecord(int medicalRecordID);
 	
-	public MedicalRecord getMedicalRecordByID(String medicalRecordID);
+	public MedicalRecord getMedicalRecordByID(int medicalRecordID);
 	
 	public void updateMedicalRecord(MedicalRecord medicalRecord);
 	
 	public List<MedicalRecord> getMedicalRecordByDay(Date day);
 	
 	public List<MedicalRecord> getMedicalRecordByClient( Client client);
+	
+	public void deleteMedical(MedicalRecord medicalRecord);
 }

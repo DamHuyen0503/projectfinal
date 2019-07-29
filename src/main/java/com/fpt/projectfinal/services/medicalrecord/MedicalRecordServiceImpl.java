@@ -125,8 +125,8 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 	}
 
 	@Override
-	public Map<String, Object> getMedicalRecordByID(String id) {
-		if (id == null) {
+	public Map<String, Object> getMedicalRecordByID(int id) {
+		if (id == 0) {
 			return null;
 		}
 		MedicalRecord medicalRecord = medicalRecordDao.getMedicalRecordByID(id);
@@ -294,5 +294,20 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 		return null;
 	}
 
+	@Override
+	public List<MedicalRecord> deleteMedicalRecord(int medicalRecordID) {
+		List<MedicalRecord> result = new ArrayList<>();
+		MedicalRecord medical = medicalRecordDao.getMedicalRecordByID(medicalRecordID);
+		Set<Client> clients = clientDao.getClientByMedicalRecord(medical);
+		medicalRecordDao.deleteMedical(medical);
+		for(Client client : clients) {
+			 result.add((MedicalRecord) medicalRecordDao.getMedicalRecordByClient(client));
+		}
+	
+		
+		return result;
+	}
+
+	
 
 }

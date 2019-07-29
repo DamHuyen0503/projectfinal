@@ -29,7 +29,7 @@ public class NoteProcessController {
 	
 	@RequestMapping(value = "/getNoteProcessByMedicalRecordID", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
-	public ResponseEntity<Object>  getMedicalRecordByID(@RequestParam  String medicalRecordID){
+	public ResponseEntity<Object>  getMedicalRecordByID(@RequestParam  int medicalRecordID){
 		try {
 			Map<String, Object> map= noteProcessService.getNoteProcessByMedicalRecordID(medicalRecordID);
 	        return new ResponseEntity<>(map, HttpStatus.CREATED);

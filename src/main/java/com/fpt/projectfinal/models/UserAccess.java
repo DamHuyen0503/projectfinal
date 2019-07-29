@@ -31,11 +31,11 @@ public class UserAccess {
 	@Column(name = "FinishedDate")
 	private Date FinishedDate;
 //
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "userID")
 	private User  user;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "medicalRecordID")
 	private MedicalRecord medicalRecord;
 

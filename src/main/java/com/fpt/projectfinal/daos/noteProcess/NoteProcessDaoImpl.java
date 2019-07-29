@@ -47,7 +47,7 @@ public class NoteProcessDaoImpl implements NoteProcessDao{
 	}
 
 	@Override
-	public List<NoteProcess> getNoteProcessByMedicalRecordID(String medicalRecordID) {
+	public List<NoteProcess> getNoteProcessByMedicalRecordID(int medicalRecordID) {
 		MedicalRecord medicalRecord = medicalRecorDao.getMedicalRecordByID(medicalRecordID);
 		PersistenceUnitUtil impl = session.getPersistenceUnitUtil();
 		if(!impl.isLoaded(medicalRecord.getNoteProcess())) {
