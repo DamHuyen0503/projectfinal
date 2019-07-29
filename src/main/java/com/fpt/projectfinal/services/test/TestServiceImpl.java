@@ -141,6 +141,8 @@ public class TestServiceImpl implements TestService {
 		map.put("content", test.getContent());
 		map.put("description", test.getDescription());
 		map.put("image", test.getImage());
+		map.put("createdDate", test.getCreatedDate());
+		map.put("modifiedDate", test.getModifiedDate());
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		map.put("email user", username);
 		List<String> tags = new ArrayList();
@@ -193,6 +195,7 @@ public class TestServiceImpl implements TestService {
 			test.setContent((String) payload.get("content"));
 			test.setImage((String) payload.get("image"));
 			test.setDescription((String) payload.get("description"));
+			test.setStatus((int)payload.get("status"));
 
 			List<Tag> listTag = tagDao.getAllTag();
 			Set<Tag> tags = new HashSet<>();
