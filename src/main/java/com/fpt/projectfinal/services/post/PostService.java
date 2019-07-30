@@ -17,7 +17,10 @@ public interface PostService {
 
 	public List<Post> getAllPost();
 
+	public Long getCountPostsByTagID(Integer tagID, Integer page);
+	
 	public List<Post> getPostsByTagID(Integer tagID, Integer page);
+	
 	
 	public Long getCountPostDataForTable(String sort, String order, Integer page, Integer categoryID,
 			String searchString);
@@ -30,4 +33,6 @@ public interface PostService {
 	public List<Post> getPostByCategory(int category);
 
 	public List<Post> getAllDraft();
+	
+	public List<Post> getPostNew();
 }

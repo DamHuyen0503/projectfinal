@@ -147,11 +147,27 @@ public class PostController {
 	@RequestMapping(value = "/getPostsByTagID", method = RequestMethod.GET, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
-	public List<Post> getPostsByTagID(@RequestParam Integer tagID, @RequestParam Integer page) {
-		List<Post> list = postService.getPostsByTagID(tagID,page);
-		return list;
+	public Map<String, Object> getPostsByTagID(@RequestParam Integer tagID, @RequestParam Integer page) {
+		Map<String, Object> tags = new HashMap<String, Object>();
+		tags.put("count", postService.getCountPostsByTagID(tagID, page));
+		tags.put("listPost", postService.getPostsByTagID(tagID, page));
+		
+		return tags;
 	}
 	
+	@RequestMapping(value = "/getPostNew", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	@ResponseBody
+	public ResponseEntity<Object> getPostNew() {
+		try {
+			List<Post> list = postService.getPostNew();
+			return new ResponseEntity<>(list, HttpStatus.OK);
+		} catch (NullPointerException e) {
+			logger.warn(e.getMessage(), e);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 	
-
 }
