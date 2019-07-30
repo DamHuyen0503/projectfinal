@@ -8,6 +8,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -24,6 +30,7 @@ import com.fpt.projectfinal.models.Test;
 
 @Service
 public class PostServiceImpl implements PostService {
+	
 
 	@Autowired
 	PostDao postDao;
@@ -246,10 +253,23 @@ public class PostServiceImpl implements PostService {
 		}
 		
 	}
+	
+	@Override
+	public Long getCountPostsByTagID(Integer tagID, Integer page) {
+
+		return postDao.getCountPostsByTagID(tagID, page);
+	}
 
 	@Override
 	public List<Post> getPostsByTagID(Integer tagID, Integer page) {
 		return postDao.getPostsByTagID(tagID, page);
 	}
+
+	@Override
+	public List<Post> getPostNew() {
+		
+		return postDao.getPostNew();
+	}
+
 
 }
