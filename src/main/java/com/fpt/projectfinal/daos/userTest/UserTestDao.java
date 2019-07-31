@@ -8,4 +8,6 @@ public interface UserTestDao {
 	public void addUserTest(UserTest userTest);
 	
 	public int countUserByTest(Post test);
+	
+	public Long getNumberOfUserTest();
 }

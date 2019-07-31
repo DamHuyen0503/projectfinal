@@ -81,4 +81,10 @@ public class UserServiceImpl implements UserService{
 		return result;
 	}
 
+	@Override
+	public Long getNumberOfUser() {
+		
+		return userDao.getNumberOfUser();
+	}
+
 }

@@ -17,4 +17,6 @@ public interface UserService {
 	public String updateUser(Map<String, Object> payload);
 	
 	public List<Map<String, Object>> getAllUser(Map<String, Object> payload);
+	
+	public Long getNumberOfUser();
 }

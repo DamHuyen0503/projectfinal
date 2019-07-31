@@ -21,4 +21,6 @@ public interface UserDao {
 	public List<User> getAllUser(Map<String, Object> payload);
 	
 	public User getUserByAccount (Account account);
+	
+	public Long getNumberOfUser();
 }

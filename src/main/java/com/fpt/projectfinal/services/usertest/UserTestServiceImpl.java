@@ -57,4 +57,9 @@ public class UserTestServiceImpl implements UserTestService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public Long getNumberOfUserTest() {
+		return userTestDao.getNumberOfUserTest();
+	}
 }

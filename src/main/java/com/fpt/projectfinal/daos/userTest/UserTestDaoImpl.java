@@ -41,4 +41,14 @@ public class UserTestDaoImpl implements UserTestDao{
 		return 0;
 	}
 
+	@Override
+	public Long getNumberOfUserTest() {
+		CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
+		CriteriaQuery<Long> query = builder.createQuery(Long.class);
+		Root<UserTest> root = query.from(UserTest.class);
+		query.select(builder.count(root));
+		List<Long> count = session.getCurrentSession().createQuery(query).getResultList();
+		return count.get(0);
+	}
+
 }

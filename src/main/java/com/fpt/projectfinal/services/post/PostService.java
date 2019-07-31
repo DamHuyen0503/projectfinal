@@ -35,4 +35,6 @@ public interface PostService {
 	public List<Post> getAllDraft();
 	
 	public List<Post> getPostNew();
+	
+	public Long getNumberOfPost();
 }

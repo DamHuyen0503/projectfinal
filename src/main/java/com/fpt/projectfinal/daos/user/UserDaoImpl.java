@@ -12,6 +12,7 @@ import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,6 +130,17 @@ public class UserDaoImpl implements UserDao {
 			return users.get(0);
 		}
 		return account.getUser();
+	}
+	@Override
+	@SuppressWarnings({ "unused", "unchecked" })
+	public Long getNumberOfUser() {
+		
+		CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
+		CriteriaQuery<Long> query = builder.createQuery(Long.class);
+		Root<User> root = query.from(User.class);
+		query.select(builder.count(root));
+		List<Long> count = session.getCurrentSession().createQuery(query).getResultList();
+		return count.get(0);
 	}
 	
 }

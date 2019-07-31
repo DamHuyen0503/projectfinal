@@ -11,4 +11,5 @@ public interface UserTestService {
 	
 	public List<UserTest> getUserTestByPostID(int postID);
 
+	public Long getNumberOfUserTest();
 }

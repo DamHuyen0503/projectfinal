@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -50,7 +51,11 @@ public class Category {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "category")
 	@JsonIgnore
 	private Set<Post> post; 
-
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "category")
+	@JsonIgnore
+	private Set<Subscriber> subscriber;
+	
 	public Category() {
 	}
 
@@ -141,6 +146,14 @@ public class Category {
 
 	public void setPost(Set<Post> post) {
 		this.post = post;
+	}
+
+	public Set<Subscriber> getSubscriber() {
+		return subscriber;
+	}
+
+	public void setSubscriber(Set<Subscriber> subscriber) {
+		this.subscriber = subscriber;
 	}
 
 	

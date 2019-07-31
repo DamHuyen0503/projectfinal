@@ -201,6 +201,7 @@ public class PostServiceImpl implements PostService {
 		return postDao.getAllDraft();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public String addPost(Map<String, Object> payload) {
 		Category category = null;
@@ -281,6 +282,11 @@ public class PostServiceImpl implements PostService {
 	public List<Post> getPostNew() {
 		
 		return postDao.getPostNew();
+	}
+
+	@Override
+	public Long getNumberOfPost() {
+		return postDao.getNumberOfPost();
 	}
 
 

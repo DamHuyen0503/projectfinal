@@ -28,6 +28,7 @@ import com.fpt.projectfinal.daos.tag.TagDao;
 import com.fpt.projectfinal.models.Category;
 import com.fpt.projectfinal.models.Post;
 import com.fpt.projectfinal.models.Tag;
+import com.fpt.projectfinal.models.User;
 
 @Repository
 @Transactional
@@ -199,6 +200,17 @@ public class PostDaoImpl implements PostDao {
 		List<Post> posts = query.getResultList();
 		
 		return posts;
+	}
+
+	@Override
+	public Long getNumberOfPost() {
+		Category cate = categoryDao.getCategoryByID(1);
+		CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
+		CriteriaQuery<Long> query = builder.createQuery(Long.class);
+		Root<Post> root = query.from(Post.class);
+		query.select(builder.count(root)).where(builder.notEqual(root.get("category"), cate));
+		List<Long> count = session.getCurrentSession().createQuery(query).getResultList();
+		return count.get(0);
 	}
 
 
