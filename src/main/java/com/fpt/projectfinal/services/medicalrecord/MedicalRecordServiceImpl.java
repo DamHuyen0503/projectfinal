@@ -17,10 +17,12 @@ import com.fpt.projectfinal.daos.client.ClientDao;
 import com.fpt.projectfinal.daos.medicalrecord.MedicalRecordDao;
 import com.fpt.projectfinal.daos.noteProcess.NoteProcessDao;
 import com.fpt.projectfinal.daos.user.UserDao;
+import com.fpt.projectfinal.daos.useraccess.UserAccessDao;
 import com.fpt.projectfinal.models.Account;
 import com.fpt.projectfinal.models.Client;
 import com.fpt.projectfinal.models.MedicalRecord;
 import com.fpt.projectfinal.models.NoteProcess;
+import com.fpt.projectfinal.models.UserAccess;
 import com.fpt.projectfinal.utils.ConvertDateTime;
 
 @Service
@@ -39,6 +41,9 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 	
 	@Autowired 
 	AccountDao accountDao;
+	
+	@Autowired
+	UserAccessDao userAccessDao;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
@@ -289,12 +294,6 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 	}
 
 	@Override
-	public Map<String, Object> getMedicalRecordByClient(Client client) {
-		
-		return null;
-	}
-
-	@Override
 	public List<MedicalRecord> deleteMedicalRecord(int medicalRecordID) {
 		List<MedicalRecord> result = new ArrayList<>();
 		MedicalRecord medical = medicalRecordDao.getMedicalRecordByID(medicalRecordID);
@@ -305,6 +304,36 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 		}
 	
 		
+		return result;
+	}
+
+	@Override
+	public List<Map<String, Object>> getMedicalRecordByClient(int clientID) {
+		List<Map<String, Object>> result = new ArrayList<>();
+		Map<String, Object> medicalRecord = new HashMap<>();
+		Client client = clientDao.getClientByID(clientID);
+		if (client == null) {
+			medicalRecord.put("message", "client null");
+			result.add(medicalRecord);
+			return result;
+		}
+		List<MedicalRecord> listMedical = medicalRecordDao.getMedicalRecordByClient(client);
+		for (MedicalRecord medical : listMedical) {
+			List<String> listUser = new ArrayList<>();
+			List<UserAccess> userAccess = userAccessDao.getUserAccessByMedicalRecord(medical);
+			medicalRecord = new HashMap<>();
+			medicalRecord.put("medicalRecordID", medical.getMedicalRecordID());
+			medicalRecord.put("createdDate", medical.getCreateDate());
+			medicalRecord.put("modifiedDate", medical.getModifiedDate());
+			medicalRecord.put("status", medical.getStatus());
+			
+			
+			for (UserAccess u : userAccess) {
+				listUser.add(u.getUser().getFirstName());
+			}
+			medicalRecord.put("manager", listUser);
+			result.add(medicalRecord);
+		}
 		return result;
 	}
 

@@ -17,7 +17,7 @@ public interface MedicalRecordService {
 	
 	public List<Map<String, Object>> getMedicalRecordByDay(Date day);
 	
-	public Map<String, Object> getMedicalRecordByClient(Client client);
+	public List<Map<String, Object>> getMedicalRecordByClient(int clientID);
 	
 	public List<MedicalRecord> deleteMedicalRecord(int medicalRecordID);
 }

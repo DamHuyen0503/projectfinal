@@ -117,5 +117,18 @@ public class UserDaoImpl implements UserDao {
 		}
 		return null;
 	}
+	@Override
+	public User getUserByAccount(Account account) {
+		PersistenceUnitUtil impl = session.getPersistenceUnitUtil();
+		if(!impl.isLoaded(account.getUser())) {
+			CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
+			CriteriaQuery<User> query = builder.createQuery(User.class);
+			Root<User> root = query.from(User.class);
+			query.select(root).where(builder.equal(root.get("account"), account));
+			List<User> users = session.getCurrentSession().createQuery(query).getResultList();
+			return users.get(0);
+		}
+		return account.getUser();
+	}
 	
 }

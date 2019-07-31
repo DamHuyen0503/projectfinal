@@ -3,10 +3,13 @@ package com.fpt.projectfinal.controllers.medicarRecord;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.apache.tomcat.util.bcel.classfile.Constant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +26,22 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fpt.projectfinal.controllers.category.CategoryController;
+import com.fpt.projectfinal.models.Post;
+import com.fpt.projectfinal.models.Role;
 import com.fpt.projectfinal.services.medicalrecord.MedicalRecordService;
+import com.fpt.projectfinal.services.role.RoleService;
 
 @RestController
 @CrossOrigin
 public class MedicalRecordController {
 	final static Logger logger = LoggerFactory.getLogger(CategoryController.class);
+	final String ROLEMANAGER = "MANAGER";
+	final String ROLEEXPERT = "EXPERT";
 	@Autowired
 	MedicalRecordService medicalRecordService;
+	
+	@Autowired 
+	RoleService roleService;
 
 	@RequestMapping(value = "/addMedicalRecord", method = RequestMethod.POST,
 
@@ -125,6 +136,35 @@ public class MedicalRecordController {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
+	}
+	
+
+	@RequestMapping(value = "/getAllMedicalRecord", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	@ResponseBody
+	public ResponseEntity<Object> getAllMedicalRecord(@RequestParam  int clientID) {
+		int check = 0;
+		try {
+			List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+			Set<String> roles = roleService.getRoleByToken("");
+			for(String role : roles) {
+				if (role.equals(ROLEMANAGER)) {
+					list = medicalRecordService.getMedicalRecordByClient(clientID);
+					return new ResponseEntity<>(list, HttpStatus.OK);
+				}
+//				if (role.equals(ROLEEXPERT)) {
+//					
+//				}
+			}
+			
+			return new ResponseEntity<> ("not found", HttpStatus.BAD_REQUEST);
+			
+		} catch (NullPointerException e) {
+			logger.warn(e.getMessage(), e);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 }

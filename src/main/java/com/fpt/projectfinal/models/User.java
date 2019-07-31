@@ -62,6 +62,10 @@ public class User {
 	@OneToMany(cascade = CascadeType.ALL,mappedBy="user",fetch = FetchType.LAZY)
 	private Set<Post> post; 
 	
+	@OneToMany(cascade = CascadeType.ALL,mappedBy="user",fetch = FetchType.LAZY)
+	@JsonIgnore
+	private Set<UserAccess> userAccess;
+	
 //	@OneToMany(cascade = CascadeType.ALL,mappedBy="user",fetch = FetchType.LAZY)
 //	@JsonIgnore
 //	private Set<UserTest> userTest;
@@ -80,6 +84,14 @@ public class User {
 	}
 	public String getFirstName() {
 		return firstName;
+	}
+
+	public Set<UserAccess> getUserAccess() {
+		return userAccess;
+	}
+
+	public void setUserAccess(Set<UserAccess> userAccess) {
+		this.userAccess = userAccess;
 	}
 
 	public void setFirstName(String firstName) {

@@ -23,4 +23,5 @@ public interface MedicalRecordDao {
 	public List<MedicalRecord> getMedicalRecordByClient( Client client);
 	
 	public void deleteMedical(MedicalRecord medicalRecord);
+	
 }
