@@ -26,5 +26,9 @@ public interface PostDao {
 	
 	public List<Post> getAllDraft();
 	
+	public Long getCountPostsByTagID(Integer tagID, Integer page);
+	
 	public List<Post> getPostsByTagID(Integer tagID, Integer page);
+	
+	public List<Post> getPostNew();
 }

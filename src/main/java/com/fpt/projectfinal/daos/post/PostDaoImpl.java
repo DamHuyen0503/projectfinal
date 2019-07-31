@@ -100,11 +100,12 @@ public class PostDaoImpl implements PostDao {
 		cr.distinct(true);
 		if (categoryID != 0) {
 			cr.where(cb.notEqual(root.get("status"), 3), cb.notEqual(root.get("status"), 0),
-					cb.like(root.get("title"), "%" + searchString + "%"), cb.notEqual(root.get("category"), 1),
+					cb.like(root.get("title"), "%" + searchString + "%"), 
 					cb.equal(root.get("category"), categoryID));
 		} else
 			cr.where(cb.notEqual(root.get("status"), 3), cb.notEqual(root.get("status"), 0),
-					cb.notEqual(root.get("category"), 0), cb.like(root.get("title"), "%" + searchString + "%"));
+					cb.like(root.get("title"), "%" + searchString + "%"),
+					cb.notEqual(root.get("category"), 1));
 		if ("asc".equals(order)) {
 			cr.orderBy(cb.asc(root.get(sort)));
 		} else {
@@ -150,6 +151,21 @@ public class PostDaoImpl implements PostDao {
 
 		return allDraft;
 	}
+	
+	@Override
+	public Long getCountPostsByTagID(Integer tagID, Integer page) {
+		
+		CriteriaBuilder cb = session.getCurrentSession().getCriteriaBuilder();
+		CriteriaQuery<Long> cr = cb.createQuery(Long.class);
+		Root<Post> root = cr.from(Post.class);
+		ParameterExpression<Integer> p = cb.parameter(Integer.class);
+
+		
+		Join<Post, Tag> join = root.join("tags", JoinType.INNER);
+		cr.select(cb.count(root)).where(cb.equal(join.get("tagID"), tagID));
+		
+		return session.getCurrentSession().createQuery(cr).getSingleResult();
+	}
 
 	@Override
 	public List<Post> getPostsByTagID(Integer tagID, Integer page) {
@@ -161,13 +177,30 @@ public class PostDaoImpl implements PostDao {
 		cr.select(root).where(cb.equal(join.get("tagID"), tagID));
 		
 		Query<Post> query = session.getCurrentSession().createQuery(cr);
-		query.setFirstResult((page-1) * 2);
-		query.setMaxResults(2);
+		query.setFirstResult((page-1) * 3);
+		query.setMaxResults(3);
 
 		
 		List<Post> tags = query.getResultList();
 
 		return tags;
 	}
+
+	@Override
+	public List<Post> getPostNew() {
+		CriteriaBuilder cb = session.getCurrentSession().getCriteriaBuilder();
+		CriteriaQuery<Post> cr = cb.createQuery(Post.class);
+		Root<Post> root = cr.from(Post.class);
+		cr.where(cb.equal(root.get("status"), 1),cb.notEqual(root.get("category"), 1));
+		cr.orderBy(cb.desc(root.get("createdDate")));
+		
+		Query<Post> query = session.getCurrentSession().createQuery(cr);
+		query.setMaxResults(5);
+		List<Post> posts = query.getResultList();
+		
+		return posts;
+	}
+
+
 
 }
