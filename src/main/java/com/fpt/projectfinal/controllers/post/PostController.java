@@ -177,7 +177,7 @@ public class PostController {
 		try {
 			Long count = postService.getNumberOfPost();
 		
-			return new ResponseEntity<>(count, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(count, HttpStatus.OK);
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

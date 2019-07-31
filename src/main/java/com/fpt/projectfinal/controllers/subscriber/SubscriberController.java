@@ -46,7 +46,7 @@ public class SubscriberController {
 		try {
 			Long count = subscriberService.getNumberOfSubscriber();
 		
-			return new ResponseEntity<>(count, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(count, HttpStatus.OK);
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
