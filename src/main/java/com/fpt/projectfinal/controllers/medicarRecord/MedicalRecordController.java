@@ -35,7 +35,7 @@ import com.fpt.projectfinal.services.role.RoleService;
 @CrossOrigin
 public class MedicalRecordController {
 	final static Logger logger = LoggerFactory.getLogger(CategoryController.class);
-	final String ROLEMANAGER = "MANAGER";
+	final String ROLEADMIN = "ADMIN";
 	final String ROLEEXPERT = "EXPERT";
 	@Autowired
 	MedicalRecordService medicalRecordService;
@@ -104,11 +104,8 @@ public class MedicalRecordController {
 		 DateFormat sourceFormat = new SimpleDateFormat("dd/MM/yyyy");
 		try {
 			Date date = sourceFormat.parse(day);
-			System.out.println(day);
-        	System.out.println(sourceFormat.format(date));
 			List<Map<String, Object>> map= medicalRecordService.getMedicalRecordByDay(date);
 	        return new ResponseEntity<>(map, HttpStatus.CREATED);
-//			return null;
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -142,12 +139,11 @@ public class MedicalRecordController {
 	@RequestMapping(value = "/getAllMedicalRecord", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object> getAllMedicalRecord(@RequestParam  int clientID) {
-		int check = 0;
 		try {
 			List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
 			Set<String> roles = roleService.getRoleByToken("");
 			for(String role : roles) {
-				if (role.equals(ROLEMANAGER)) {
+				if (role.equals(ROLEADMIN)) {
 					list = medicalRecordService.getMedicalRecordByClient(clientID);
 					return new ResponseEntity<>(list, HttpStatus.OK);
 				}
