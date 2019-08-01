@@ -98,6 +98,7 @@ public class UserServiceImpl implements UserService{
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Account account = accountDao.getAccountByEmail(username);
 		User user = userDao.getUserByAccount(account);
+		result.put("email", account.getEmail());
 		result.put("userID", user.getUserID());
 		result.put("address", user.getAddress());
 		result.put("avatar", user.getAvatar());
