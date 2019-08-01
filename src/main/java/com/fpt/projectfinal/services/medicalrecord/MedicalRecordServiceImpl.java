@@ -167,6 +167,7 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 		mapRecord.put("cause", medicalRecord.getCause());
 		mapRecord.put("method", medicalRecord.getMethod());
 		mapRecord.put("problem", medicalRecord.getProblem());
+		mapRecord.put("status", medicalRecord.getStatus());
 		mapRecord.put("clientID", medicalRecord.getClient().getClientID());
 		return mapRecord;
 	}
