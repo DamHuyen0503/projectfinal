@@ -19,4 +19,6 @@ public interface UserService {
 	public List<Map<String, Object>> getAllUser(Map<String, Object> payload);
 	
 	public Long getNumberOfUser();
+	
+	public Map<String, Object> getUserSendRequest();
 }

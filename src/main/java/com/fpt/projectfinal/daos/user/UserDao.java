@@ -23,4 +23,6 @@ public interface UserDao {
 	public User getUserByAccount (Account account);
 	
 	public Long getNumberOfUser();
+	
+	
 }

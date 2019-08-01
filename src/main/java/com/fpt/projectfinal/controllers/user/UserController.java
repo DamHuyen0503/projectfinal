@@ -96,4 +96,20 @@ public class UserController {
 		}
 	}
 	
+	@RequestMapping(value = "/getUserSendRequest", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+	@ResponseBody
+	public ResponseEntity<Object>  getUserSendRequest(){
+		try {
+			Map<String, Object> user= userService.getUserSendRequest();
+	        return new ResponseEntity<>(user, HttpStatus.OK);
+		} catch (NullPointerException e) {
+			logger.warn(e.getMessage(), e);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+	}
+	
 }

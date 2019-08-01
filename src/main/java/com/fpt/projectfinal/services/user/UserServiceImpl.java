@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.fpt.projectfinal.daos.account.AccountDao;
 import com.fpt.projectfinal.daos.user.UserDao;
+import com.fpt.projectfinal.models.Account;
 import com.fpt.projectfinal.models.Test;
 import com.fpt.projectfinal.models.User;
 
@@ -18,6 +20,9 @@ public class UserServiceImpl implements UserService{
 
 	@Autowired
 	UserDao userDao; 
+	
+	@Autowired
+	AccountDao accountDao;
 	
 	@Override
 	public User getUserByEmail(String email) {
@@ -85,6 +90,24 @@ public class UserServiceImpl implements UserService{
 	public Long getNumberOfUser() {
 		
 		return userDao.getNumberOfUser();
+	}
+
+	@Override
+	public Map<String, Object>  getUserSendRequest() {
+		Map<String, Object> result = new HashMap<>();
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Account account = accountDao.getAccountByEmail(username);
+		User user = userDao.getUserByAccount(account);
+		result.put("userID", user.getUserID());
+		result.put("address", user.getAddress());
+		result.put("avatar", user.getAvatar());
+		result.put("dob", user.getDOB());
+		result.put("firstName", user.getFirstName());
+		result.put("lastName", user.getLastName());
+		result.put("phoneNumber", user.getPhoneNumber());
+		result.put("gender", user.getGender());
+		result.put("createdDate", user.getCreatedDate());
+		return result;
 	}
 
 }
