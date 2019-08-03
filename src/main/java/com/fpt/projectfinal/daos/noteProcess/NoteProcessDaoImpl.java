@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import com.fpt.projectfinal.daos.medicalrecord.MedicalRecordDao;
 import com.fpt.projectfinal.models.MedicalRecord;
 import com.fpt.projectfinal.models.NoteProcess;
+import com.fpt.projectfinal.models.Post;
 import com.fpt.projectfinal.models.Question;
 import com.fpt.projectfinal.models.Test;
 import com.fpt.projectfinal.services.medicalrecord.MedicalRecordService;
@@ -59,6 +60,32 @@ public class NoteProcessDaoImpl implements NoteProcessDao{
 			return  notes;
 		}
 		return    (List<NoteProcess>) medicalRecord.getNoteProcess();
+	}
+
+	@Override
+	public void addNoteProcess(NoteProcess noteProcess) {
+		this.session.getCurrentSession().save(noteProcess);
+		
+	}
+
+	@Override
+	public NoteProcess getNoteProcessByID(int notePeocessID) {
+		CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
+		CriteriaQuery<NoteProcess> query = builder.createQuery(NoteProcess.class);
+		Root<NoteProcess> root = query.from(NoteProcess.class);
+		query.select(root).where(builder.equal(root.get("noteID"), notePeocessID));
+		List<NoteProcess> listNoteProcess = session.getCurrentSession().createQuery(query).getResultList();
+		if (listNoteProcess.size() > 0) {
+
+			return listNoteProcess.get(0);
+		}
+		return null;
+	}
+
+	@Override
+	public void updateNoteProcess(NoteProcess noteProcess) {
+		this.session.getCurrentSession().update(noteProcess);
+		
 	}
 
 }
