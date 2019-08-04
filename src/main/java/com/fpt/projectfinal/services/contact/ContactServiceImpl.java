@@ -2,6 +2,7 @@ package com.fpt.projectfinal.services.contact;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,15 +28,19 @@ public class ContactServiceImpl implements ContactServices{
 	}
 
 	@Override
-	public List<Contact> getAllContact() {
-		return contactDao.getAllContact();
+	public List<Contact> getAllContact(Map<String, Object> payload) {
+		return contactDao.getAllContact(payload);
 	}
 
 	@Override
-	public String updateContact(Contact contact) {
-		if (contact.getContactID() == 0) {
+	public String updateContact(Map<String, Object> payload) {
+		
+		if (payload.get("contactID") == null) {
 			return "contactID null";
 		}
+		
+		Contact contact = contactDao.getContactByID((int) payload.get("contactID"));
+		contact.setStatus((int) payload.get("status"));
 		contactDao.updateContact(contact);
 		return "successful";
 		

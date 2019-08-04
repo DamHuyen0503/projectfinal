@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 @Table(name = "NoteProcess")
 public class NoteProcess {
@@ -23,9 +25,11 @@ public class NoteProcess {
 	private int noteID;
 
 	@Column(name = "StartTime")
+	
 	private Date startTime;
 	
 	@Column (name = "EndTime")
+	
 	private Date endTime;
 	
 	@Column (name = "Content")

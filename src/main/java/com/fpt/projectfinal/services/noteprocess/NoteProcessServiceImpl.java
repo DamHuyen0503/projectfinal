@@ -18,6 +18,7 @@ import com.fpt.projectfinal.models.MedicalRecord;
 import com.fpt.projectfinal.models.NoteProcess;
 import com.fpt.projectfinal.models.User;
 import com.fpt.projectfinal.utils.ConvertDateTime;
+import com.fpt.projectfinal.utils.ConvertTimestamp;
 @Service
 public class NoteProcessServiceImpl  implements NoteProcessServices{
 
@@ -54,37 +55,45 @@ public class NoteProcessServiceImpl  implements NoteProcessServices{
 	}
 
 	@Override
-	public String addNoteProcess(Map<String, Object> payload) {
+	public Map<String, Object> addNoteProcess(Map<String, Object> payload) {
+		Map<String, Object> result = new HashMap<>();
+		
+		
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		if (username == null) {
-			return "token null";
+			result.put("error", "token null");
+			return result;
 		}
 		Account account = accountDao.getAccountByEmail(username);
 		User user = userDao.getUserByAccount(account);
 		NoteProcess noteProcess = new NoteProcess();
 		if (payload.get("medicalRecordID") == null) {
-			return "medicalRecordID null";
+			result.put("error", "medicalRecordID null");
+			return result;
 		}
 		try {
 			MedicalRecord medical = medicalRecorDao.getMedicalRecordByID((int)payload.get("medicalRecordID"));
 			noteProcess.setContent((String)payload.get("content"));
-			noteProcess.setEndTime(ConvertDateTime.ConvertDate(
-					(String)payload.get("endTime")
-					));
+			noteProcess.setEndTime(ConvertTimestamp.ConvertDateTime((String) payload.get("endTime")));
 			if (payload.get("evaluation") != null) {
 				noteProcess.setEvaluation((int)payload.get("evaluation"));
 			}
 			
 			noteProcess.setMedicalRecord(medical);
-			noteProcess.setEndTime(ConvertDateTime.ConvertDate(
-					(String)payload.get("startTime")
-					));
+			noteProcess.setStartTime(ConvertTimestamp.ConvertDateTime((String) payload.get("startTime")));
 			noteProcess.setUser(user);
 			noteprocessDao.addNoteProcess(noteProcess);
-			return "successful";
+			result.put("noteProcessID", noteProcess.getNoteID());
+			result.put("content", noteProcess.getContent());
+			result.put("endTime", noteProcess.getEndTime());
+			result.put("evaluation", noteProcess.getEvaluation());
+			result.put("startTime", noteProcess.getStartTime());
+			
+			return result;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "add fail";
+			result.put("error", "add fail");
+			return result;
 		}
 	}
 
@@ -100,20 +109,13 @@ public class NoteProcessServiceImpl  implements NoteProcessServices{
 			if (payload.get("medicalRecordID") != null) {
 				medical = medicalRecorDao.getMedicalRecordByID((int)payload.get("medicalRecordID"));
 			}
-			
 			noteProcess.setContent((String)payload.get("content"));
-			noteProcess.setEndTime(ConvertDateTime.ConvertDate(
-					(String)payload.get("endTime")
-					));
+			noteProcess.setStartTime(ConvertTimestamp.ConvertDateTime((String) payload.get("startTime")));
 			if (payload.get("evaluation") != null) {
 				noteProcess.setEvaluation((int)payload.get("evaluation"));
 			}
-			
 			noteProcess.setMedicalRecord(medical);
-			noteProcess.setEndTime(ConvertDateTime.ConvertDate(
-					(String)payload.get("startTime")
-					));
-			
+			noteProcess.setEndTime(ConvertTimestamp.ConvertDateTime((String) payload.get("endTime")));
 			noteprocessDao.updateNoteProcess(noteProcess);
 			return "successful";
 		} catch (Exception e) {

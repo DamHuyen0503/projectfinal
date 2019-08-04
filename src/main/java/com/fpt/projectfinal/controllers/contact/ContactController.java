@@ -1,6 +1,7 @@
 package com.fpt.projectfinal.controllers.contact;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,16 +46,16 @@ public class ContactController {
 	@RequestMapping(value = "/getAllContact", method = RequestMethod.GET, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
-	public List<Contact> getContact() {
-		List<Contact> list = contactService.getAllContact();
+	public List<Contact> getContact(@RequestBody Map<String, Object> payload) {
+		List<Contact> list = contactService.getAllContact(payload);
 		return list;
 	}
 	
-	@RequestMapping(value = "/updateContact",method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE})
-	public ResponseEntity<Object> updateCategory(@RequestBody Contact contact,UriComponentsBuilder builder) {
+	@RequestMapping(value = "/changeStatusContact",method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE})
+	public ResponseEntity<Object> updateCategory(@RequestBody Map<String, Object> payload) {
 		try {
-			contactService.updateContact(contact);
-	        return new ResponseEntity<>(contact, HttpStatus.OK);
+			
+	        return new ResponseEntity<>(contactService.updateContact(payload), HttpStatus.OK);
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
