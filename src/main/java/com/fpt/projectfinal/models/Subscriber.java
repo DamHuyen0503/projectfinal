@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -35,37 +37,29 @@ public class Subscriber {
 	@Column (name = "email")
 	private String email;
 	
-	@ManyToOne( cascade = CascadeType.ALL)
-	@JoinColumn(name = "categoryID")
-	private Category category;
+	@ManyToMany
+	@JoinTable(name = "category_subscriber", joinColumns = @JoinColumn(name = "subscriberID", referencedColumnName = "subscriberID"), 
+									 inverseJoinColumns = @JoinColumn(name = "categoryID", referencedColumnName = "categoryID"))
+	private Set<Category> categorys;
 
 	public Subscriber() {
 	}
-
 	
-
-	public Subscriber(int subscriberID, Date subscriberDate, int status, String email, Category category) {
-		super();
-		this.subscriberID = subscriberID;
-		this.subscriberDate = subscriberDate;
-		this.status = status;
-		this.email = email;
-		this.category = category;
+	public Set<Category> getCategorys() {
+		return categorys;
 	}
 
-
+	public void setCategorys(Set<Category> categorys) {
+		this.categorys = categorys;
+	}
 
 	public String getEmail() {
 		return email;
 	}
 
-
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-
 
 	public int getSubscriberID() {
 		return subscriberID;
@@ -91,15 +85,5 @@ public class Subscriber {
 		this.status = status;
 	}
 
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-
-
-	
 	
 }

@@ -35,4 +35,9 @@ public class SubscriberDaoImpl implements SubscriberDao {
 		return count.get(0);
 	}
 
+	@Override
+	public List<Subscriber> getAllSubscriber() {
+		return this.session.getCurrentSession().createQuery("from Subscriber").list();
+	}
+
 }

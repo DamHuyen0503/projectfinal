@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -52,9 +54,10 @@ public class Category {
 	@JsonIgnore
 	private Set<Post> post; 
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "category")
-	@JsonIgnore
-	private Set<Subscriber> subscriber;
+	 @ManyToMany(mappedBy = "categorys")
+	    private Set<Subscriber> subscriber;
+	
+	
 	
 	public Category() {
 	}
@@ -82,6 +85,31 @@ public class Category {
 		this.description = description;
 		this.createdDate = createdDate;
 		this.modifiedDate = modifiedDate;
+	}
+
+	
+	
+
+	public Category(Integer categoryID, String name, String image, Integer status, String description, Date createdDate,
+			Date modifiedDate, Set<Post> post, Set<Subscriber> subscriber) {
+		super();
+		this.categoryID = categoryID;
+		this.name = name;
+		this.image = image;
+		this.status = status;
+		this.description = description;
+		this.createdDate = createdDate;
+		this.modifiedDate = modifiedDate;
+		this.post = post;
+		this.subscriber = subscriber;
+	}
+
+	public Set<Subscriber> getSubscriber() {
+		return subscriber;
+	}
+
+	public void setSubscriber(Set<Subscriber> subscriber) {
+		this.subscriber = subscriber;
 	}
 
 	public Integer getCategoryID() {
@@ -148,13 +176,7 @@ public class Category {
 		this.post = post;
 	}
 
-	public Set<Subscriber> getSubscriber() {
-		return subscriber;
-	}
-
-	public void setSubscriber(Set<Subscriber> subscriber) {
-		this.subscriber = subscriber;
-	}
+	
 
 	
 	
