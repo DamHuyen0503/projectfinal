@@ -111,4 +111,25 @@ public class UserServiceImpl implements UserService{
 		return result;
 	}
 
+	@Override
+	public String updateUserSendRequest(Map<String, Object> payload) {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Account account = accountDao.getAccountByEmail(username);
+		User user = userDao.getUserByAccount(account);
+		try {
+			user.setAddress((String)payload.get("dob"));
+			user.setGender((int)payload.get("gender"));
+			
+			user.setAddress((String)payload.get("address"));
+			user.setPhoneNumber((String)payload.get("phoneNumber"));
+			user.setFirstName((String)payload.get("firstName"));
+			user.setLastName((String)payload.get("lastName"));
+			user.setAvatar((String)payload.get("avatar"));
+			userDao.updateUser(user);
+			return "successful";
+		}catch (Exception e) {
+			return "update fail";
+		}
+	}
+
 }

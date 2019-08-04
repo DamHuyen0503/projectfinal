@@ -21,4 +21,6 @@ public interface UserService {
 	public Long getNumberOfUser();
 	
 	public Map<String, Object> getUserSendRequest();
+	
+	public String updateUserSendRequest(Map<String, Object> payload);
 }

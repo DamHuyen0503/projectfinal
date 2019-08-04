@@ -47,11 +47,26 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/updateUser", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Object> updatePost(@RequestBody Map<String, Object> payload) {
+	public ResponseEntity<Object> updateUser(@RequestBody Map<String, Object> payload) {
 
 		try {
 			
 			return new ResponseEntity<>(userService.updateUser(payload), HttpStatus.CREATED);
+		} catch (NullPointerException e) {
+			logger.warn(e.getMessage(), e);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@RequestMapping(value = "/updateUserSendRequest", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<Object> updateUserSendRequest(@RequestBody Map<String, Object> payload) {
+
+		try {
+			
+			return new ResponseEntity<>(userService.updateUserSendRequest(payload), HttpStatus.CREATED);
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
