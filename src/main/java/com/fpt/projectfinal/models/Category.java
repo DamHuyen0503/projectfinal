@@ -37,8 +37,8 @@ public class Category {
 	@Column(name = "image")
 	private String image;
 
-	@Column(name = "status")
-	private Integer status;
+//	@Column(name = "status")
+//	private Integer status;
 
 	@Column(name = "description",columnDefinition="varchar(500)")
 	private String description;
@@ -67,7 +67,7 @@ public class Category {
 	
 		this.name = name;
 		this.image = image;
-		this.status = status;
+//		this.status = status;
 		this.description = description;
 		this.createdDate = createdDate;
 		this.modifiedDate = modifiedDate;
@@ -75,13 +75,12 @@ public class Category {
 	
 	
 
-	public Category(Integer categoryID, String name, String image, Integer status, String description,
+	public Category(Integer categoryID, String name, String image,  String description,
 			Date createdDate, Date modifiedDate) {
 		super();
 		this.categoryID = categoryID;
 		this.name = name;
 		this.image = image;
-		this.status = status;
 		this.description = description;
 		this.createdDate = createdDate;
 		this.modifiedDate = modifiedDate;
@@ -90,13 +89,12 @@ public class Category {
 	
 	
 
-	public Category(Integer categoryID, String name, String image, Integer status, String description, Date createdDate,
+	public Category(Integer categoryID, String name, String image, String description, Date createdDate,
 			Date modifiedDate, Set<Post> post, Set<Subscriber> subscriber) {
 		super();
 		this.categoryID = categoryID;
 		this.name = name;
 		this.image = image;
-		this.status = status;
 		this.description = description;
 		this.createdDate = createdDate;
 		this.modifiedDate = modifiedDate;
@@ -136,13 +134,6 @@ public class Category {
 		this.image = image;
 	}
 
-	public Integer getStatus() {
-		return status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
 
 	public String getDescription() {
 		return description;

@@ -28,9 +28,7 @@ public class CategoryServiceImpl implements CategoryService {
 		if (category.getName() == null) {
 			return "name null";
 		}
-		if (category.getStatus() == null) {
-			return "status null";
-		}
+	
 		category.setCreatedDate(new Date());
 		category.setModifiedDate(new Date());
 		categorydao.addCategory(category);
@@ -60,7 +58,7 @@ public class CategoryServiceImpl implements CategoryService {
 			cmap.put("categoryID", c.getCategoryID());
 			cmap.put("name", c.getName());
 			cmap.put("image", c.getImage());
-			cmap.put("status", c.getStatus());
+		
 			cmap.put("description", c.getDescription());
 			cmap.put("createdDate", c.getCreatedDate());
 			cmap.put("modifiedDate", c.getModifiedDate());
