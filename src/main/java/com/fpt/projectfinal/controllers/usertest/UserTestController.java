@@ -60,4 +60,20 @@ public class UserTestController {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@RequestMapping(value = "/getTestByUserSendRequest", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	@ResponseBody
+	public ResponseEntity<Object> getTestByUserSendRequest() {
+		try {
+			
+			return new ResponseEntity<>(userTestService.getUserTestByUser(), HttpStatus.OK);
+		} catch (NullPointerException e) {
+			logger.warn(e.getMessage(), e);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 }

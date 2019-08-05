@@ -142,5 +142,10 @@ public class UserDaoImpl implements UserDao {
 		List<Long> count = session.getCurrentSession().createQuery(query).getResultList();
 		return count.get(0);
 	}
+	@Override
+	public List<User> getAll() {
+		List<User> user = this.session.getCurrentSession().createQuery("from User").list();
+		return user;
+	}
 	
 }

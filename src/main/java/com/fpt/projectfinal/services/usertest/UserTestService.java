@@ -12,4 +12,6 @@ public interface UserTestService {
 	public List<UserTest> getUserTestByPostID(int postID);
 
 	public Long getNumberOfUserTest();
+	
+	public List<Map<String, Object>> getUserTestByUser();
 }
