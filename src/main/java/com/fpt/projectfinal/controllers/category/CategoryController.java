@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fpt.projectfinal.models.Category;
+import com.fpt.projectfinal.models.Post;
 import com.fpt.projectfinal.services.category.CategoryService;
 
 
@@ -34,12 +35,19 @@ public class CategoryController {
 	private CategoryService categoryService;
 
 	
-	@RequestMapping(value = "/getAllCategory", method = RequestMethod.GET, produces = {
-			MediaType.APPLICATION_JSON_VALUE })
+	@RequestMapping(value = "/getAllCategory", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	@ResponseBody
-	public List<Category> getCategory() {
-		List<Category> list = categoryService.getAllCategory();
-		return list;
+	public ResponseEntity<Object> getAllPost() {
+		try {
+			
+			return new ResponseEntity<>(categoryService.getAllCategory(), HttpStatus.OK);
+		} catch (NullPointerException e) {
+			logger.warn(e.getMessage(), e);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	

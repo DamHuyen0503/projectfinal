@@ -7,7 +7,7 @@ import com.fpt.projectfinal.models.Category;
 
 public interface CategoryService {
 
-	public List<Category> getAllCategory();
+	public List<Map<String, Object>> getAllCategory();
 
 	public String addCategory(Category category);
 

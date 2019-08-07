@@ -19,8 +19,21 @@ public class CategoryServiceImpl implements CategoryService {
 	CategoryDao categorydao;
 
 	@Override
-	public List<Category> getAllCategory() {
-		return categorydao.getAllCategory();
+	public List<Map<String, Object>> getAllCategory() {
+		List<Map<String, Object>> result = new ArrayList<>();
+		List<Category> listCategory = categorydao.getAllCategory();
+		Map<String, Object> mapCategory = new HashMap<>();
+		for(Category category : listCategory) {
+			mapCategory.put("categoryID", category.getCategoryID());
+			mapCategory.put("createdDate", category.getCreatedDate());
+			mapCategory.put("description", category.getDescription());
+			mapCategory.put("categoryID", category.getCategoryID());
+			mapCategory.put("image", category.getImage());
+			mapCategory.put("modifiedDate", category.getModifiedDate());
+			mapCategory.put("name", category.getName());
+			result.add(mapCategory);
+		}
+		return result;
 	}
 
 	@Override
