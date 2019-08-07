@@ -47,7 +47,7 @@ public class NoteProcessServiceImpl  implements NoteProcessServices{
 			mapNote.put("evaluation", note.getEvaluation());
 			mapNote.put("noteID", note.getNoteID());
 			mapNote.put("startTime", note.getStartTime());
-			mapNote.put("endTime", note.getUser().getUserID());
+			mapNote.put("endTime", note.getEndTime());
 			result.add(mapNote);
 		}
 		map.put("notes",result);
