@@ -13,7 +13,7 @@ public interface CategoryService {
 
 	public void updateCategory(Category category);
 
-	public Category getCategoryByID(int id);
+	public Map<String, Object> getCategoryByID(int id);
 
 	public List<Map<String, Object>> CountCategory();
 }

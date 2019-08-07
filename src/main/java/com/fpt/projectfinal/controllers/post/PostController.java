@@ -159,8 +159,8 @@ public class PostController {
 	@ResponseBody
 	public ResponseEntity<Object> getPostNew() {
 		try {
-			List<Post> list = postService.getPostNew();
-			return new ResponseEntity<>(list, HttpStatus.OK);
+			
+			return new ResponseEntity<>(postService.getPostNew(), HttpStatus.OK);
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

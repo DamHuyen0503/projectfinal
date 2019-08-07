@@ -84,7 +84,7 @@ public class CategoryController {
 	public ResponseEntity<Object> getCategoryByID(@PathVariable(value = "categoryID") Integer categoryID ) {
 		
 		try {
-			Category category =categoryService.getCategoryByID(categoryID);
+			Map<String, Object> category =categoryService.getCategoryByID(categoryID);
 	        return new ResponseEntity<>(category, HttpStatus.OK);
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);

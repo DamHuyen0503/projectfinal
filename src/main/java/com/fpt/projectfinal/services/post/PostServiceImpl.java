@@ -279,9 +279,26 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<Post> getPostNew() {
+	public List<Map<String, Object>> getPostNew() {
+		List<Map<String, Object>> listPostNew = new ArrayList<>();
 		
-		return postDao.getPostNew();
+		List<Post> listPost = postDao.getPostNew();
+		for (Post post : listPost) {
+			Map<String, Object> result = new HashMap<>();
+			result.put("postID", post.getPostID());
+			result.put("content", post.getContent());
+			result.put("createdDate", post.getCreatedDate());
+			result.put("discription", post.getDescription());
+			result.put("image", post.getImage());
+			result.put("modifiedDate", post.getModifiedDate());
+			result.put("status", post.getStatus());
+			result.put("title", post.getTitle());
+			Set<Tag> tags = tagDao.getTagByPost(post);
+			result.put("tags", tags);
+			result.put("categoryID", post.getCategory().getCategoryID());
+			listPostNew.add(result);
+		}
+		return listPostNew;
 	}
 
 	@Override

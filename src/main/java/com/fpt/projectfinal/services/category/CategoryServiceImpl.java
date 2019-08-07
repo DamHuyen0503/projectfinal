@@ -22,8 +22,9 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<Map<String, Object>> getAllCategory() {
 		List<Map<String, Object>> result = new ArrayList<>();
 		List<Category> listCategory = categorydao.getAllCategory();
-		Map<String, Object> mapCategory = new HashMap<>();
+		
 		for(Category category : listCategory) {
+			Map<String, Object> mapCategory = new HashMap<>();
 			mapCategory.put("categoryID", category.getCategoryID());
 			mapCategory.put("createdDate", category.getCreatedDate());
 			mapCategory.put("description", category.getDescription());
@@ -57,9 +58,17 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public Category getCategoryByID(int id) {
-
-		return this.categorydao.getCategoryByID(id);
+	public Map<String, Object> getCategoryByID(int id) {
+		Category category = categorydao.getCategoryByID(id);
+		Map<String, Object> mapCategory = new HashMap<>();
+		mapCategory.put("categoryID", category.getCategoryID());
+		mapCategory.put("createdDate", category.getCreatedDate());
+		mapCategory.put("description", category.getDescription());
+		mapCategory.put("categoryID", category.getCategoryID());
+		mapCategory.put("image", category.getImage());
+		mapCategory.put("modifiedDate", category.getModifiedDate());
+		mapCategory.put("name", category.getName());
+		return mapCategory;
 	}
 
 	@Override

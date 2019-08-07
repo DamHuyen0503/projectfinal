@@ -1,6 +1,7 @@
 package com.fpt.projectfinal.services.user;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import com.fpt.projectfinal.daos.user.UserDao;
 import com.fpt.projectfinal.models.Account;
 import com.fpt.projectfinal.models.Test;
 import com.fpt.projectfinal.models.User;
+import com.fpt.projectfinal.utils.ConvertTimestamp;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -117,7 +119,8 @@ public class UserServiceImpl implements UserService{
 		Account account = accountDao.getAccountByEmail(username);
 		User user = userDao.getUserByAccount(account);
 		try {
-			user.setAddress((String)payload.get("dob"));
+			String dob =(String)payload.get("dob"); 
+			user.setDOB(ConvertTimestamp.ConvertDateTime(dob));
 			user.setGender((int)payload.get("gender"));
 			
 			user.setAddress((String)payload.get("address"));
