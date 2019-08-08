@@ -25,7 +25,7 @@ public interface PostService {
 	public Long getCountPostDataForTable(String sort, String order, Integer page, Integer categoryID,
 			String searchString);
 
-	public List<Post> getPostDataForTable(String sort, String order, Integer page, Integer categoryID,
+	public List<Map<String, Object>> getPostDataForTable(String sort, String order, Integer page, Integer categoryID,
 			String searchString);
 
 	public List<Post> filterByTitle(String filter);
