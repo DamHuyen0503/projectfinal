@@ -68,7 +68,7 @@ public class TestController {
 		
 		try {
 			Map<String, Object> map= testService.getTestById(postID);
-	        return new ResponseEntity<>(map, HttpStatus.CREATED);
+	        return new ResponseEntity<>(map, HttpStatus.OK);
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

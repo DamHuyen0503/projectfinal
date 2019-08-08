@@ -124,4 +124,31 @@ public class NoteProcessServiceImpl  implements NoteProcessServices{
 		}
 	}
 
+	@Override
+	public List<Map<String, Object>> getNoteProcessByUserSendRequest() {
+		
+		List<Map<String, Object>> result = new ArrayList<>();
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		if (username == null) {
+			Map<String, Object> mapNote = new HashMap<>();
+			mapNote.put("error", "token null");
+			result.add(mapNote);
+			return result;
+		}
+		Account account = accountDao.getAccountByEmail(username);
+		User user = userDao.getUserByAccount(account);
+		List<NoteProcess> listNoteProcess = noteprocessDao.getNoteProcessByUserSendRequest(user);
+		for(NoteProcess noteProcess : listNoteProcess) {
+			Map<String, Object> mapNote = new HashMap<>();
+			mapNote.put("content", noteProcess.getContent());
+			mapNote.put("endTime", noteProcess.getEndTime());
+			mapNote.put("evaluation", noteProcess.getEvaluation());
+			mapNote.put("noteID", noteProcess.getNoteID());
+			mapNote.put("startTime", noteProcess.getStartTime());
+		
+			result.add(mapNote);
+		}
+		return result;
+	}
+
 }

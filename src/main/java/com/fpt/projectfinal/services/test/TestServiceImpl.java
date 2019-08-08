@@ -285,6 +285,9 @@ public class TestServiceImpl implements TestService {
 		if (payload.get("image").toString().length() >255) {
 			return "image more than 255";
 		}
+		if ((int)payload.get("status") <0 || (int) payload.get("status")>4) {
+			return "status not valid";
+		}
 		try {
 			Account acc = accountDao.getAccountByEmail(username);
 			Category category = categoryDao.getCategoryByID(1);
@@ -347,7 +350,8 @@ public class TestServiceImpl implements TestService {
 			testDao.updateTest(test);
 			return "successful";
 		} catch (Exception e) {
-			e.getMessage();
+			System.out.println(e.getMessage());
+			
 			return "update fail";
 		}
 		

@@ -1,6 +1,7 @@
 package com.fpt.projectfinal.daos.user;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -40,6 +41,8 @@ public class UserDaoImpl implements UserDao {
 	
 	@Autowired
 	RoleDao roleDao;
+	
+	
 	
 	@Override
 	public User getUserByEmail(String email) {
@@ -146,6 +149,21 @@ public class UserDaoImpl implements UserDao {
 	public List<User> getAll() {
 		List<User> user = this.session.getCurrentSession().createQuery("from User").list();
 		return user;
+	}
+	@Override
+	public List<User> getAllExpert() {
+		List<User> result = new ArrayList<>();
+		Set<Account> listAccount = new HashSet<Account>();
+		Set<Role> setRole =  roleDao.getRoleByName("EXPERT");
+		for(Role role : setRole) {
+			listAccount =  accountDao.getAccountByRole(role);	
+		}
+		
+		for(Account account : listAccount) {
+			User user = this.getUserByAccount(account);
+			result.add(user);
+		}
+		return result;
 	}
 	
 }

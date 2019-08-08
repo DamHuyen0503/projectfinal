@@ -26,5 +26,5 @@ public interface UserDao {
 	
 	public List<User> getAll() ;
 	
-	
+	public List<User> getAllExpert();
 }

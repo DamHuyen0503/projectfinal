@@ -70,6 +70,10 @@ public class User {
 	@JsonIgnore
 	private Set<UserTest> userTest;
 	
+	@OneToMany(cascade = CascadeType.ALL,mappedBy="user",fetch = FetchType.LAZY)
+	@JsonIgnore
+	private Set<NoteProcess> noteProcess;
+	
 	public User() {
 		super();
 	}
@@ -82,6 +86,15 @@ public class User {
 		this.userID = userID;
 		
 	}
+	
+	public Set<NoteProcess> getNoteProcess() {
+		return noteProcess;
+	}
+
+	public void setNoteProcess(Set<NoteProcess> noteProcess) {
+		this.noteProcess = noteProcess;
+	}
+
 	public String getFirstName() {
 		return firstName;
 	}

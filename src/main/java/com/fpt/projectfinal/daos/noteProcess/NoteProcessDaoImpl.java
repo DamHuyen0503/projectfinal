@@ -21,6 +21,7 @@ import com.fpt.projectfinal.models.NoteProcess;
 import com.fpt.projectfinal.models.Post;
 import com.fpt.projectfinal.models.Question;
 import com.fpt.projectfinal.models.Test;
+import com.fpt.projectfinal.models.User;
 import com.fpt.projectfinal.services.medicalrecord.MedicalRecordService;
 @Repository
 @Transactional
@@ -86,6 +87,20 @@ public class NoteProcessDaoImpl implements NoteProcessDao{
 	public void updateNoteProcess(NoteProcess noteProcess) {
 		this.session.getCurrentSession().update(noteProcess);
 		
+	}
+
+	@Override
+	public List<NoteProcess> getNoteProcessByUserSendRequest(User user) {
+		PersistenceUnitUtil impl = session.getPersistenceUnitUtil();
+		if(!impl.isLoaded(user.getNoteProcess())) {
+			CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
+			CriteriaQuery<NoteProcess> query = builder.createQuery(NoteProcess.class);
+			Root<NoteProcess> root = query.from(NoteProcess.class);
+			query.select(root).where(builder.equal(root.get("user"), user));
+			List<NoteProcess> notes =  session.getCurrentSession().createQuery(query).getResultList();
+			return notes;
+		}
+		return   (List<NoteProcess>) user.getNoteProcess();
 	}
 
 }

@@ -41,11 +41,18 @@ public class ClientServiceImpl implements ClientService{
 			return "phone null";
 		}
 		if (client.getFullName() == null) {
-			return "client null";
+			return "name null";
 		}
-		client.setCreatedDate(new Date());
-		clientDao.addClient(client);
-		return null;
+		try {
+			client.setCreatedDate(new Date());
+			clientDao.addClient(client);
+			return "successful";
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "fail";
+		}
+		
+		
 	}
 
 	@Override

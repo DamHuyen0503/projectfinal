@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.fpt.projectfinal.models.MedicalRecord;
 import com.fpt.projectfinal.models.NoteProcess;
+import com.fpt.projectfinal.models.User;
 
 public interface NoteProcessDao {
 	
@@ -17,4 +18,6 @@ public interface NoteProcessDao {
 	public void updateNoteProcess(NoteProcess noteProcess);
 	
 	public NoteProcess getNoteProcessByID (int notePeocessID);
+	
+	public List<NoteProcess> getNoteProcessByUserSendRequest(User user);
 }

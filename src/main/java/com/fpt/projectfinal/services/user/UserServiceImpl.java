@@ -135,4 +135,27 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 
+	@Override
+	public List<Map<String, Object>> getAllExpert() {
+		List<Map<String, Object>> result = new ArrayList<>();
+		List<User> listUser = userDao.getAllExpert();
+		for (User user : listUser) {
+			Map<String, Object> mapUser = new HashMap<>();
+			mapUser.put("address", user.getAddress());
+			mapUser.put("avatar", user.getAvatar());
+			mapUser.put("createdDate", user.getCreatedDate());
+			mapUser.put("dob", user.getDOB());
+			mapUser.put("firstName", user.getFirstName());
+			mapUser.put("gender", user.getGender());
+			mapUser.put("lastName", user.getLastName());
+			mapUser.put("phoneNumber", user.getPhoneNumber());
+			mapUser.put("userID", user.getUserID());
+			result.add(mapUser);
+		}
+		
+		
+		return result;
+	}
+
+
 }
