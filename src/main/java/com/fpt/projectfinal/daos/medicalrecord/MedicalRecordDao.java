@@ -6,6 +6,8 @@ import java.util.Map;
 
 import com.fpt.projectfinal.models.Client;
 import com.fpt.projectfinal.models.MedicalRecord;
+import com.fpt.projectfinal.models.User;
+import com.fpt.projectfinal.models.UserAccess;
 
 public interface MedicalRecordDao {
 
@@ -23,5 +25,7 @@ public interface MedicalRecordDao {
 	public List<MedicalRecord> getMedicalRecordByClient( Client client);
 	
 	public void deleteMedical(MedicalRecord medicalRecord);
+	
+	public List<MedicalRecord> getMedicalRecordByUserAccess(UserAccess userAccess);
 	
 }

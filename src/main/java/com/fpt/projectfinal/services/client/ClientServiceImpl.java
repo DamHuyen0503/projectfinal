@@ -1,9 +1,11 @@
 package com.fpt.projectfinal.services.client;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,9 +23,28 @@ public class ClientServiceImpl implements ClientService{
 	@Autowired 
 	MedicalRecordDao medicalRecordDao;
 	@Override
-	public List<Client> getAllClient() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Map<String, Object>> getAllClient(Map<String, Object> payload) {
+		List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
+		Set<Client> setClient = clientDao.getAllClient(payload);
+		for(Client client : setClient) {
+			Map<String, Object> mapClient = new HashMap<>();
+			mapClient.put("clientID", client.getClientID());
+			mapClient.put("gender", client.getGender());
+			mapClient.put("dob", client.getDob());
+			mapClient.put("address", client.getAddress());
+			
+			mapClient.put("phoneNumber", client.getPhoneNumber());
+			mapClient.put("note", client.getNote());
+			mapClient.put("alias", client.getAlias());
+			mapClient.put("ssn", client.getSsn());
+
+			mapClient.put("fullName", client.getFullName());
+			mapClient.put("email", client.getEmail());
+			mapClient.put("createdDate", client.getCreatedDate());
+			result.add(mapClient);
+		}
+		
+		return result;
 	}
 
 	@Override

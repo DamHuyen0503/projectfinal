@@ -130,7 +130,8 @@ public class PostServiceImpl implements PostService {
 		map.put("status",post.getStatus());
 		map.put("title",post.getTitle());
 		
-		map.put("category",post.getCategory());
+		map.put("categoryID",post.getCategory().getCategoryID());
+		map.put("categoryName",post.getCategory().getName());
 		map.put("modifiedDate",post.getModifiedDate());
 		User user = post.getUser();
 		

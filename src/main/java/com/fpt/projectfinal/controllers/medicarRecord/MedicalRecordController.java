@@ -1,7 +1,6 @@
 package com.fpt.projectfinal.controllers.medicarRecord;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.tomcat.util.bcel.classfile.Constant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fpt.projectfinal.controllers.category.CategoryController;
-import com.fpt.projectfinal.models.Post;
-import com.fpt.projectfinal.models.Role;
 import com.fpt.projectfinal.services.medicalrecord.MedicalRecordService;
 import com.fpt.projectfinal.services.role.RoleService;
 
@@ -147,9 +143,6 @@ public class MedicalRecordController {
 					list = medicalRecordService.getMedicalRecordByClient(clientID);
 					return new ResponseEntity<>(list, HttpStatus.OK);
 				}
-//				if (role.equals(ROLEEXPERT)) {
-//					
-//				}
 			}
 			
 			return new ResponseEntity<> ("not found", HttpStatus.BAD_REQUEST);

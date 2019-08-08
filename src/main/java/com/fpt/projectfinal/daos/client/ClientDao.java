@@ -1,16 +1,15 @@
 package com.fpt.projectfinal.daos.client;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
-import com.fpt.projectfinal.models.Answer;
 import com.fpt.projectfinal.models.Client;
 import com.fpt.projectfinal.models.MedicalRecord;
-import com.fpt.projectfinal.models.Question;
 
 public interface ClientDao {
 	
-	public List<Client> getAllClient();
+	public Set<Client> getAllClient(Map<String, Object> payload);
 	
 	public  String addClient(Client client);
 	

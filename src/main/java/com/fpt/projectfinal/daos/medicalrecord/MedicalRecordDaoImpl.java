@@ -3,6 +3,7 @@ package com.fpt.projectfinal.daos.medicalrecord;
 import java.beans.Expression;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +26,7 @@ import com.fpt.projectfinal.models.Client;
 import com.fpt.projectfinal.models.MedicalRecord;
 import com.fpt.projectfinal.models.Test;
 import com.fpt.projectfinal.models.User;
+import com.fpt.projectfinal.models.UserAccess;
 @Repository
 @Transactional
 public class MedicalRecordDaoImpl implements MedicalRecordDao{
@@ -120,6 +122,22 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao{
 	public void deleteMedical(MedicalRecord medicalRecord) {
 		this.session.getCurrentSession().delete(medicalRecord);
 		
+	}
+
+
+	@Override
+	public List<MedicalRecord> getMedicalRecordByUserAccess(UserAccess userAccess) {
+		List<MedicalRecord> medicalRecords = new ArrayList<MedicalRecord>();
+		PersistenceUnitUtil impl = session.getPersistenceUnitUtil();
+		if(!impl.isLoaded(userAccess.getMedicalRecord())) {
+			CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
+			CriteriaQuery<MedicalRecord> query = builder.createQuery(MedicalRecord.class);
+			Root<MedicalRecord> root = query.from(MedicalRecord.class);
+			query.select(root).where(builder.equal(root.get("userAccess"), userAccess));
+			 medicalRecords = session.getCurrentSession().createQuery(query).getResultList();
+			return medicalRecords;
+		}
+		return medicalRecords;
 	}
 
 	
