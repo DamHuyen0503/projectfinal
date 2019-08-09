@@ -11,6 +11,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.fpt.projectfinal.models.Post;
 import com.fpt.projectfinal.models.Subscriber;
 import com.fpt.projectfinal.models.User;
 @Repository
@@ -38,6 +39,25 @@ public class SubscriberDaoImpl implements SubscriberDao {
 	@Override
 	public List<Subscriber> getAllSubscriber() {
 		return this.session.getCurrentSession().createQuery("from Subscriber").list();
+	}
+
+	@Override
+	public void updateSubscriber(Subscriber subscriber) {
+		this.session.getCurrentSession().update(subscriber);
+	}
+
+	@Override
+	public Subscriber getSubscriberByID(int subscriberID) {
+		CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
+		CriteriaQuery<Subscriber> query = builder.createQuery(Subscriber.class);
+		Root<Subscriber> root = query.from(Subscriber.class);
+		query.select(root).where(builder.equal(root.get("subscriberID"), subscriberID));
+		List<Subscriber> subscribers = session.getCurrentSession().createQuery(query).getResultList();
+		if (subscribers.size() > 0) {
+
+			return subscribers.get(0);
+		}
+		return null;
 	}
 
 }

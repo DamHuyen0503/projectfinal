@@ -72,13 +72,7 @@ public class RoleDaoImpl implements RoleDao{
 
 
 
-	@Override
-	public Set<Role> getRolebyAccount(Account account) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
+	
 
 	@Override
 	public void updateRole(Role role) {

@@ -129,9 +129,11 @@ public class PostServiceImpl implements PostService {
 		map.put("image",post.getImage());
 		map.put("status",post.getStatus());
 		map.put("title",post.getTitle());
+		Map<String, Object> mapCate = new HashMap<>();
+		mapCate.put("categoryID", post.getCategory().getCategoryID());
+		mapCate.put("categoryName", post.getCategory().getName());
 		
-		map.put("categoryID",post.getCategory().getCategoryID());
-		map.put("categoryName",post.getCategory().getName());
+		map.put("category", mapCate);
 		map.put("modifiedDate",post.getModifiedDate());
 		User user = post.getUser();
 		
@@ -187,7 +189,10 @@ public class PostServiceImpl implements PostService {
 			result.put("title", post.getTitle());
 			Set<Tag> tags = tagDao.getTagByPost(post);
 			result.put("tags", tags);
-			result.put("categoryID", post.getCategory().getCategoryID());
+			Map<String, Object> mapCate = new HashMap<>();
+			mapCate.put("categoryID", post.getCategory().getCategoryID());
+			mapCate.put("categoryName", post.getCategory().getName());
+			result.put("category", mapCate );
 			listPost.add(result);
 		}
 		return listPost;

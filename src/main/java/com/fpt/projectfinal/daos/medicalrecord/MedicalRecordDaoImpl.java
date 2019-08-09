@@ -24,6 +24,7 @@ import org.springframework.stereotype.Repository;
 import com.fpt.projectfinal.models.Category;
 import com.fpt.projectfinal.models.Client;
 import com.fpt.projectfinal.models.MedicalRecord;
+import com.fpt.projectfinal.models.NoteProcess;
 import com.fpt.projectfinal.models.Test;
 import com.fpt.projectfinal.models.User;
 import com.fpt.projectfinal.models.UserAccess;
@@ -138,6 +139,21 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao{
 			return medicalRecords;
 		}
 		return medicalRecords;
+	}
+
+
+	@Override
+	public List<MedicalRecord> getMedicalByNoteProcess(NoteProcess note) {
+		PersistenceUnitUtil impl = session.getPersistenceUnitUtil();
+		if(!impl.isLoaded(note.getMedicalRecord())) {
+			CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
+			CriteriaQuery<MedicalRecord> query = builder.createQuery(MedicalRecord.class);
+			Root<MedicalRecord> root = query.from(MedicalRecord.class);
+			query.select(root).where(builder.equal(root.get("noteProcess"), note));
+			List<MedicalRecord> medicalRecords = session.getCurrentSession().createQuery(query).getResultList();
+			return medicalRecords;
+		}
+		return (List<MedicalRecord>) note.getMedicalRecord();
 	}
 
 	

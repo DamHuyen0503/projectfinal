@@ -10,4 +10,8 @@ public interface SubscriberDao {
 	public Long getNumberOfSubscriber();
 	
 	public List<Subscriber> getAllSubscriber();
+	
+	public void updateSubscriber(Subscriber subscriber);
+	
+	public Subscriber getSubscriberByID (int subscriberID);
 }

@@ -338,6 +338,12 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 		return result;
 	}
 
+	@Override
+	public List<MedicalRecord> getMedicalRecordByUserAccess(UserAccess userAccess) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 
 }

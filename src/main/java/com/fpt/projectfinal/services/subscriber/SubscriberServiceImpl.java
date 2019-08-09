@@ -67,4 +67,28 @@ public class SubscriberServiceImpl implements SubscriberService{
 		return subscriberDao.getNumberOfSubscriber();
 	}
 
+	@Override
+	public String updateSubscriber(Map<String, Object> payload) {
+		
+		try {
+			List<Integer> listCategoryID = (List<Integer>) payload.get("categoryID");
+			Set<Category> setCategory = new  HashSet<>(); 
+			for (int cateID : listCategoryID) {
+				Category cate = categoryDao.getCategoryByID(cateID);
+				setCategory.add(cate);
+			}
+			
+			Subscriber sub = subscriberDao.getSubscriberByID((int)payload.get("subscriberID"));
+			sub.setCategorys(setCategory);
+			sub.setStatus((int)payload.get("status"));
+			sub.setSubscriberDate(new Date());
+			sub.setEmail((String)payload.get("email"));
+			subscriberDao.updateSubscriber(sub);
+			return "successful";
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "update fail";
+		}
+	}
+
 }

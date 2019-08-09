@@ -34,8 +34,8 @@ public class UserController {
 	public ResponseEntity<Object>  getUserByID(@RequestParam  int userID){
 		System.out.println("userID:"+userID);
 		try {
-			User user= userService.getUserByID(userID);
-	        return new ResponseEntity<>(user, HttpStatus.OK);
+			
+	        return new ResponseEntity<>(userService.getUserByID(userID), HttpStatus.OK);
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

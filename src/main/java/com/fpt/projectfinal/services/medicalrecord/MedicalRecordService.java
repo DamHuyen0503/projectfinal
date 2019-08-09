@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.fpt.projectfinal.models.Client;
 import com.fpt.projectfinal.models.MedicalRecord;
+import com.fpt.projectfinal.models.UserAccess;
 
 public interface MedicalRecordService {
 	
@@ -20,4 +21,6 @@ public interface MedicalRecordService {
 	public List<Map<String, Object>> getMedicalRecordByClient(int clientID);
 	
 	public List<MedicalRecord> deleteMedicalRecord(int medicalRecordID);
+	
+	public List<MedicalRecord> getMedicalRecordByUserAccess(UserAccess userAccess);
 }

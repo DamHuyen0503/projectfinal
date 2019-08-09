@@ -145,7 +145,13 @@ public class NoteProcessServiceImpl  implements NoteProcessServices{
 			mapNote.put("evaluation", noteProcess.getEvaluation());
 			mapNote.put("noteID", noteProcess.getNoteID());
 			mapNote.put("startTime", noteProcess.getStartTime());
-		
+			List<MedicalRecord> listMeical = medicalRecorDao.getMedicalByNoteProcess(noteProcess);
+			List<Integer> listMedicalID = new ArrayList<>(); 
+			for(MedicalRecord medical : listMeical) {
+				Integer medicalID = medical.getMedicalRecordID();
+				listMedicalID.add(medicalID);
+			}
+			mapNote.put("medicalRecordID", listMedicalID);
 			result.add(mapNote);
 		}
 		return result;

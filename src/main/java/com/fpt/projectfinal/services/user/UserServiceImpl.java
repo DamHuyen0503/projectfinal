@@ -5,14 +5,19 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.apache.coyote.http2.Http2AsyncUpgradeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.fpt.projectfinal.controllers.role.RoleController;
 import com.fpt.projectfinal.daos.account.AccountDao;
+import com.fpt.projectfinal.daos.role.RoleDao;
 import com.fpt.projectfinal.daos.user.UserDao;
 import com.fpt.projectfinal.models.Account;
+import com.fpt.projectfinal.models.Role;
 import com.fpt.projectfinal.models.Test;
 import com.fpt.projectfinal.models.User;
 import com.fpt.projectfinal.utils.ConvertTimestamp;
@@ -26,6 +31,10 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	AccountDao accountDao;
 	
+	@Autowired
+	RoleDao roleDao;
+	
+	
 	@Override
 	public User getUserByEmail(String email) {
 		// TODO Auto-generated method stub
@@ -33,9 +42,29 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public User getUserByID(int userID) {
+	public Map<String, Object> getUserByID(int userID) {
+		Map<String,  Object> result = new HashMap();
+		
 		User user = userDao.getUserByID(userID); 
-		return user;
+		
+		result.put("address", user.getAddress());
+		result.put("avatar", user.getAvatar());
+		result.put("createdDate", user.getCreatedDate());
+		result.put("dob", user.getDOB());
+		result.put("firstName", user.getFirstName());
+		result.put("gender", user.getGender());
+		result.put("lastName", user.getLastName());
+		result.put("phoneNumber", user.getPhoneNumber());
+		result.put("userID", user.getUserID());
+		result.put("email", user.getAccount().getEmail());
+		Account acc = accountDao.getAccountByUser(user);
+		Set<Role> listRole = roleDao.getRoleByAcc(acc);
+		Map<String, Object> mapRole = new HashMap<>();
+		for (Role role : listRole) {
+			mapRole.put("roleName", role.getName());
+		}
+		result.put("role", mapRole);
+		return result;
 	}
 
 	@Override
@@ -150,6 +179,7 @@ public class UserServiceImpl implements UserService{
 			mapUser.put("lastName", user.getLastName());
 			mapUser.put("phoneNumber", user.getPhoneNumber());
 			mapUser.put("userID", user.getUserID());
+			mapUser.put("email", user.getAccount().getEmail());
 			result.add(mapUser);
 		}
 		
