@@ -10,9 +10,21 @@ public interface ClientService {
 	
 	public List<Map<String, Object>> getAllClient(Map<String, Object> payload);
 	
-	public String addClient(Client client);
+	/*
+	 * Create new client. 
+	 * 新しいクライアントを作成します。
+	 */
+	public String addClient(Map<String, Object> payload);
 	
+	/*
+	 * Update information customers.
+	 * 情報の顧客を更新します。
+	 */
 	public String updateClient(Client client);
 	
+	/*
+	 * Get information client by clientID.
+	 * clientIDで情報クライアントを取得します。
+	 */
 	public Map<String, Object> getClientByID(int id);
 }

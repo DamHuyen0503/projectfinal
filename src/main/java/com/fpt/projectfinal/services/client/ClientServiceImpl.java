@@ -14,6 +14,7 @@ import com.fpt.projectfinal.daos.client.ClientDao;
 import com.fpt.projectfinal.daos.medicalrecord.MedicalRecordDao;
 import com.fpt.projectfinal.models.Client;
 import com.fpt.projectfinal.models.MedicalRecord;
+import com.fpt.projectfinal.utils.ConvertTimestamp;
 @Service
 public class ClientServiceImpl implements ClientService{
 	
@@ -22,6 +23,7 @@ public class ClientServiceImpl implements ClientService{
 	
 	@Autowired 
 	MedicalRecordDao medicalRecordDao;
+	
 	@Override
 	public List<Map<String, Object>> getAllClient(Map<String, Object> payload) {
 		List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
@@ -46,68 +48,90 @@ public class ClientServiceImpl implements ClientService{
 		
 		return result;
 	}
-
+	
 	@Override
-	public String addClient(Client client) {
-		if (client.getDob() == null) {
-			return "DOB null";
-		}
-		if (client.getGender() <0  && client.getGender() >2) {
-			return "gender null";
-		}
-		if (client.getAddress() == null) {
-			return "address null";
-		}
-		if (client.getPhoneNumber() == null) {
-			return "phone null";
-		}
-		if (client.getFullName() == null) {
-			return "name null";
-		}
+	public String addClient(Map<String, Object> payload) {
+		Client client = new Client();
 		try {
+			if (payload.get("dob") == null) {
+				return "DOB null";
+			}
+	
+			if ((int)payload.get("gender") <=0  || (int)payload.get("gender") >2) {
+				return "gender invalid";
+			}
+			if (payload.get("address") == null) {
+				return "address null";
+			}
+			if (payload.get("phoneNumber") == null) {
+				return "phone null";
+			}
+			if (payload.get("fullName") == null) {
+				return "name null";
+			}
+		
+			client.setSsn((String) payload.get("ssn"));
+			client.setEmail((String) payload.get("email"));
+			Date dob = ConvertTimestamp.ConvertDateTime((String) payload.get("dob"));
+			client.setDob(dob);
+			client.setGender((int) payload.get("gender"));
+			client.setFullName((String)payload.get("fullName"));
+			client.setPhoneNumber((String) payload.get("phoneNumber"));
+			client.setAddress((String)payload.get("address"));
 			client.setCreatedDate(new Date());
 			clientDao.addClient(client);
 			return "successful";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "fail";
+			return e.getMessage();
 		}
-		
-		
 	}
 
+	
 	@Override
 	public String updateClient(Client client) {
 		clientDao.updateClient(client);
 		return null;
 	}
 
+	
 	@Override
 	public Map<String, Object> getClientByID(int clientID) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		
-		if (clientID == 0) {
-			result.put("message", "clientID invalidate");
+		try {
+			if (clientID <= 0) {
+				result.put("message", "clientID invalid");
+				return result;
+			}
+			Client client = clientDao.getClientByID(clientID);
+			if (client == null ) {
+				result.put("message", "client not found");
+				return result;
+			}
+			List<MedicalRecord> medicalRecord = medicalRecordDao.getMedicalRecordByClient(client);
+			result.put("clientID", clientID);
+			result.put("gender", client.getGender());
+			result.put("dob", client.getDob());
+			result.put("address", client.getAddress());
+			
+			result.put("phoneNumber", client.getPhoneNumber());
+			result.put("note", client.getNote());
+			result.put("alias", client.getAlias());
+			result.put("ssn", client.getSsn());
+
+			result.put("fullName", client.getFullName());
+			result.put("email", client.getEmail());
+			result.put("createdDate", client.getCreatedDate());
+			result.put("numberOfRecord", medicalRecord.size());
+			
+			return result;
+			
+		}catch (Exception e) {
+			Map<String, Object> resultError = new HashMap<String, Object>();
+			resultError.put("error", e.getMessage());
 			return result;
 		}
-		Client client = clientDao.getClientByID(clientID);
-		List<MedicalRecord> medicalRecord = medicalRecordDao.getMedicalRecordByClient(client);
-		result.put("clientID", clientID);
-		result.put("gender", client.getGender());
-		result.put("dob", client.getDob());
-		result.put("address", client.getAddress());
 		
-		result.put("phoneNumber", client.getPhoneNumber());
-		result.put("note", client.getNote());
-		result.put("alias", client.getAlias());
-		result.put("ssn", client.getSsn());
-
-		result.put("fullName", client.getFullName());
-		result.put("email", client.getEmail());
-		result.put("createdDate", client.getCreatedDate());
-		result.put("numberOfRecord", medicalRecord.size());
-		
-		return result;
 	}
 
 	

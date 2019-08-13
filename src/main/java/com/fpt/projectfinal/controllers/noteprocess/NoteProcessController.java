@@ -27,7 +27,10 @@ public class NoteProcessController {
 	@Autowired 
 	NoteProcessServices noteProcessService;
 	
-	
+	/*
+	 * Get all notes of a medical record.
+	 * 医療記録のすべてのメモを取得します。
+	 */
 	@RequestMapping(value = "/getNoteProcessByMedicalRecordID", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object>  getMedicalRecordByID(@RequestParam  int medicalRecordID){
@@ -44,7 +47,10 @@ public class NoteProcessController {
 		
 	}
 	
-
+	/*
+	 * Create new notes of a medical record.
+	 * 医療記録の新しいメモを作成します。
+	 */
 	@RequestMapping(value = "/addNoteProcess", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<Object> addNoteProcess(@RequestBody  Map<String, Object> payload) {
 
@@ -61,6 +67,10 @@ public class NoteProcessController {
 		}
 	}
 	
+	/*
+	 * Update more notes for medical records.
+	 * 医療記録のメモを更新します。
+	 */
 	@RequestMapping(value = "/updateNoteProcess", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<Object> updateNoteProcess(@RequestBody  Map<String, Object> payload) {
 
@@ -77,6 +87,10 @@ public class NoteProcessController {
 		}
 	}
 	
+	/*
+	 * Get all user notes.
+	 * すべてのユーザーメモを取得します。
+	 */
 	@RequestMapping(value = "/getNoteProcessByUserSendRequest", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object>  getNoteProcessByUserSendRequest(){

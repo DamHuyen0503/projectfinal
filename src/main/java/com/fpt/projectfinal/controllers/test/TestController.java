@@ -30,6 +30,10 @@ public class TestController {
 	@Autowired
 	TestService testService;
 	
+	/*
+	 * create test
+	 * テストを作成する.
+	 */
 	@RequestMapping(value = "/addTest", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Object> addTest(@RequestBody Map<String, Object> payload) {
 				
@@ -46,6 +50,10 @@ public class TestController {
 		
 	} 
 	
+	/*
+	 * update test.
+	 * 更新テスト。
+	 */
 	@RequestMapping(value = "/updateTest", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Object> updateTest(@RequestBody Map<String, Object> payload) {
 				
@@ -62,6 +70,10 @@ public class TestController {
 		
 	}  
 	
+	/*
+	 * get test by ID.
+	 * IDでテストを取得します。
+	 */
 	@RequestMapping(value = "/getAllTestByID", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object>  getAllTestByID(@RequestParam  int postID){
@@ -79,6 +91,10 @@ public class TestController {
 		
 	}
 	
+	/*
+	 * get all Information of test. 
+	 * テストのすべての情報を取得します。
+	 */
 	@RequestMapping(value = "/getAllTest", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object>  getAllTest(){

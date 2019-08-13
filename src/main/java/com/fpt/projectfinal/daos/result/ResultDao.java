@@ -7,5 +7,9 @@ import com.fpt.projectfinal.models.Test;
 
 public interface ResultDao {
 	
+	/*
+	 * Get all test results.
+	 * すべてのテスト結果を取得します。
+	 */
 	public Set<Result> getResultByTest(Test test);
 }

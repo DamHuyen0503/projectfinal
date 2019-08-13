@@ -10,24 +10,26 @@ import com.fpt.projectfinal.models.Account;
 public interface AuthenService {
 	
 	/*
-	 * huyendt
-	 * 12/07/2019
-	 * add new account
+	 * Create new website access account.
+	 * 新しいサイトにアクセスするためのアカウントを作成します。
 	 */
 	public String addAccount(Map<String,Object> payload);
+
 	/*
-	 * huyendt
-	 * 12/07/2019
-	 * get all account
+	 * Get all information account. 
+	 * すべての情報アカウントを取得します。
 	 */
 	public List<Account> getAllAccount();
 	
 	/*
-	 * huyendt
-	 * 12/07/2019
-	 * get account by email
+	 * Get all  information account by email.
+	 * メールですべての情報アカウントを取得します。
 	 */
 	public Account getAccountByEmail(String email);
 	
+	/*
+	 * update account information.
+	 * アカウント情報を更新する
+	 */
 	public String updateAccount(Map<String, Object> payload);
 }

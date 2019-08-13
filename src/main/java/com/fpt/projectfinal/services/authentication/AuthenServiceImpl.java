@@ -47,8 +47,12 @@ public class AuthenServiceImpl implements AuthenService {
 		return acc;
 	}
 
+	
 	@Override
 	public String addAccount(Map<String, Object> payload) {
+		if (payload.get("email") == null) {
+			return "email null";
+		}
 		List<Account> accounts = accDao.getAllAccount();
 		for (Account account : accounts) {
 			 if (account.getEmail().equals(payload.get("email"))) {
@@ -61,28 +65,33 @@ public class AuthenServiceImpl implements AuthenService {
 		if (payload.get("password").equals("")) {
 			return "password empty";
 		}
+		try {
+			Account acc = new Account();
+			acc.setEmail((String)payload.get("email"));
+			acc.setPassword((String)payload.get("password"));
+			Map<String,Object> mapUser =  (Map<String, Object>) payload.get("user");
+			User u = new User();
+			u.setAddress((String)mapUser.get("address"));
+			u.setCreatedDate(new Date());
+			u.setFirstName((String)mapUser.get("firstName"));
+			u.setLastName((String)mapUser.get("lastName"));
+			u.setPhoneNumber((String)mapUser.get("phoneNumber"));
+			u.setAvatar((String)mapUser.get("avatar"));
+			u.setDOB((Date)mapUser.get("DOB"));
+			acc.setRoles(roleDao.getRoleByName("User"));
+			u.setAccount(acc);
+			acc.setUser(u);
+			 accDao.addAccount(acc);
+			
+			return "successful";
+			
+		} catch (Exception e) {
+			return e.getMessage();
+		}
 		
-		Account acc = new Account();
-		acc.setEmail((String)payload.get("email"));
-		acc.setPassword((String)payload.get("password"));
-		Map<String,Object> mapUser =  (Map<String, Object>) payload.get("user");
-		User u = new User();
-		u.setAddress((String)mapUser.get("address"));
-		u.setCreatedDate(new Date());
-		u.setFirstName((String)mapUser.get("firstName"));
-		u.setLastName((String)mapUser.get("lastName"));
-		u.setPhoneNumber((String)mapUser.get("phoneNumber"));
-		u.setAvatar((String)mapUser.get("avatar"));
-		u.setDOB((Date)mapUser.get("DOB"));
-		acc.setRoles(roleDao.getRoleByName("User"));
-		u.setAccount(acc);
-		acc.setUser(u);
-		 accDao.addAccount(acc);
-		
-		return "successful";
 		
 	}
-
+	
 	@Override
 	public String updateAccount(Map<String, Object> payload) {
 		if (payload.get("userID") == null) {
@@ -108,13 +117,12 @@ public class AuthenServiceImpl implements AuthenService {
 				}
 				roles.add(new Role());
 			}
-//			Account account = accDao.getAccountByUser(user);
 			Account account = user.getAccount();
 			account.setRoles(roles);
 			accDao.updateAccount(account);
 			return "successful";
 		}catch (Exception e) {
-			return "update fail";
+			return e.getMessage();
 		}
 		
 	}

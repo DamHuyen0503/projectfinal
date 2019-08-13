@@ -38,16 +38,20 @@ public class ClientController {
 	
 	@Autowired
 	private RoleService roleService;
-	// add new client
+	
+	/*
+	 * Create new client. 
+	 * 新しいクライアントを作成します。
+	 */
 	@RequestMapping(value = "/addClient",method = RequestMethod.POST,
 			
 			produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
-	public ResponseEntity<Object> createClient(@RequestBody Client client,UriComponentsBuilder builder) {
+	public ResponseEntity<Object> createClient(@RequestBody Map<String, Object> payload,UriComponentsBuilder builder) {
 		
 		try {
-			clientService.addClient(client);
-	        return new ResponseEntity<>(client, HttpStatus.CREATED);
+//			clientService.addClient(client);
+	        return new ResponseEntity<>(clientService.addClient(payload), HttpStatus.CREATED);
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -57,7 +61,12 @@ public class ClientController {
 		}
 		
     }
-	// update client
+
+
+	/*
+	 * Update information customers.
+	 * 情報の顧客を更新します。
+	 */
 	@RequestMapping(value = "/updateClient",method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Object> updateClient(@RequestBody Client client,UriComponentsBuilder builder) {
 		try {
@@ -72,6 +81,10 @@ public class ClientController {
 		}
     }
 	
+	/*
+	 * Get information client by clientID.
+	 * clientIDで情報クライアントを取得します。
+	 */
 	@RequestMapping(value = "/getClientByID", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object>  getClientByID(@RequestParam  int clientID){
@@ -89,6 +102,11 @@ public class ClientController {
 		
 	}
 	
+	
+	/*
+	 * get all customers in the database
+	 * データベース内のすべての顧客を取得します。
+	 */
 	@RequestMapping(value = "/getAllClient", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object> getAllClient(@RequestBody Map<String, Object> payload) {
@@ -100,9 +118,6 @@ public class ClientController {
 					list = clientService.getAllClient(payload);
 					return new ResponseEntity<>(list, HttpStatus.OK);
 				}
-//				if (role.equals(ROLEEXPERT)) {
-//					
-//				}
 			}
 			
 			return new ResponseEntity<> ("not found", HttpStatus.BAD_REQUEST);

@@ -39,6 +39,10 @@ public class MedicalRecordController {
 	@Autowired 
 	RoleService roleService;
 
+	/*
+	 * Create new medical records.
+	 * 新しい医療記録を作成します。
+	 */
 	@RequestMapping(value = "/addMedicalRecord", method = RequestMethod.POST,
 
 			produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -58,6 +62,10 @@ public class MedicalRecordController {
 
 	}
 	
+	/*
+	 * Get all client information according to clientID.
+	 * clientIDに従ってすべてのクライアント情報を取得します。
+	 */
 	@RequestMapping(value = "/getMedicalRecordByID", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object>  getMedicalRecordByID(@RequestParam  int medicalRecordID){
@@ -75,15 +83,20 @@ public class MedicalRecordController {
 		
 	}
 	
+	
+	/*
+	 * Update medical record information.
+	 * 医療記録情報を更新します。
+	 */
 	@RequestMapping(value = "/updateMedicalRecord", method = RequestMethod.POST,
 
 			produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
-	public ResponseEntity<Object> updateMedicalRecord(@RequestBody Map<String, Object> payload, UriComponentsBuilder builder) {
+	public ResponseEntity<Object> updateMedicalRecord(@RequestBody Map<String, Object> payload) {
 
 		try {
-			medicalRecordService.updateMedicalRecord(payload);
-			return new ResponseEntity<>(payload, HttpStatus.CREATED);
+			
+			return new ResponseEntity<>(medicalRecordService.updateMedicalRecord(payload), HttpStatus.CREATED);
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -94,10 +107,15 @@ public class MedicalRecordController {
 
 	}
 	
+	/*
+	 * Get all the medical record information created in the day.
+	 * その日に作成されたすべての医療記録情報を取得します。
+	 */
 	@RequestMapping(value = "/getMedicalRecordByDay", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object>  getMedicalRecordByDay(@RequestParam  String day) throws Exception{
 		 DateFormat sourceFormat = new SimpleDateFormat("dd/MM/yyyy");
+		 	
 		try {
 			Date date = sourceFormat.parse(day);
 			List<Map<String, Object>> map= medicalRecordService.getMedicalRecordByDay(date);
@@ -112,6 +130,11 @@ public class MedicalRecordController {
 		
 	}
 	
+	
+	/*
+	 * Delete medical records.
+	 * 医療記録を削除します。
+	 */
 	@RequestMapping(value = "/deleteMedicalRecord", method = RequestMethod.DELETE,
 
 			produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -131,7 +154,10 @@ public class MedicalRecordController {
 
 	}
 	
-
+	/*
+	 * Get all the information of all medical records.
+	 * すべての医療記録のすべての情報を取得します。
+	 */
 	@RequestMapping(value = "/getAllMedicalRecord", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object> getAllMedicalRecord(@RequestParam  int clientID) {

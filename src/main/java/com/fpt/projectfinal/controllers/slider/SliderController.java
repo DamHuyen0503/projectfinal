@@ -31,6 +31,10 @@ public class SliderController {
 	@Autowired
 	SliderService sliderService;
 
+	/*
+	 * Get all the sliders.
+	 * すべてのスライダーを取得します。
+	 */
 	@RequestMapping(value = "/getAllSlider", method = RequestMethod.GET, produces = {
 			MediaType.APPLICATION_JSON_UTF8_VALUE })
 	@ResponseBody
@@ -47,6 +51,10 @@ public class SliderController {
 		}
 	}
 
+	/*
+	 * create a slider.
+	 * スライダーを作成します。
+	 */
 	@RequestMapping(value = "/addSlider", method = RequestMethod.POST, produces = {
 			MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<Object> addSlider(@RequestBody Slider slider) {
@@ -64,6 +72,10 @@ public class SliderController {
 		}
 	}
 
+	/*
+	 * update a slider.
+	 * スライダーを更新します。
+	 */
 	@RequestMapping(value = "/updateSlider", method = RequestMethod.PUT, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Object> updateSlider(@RequestBody Slider slider) {
@@ -80,11 +92,9 @@ public class SliderController {
 		}
 	}
 
-	/**
-	 * @author thuy
-	 * @param sliderID: Integer
-	 * <h4>Thuy code cai nay de xoa slider, theo doc abc. Test case xyz</h4>
-	 * @return String "Su..." Thanh cong
+	/*
+	 * delete a slider.
+	 * スライダーを削除します。
 	 */
 	@RequestMapping(value = "/deleteSlider/{sliderID}", method = RequestMethod.DELETE, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
@@ -106,6 +116,10 @@ public class SliderController {
 		}
 	}
 	
+	/*
+	 * get the slider with ID
+	 * IDのスライダーを取得します
+	 */
 	@RequestMapping(value = "/getSliderByID/{sliderID}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object> getSliderByID(@PathVariable(value = "sliderID") Integer sliderID ) {

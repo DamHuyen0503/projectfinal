@@ -25,6 +25,10 @@ public class SubscriberController {
 	@Autowired
 	SubscriberService subscriberService;
 	
+	/*
+	 * Create a subscriber.
+	 * サブスクライバーを作成します。
+	 */
 	@RequestMapping(value = "/addSubscriber", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<Object> addSubscriber(@RequestBody  Map<String, Object> payload) {
 
@@ -41,6 +45,10 @@ public class SubscriberController {
 		}
 	}
 	
+	/*
+	 * Count the total number of followers.
+	 * フォロワーの総数を数えます。
+	 */
 	@RequestMapping(value = "/getNumberOfSubscriber", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object> getNumberOfUser() {
@@ -57,6 +65,10 @@ public class SubscriberController {
 		}
 	}
 	
+	/*
+	 * update a subscriber.
+	 * サブスクライバーを更新します。
+	 */
 	@RequestMapping(value = "/updateSubscriber", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<Object> updateSubscriber(@RequestBody  Map<String, Object> payload) {
 

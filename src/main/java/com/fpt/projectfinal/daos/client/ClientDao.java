@@ -11,13 +11,27 @@ public interface ClientDao {
 	
 	public Set<Client> getAllClient(Map<String, Object> payload);
 	
-	public  String addClient(Client client);
+	/*
+	 * Create new client. 
+	 * 新しいクライアントを作成します。
+	 */
+	public  void addClient(Client client);
 	
+	/*
+	 * Update information customers.
+	 * 情報の顧客を更新します。
+	 */
 	public String updateClient(Client client);
 	
+	/*
+	 * Get information client by clientID.
+	 * clientIDで情報クライアントを取得します。
+	 */
 	public Client getClientByID(int id);
 	
-//	public Client getClientByMedicalRecord(MedicalRecord medicalRecord);
-	
+	/*
+	 * Get information client by medicalRecordID.
+	 * medicalRecordIDによって情報クライアントを取得します。
+	 */
 	public Set<Client> getClientByMedicalRecord(MedicalRecord medicalRecord);
 }

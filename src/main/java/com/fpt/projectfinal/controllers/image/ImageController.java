@@ -26,7 +26,10 @@ public class ImageController {
 	@Autowired
 	private ImageService imageService;
 	
-    // GET: Hiển thị trang form upload
+    /*
+     * Show photo download page.
+     * 写真のダウンロードページを表示します。
+     */
     @RequestMapping(value = "/uploadOneFile/{imageName}", method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public @ResponseBody byte[] getImage(@PathVariable(name="imageName") String imageName) throws IOException {
       
@@ -34,7 +37,10 @@ public class ImageController {
     }
     
     
-    // POST: Sử lý Upload
+    /*
+     * Processing image downloads.
+     * 画像ダウンロードの処理。
+     */
     @RequestMapping(value = "/uploadOneFile", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
     public @ResponseBody String uploadOneFileHandlerPOST(HttpServletRequest request, //
             Model model, //

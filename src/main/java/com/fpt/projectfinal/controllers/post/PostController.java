@@ -1,4 +1,4 @@
-package com.fpt.projectfinal.controllers.post;
+			package com.fpt.projectfinal.controllers.post;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +37,11 @@ public class PostController {
 	@Autowired
 	TagService tagService;
 
+	
+	/*
+	 * Get all the information of the post.
+	 * 投稿のすべての情報を取得します。
+	 */
 	@RequestMapping(value = "/getAllPost", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object> getAllPost() {
@@ -52,6 +57,10 @@ public class PostController {
 		}
 	}
 	
+	/*
+	 * Get all the information of the draft.
+	 * 下書きのすべての情報を取得します。
+	 */
 	@RequestMapping(value = "/allDraftPost", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
 	public List<HashMap<String,Object>> getallDraftPost() {
@@ -72,6 +81,11 @@ public class PostController {
 		return out;
 	}
 
+	
+	/*
+	 * Create a new post.
+	 * 新しい投稿を作成します。
+	 */
 	@RequestMapping(value = "/addPost", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<Object> addPost(@RequestBody  Map<String, Object> payload) {
 
@@ -88,6 +102,11 @@ public class PostController {
 		}
 	}
 
+	
+	/*
+	 * Update post information.
+	 * 投稿情報を更新します。
+	 */
 	@RequestMapping(value = "/updatePost", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Object> updatePost(@RequestBody Map<String, Object> payload) {
 
@@ -103,6 +122,10 @@ public class PostController {
 		}
 	}
 
+	/*
+	 * Get all the post by category.
+	 * カテゴリごとにすべての投稿を取得します。
+	 */
 	@RequestMapping(value = "/getAllPostByCategory/{categoryID}", method = RequestMethod.GET, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
@@ -119,6 +142,10 @@ public class PostController {
 		}
 	}
 	
+	/*
+	 * Filter posts by title.
+	 * タイトルで投稿をフィルタリングします。
+	 */
 	@RequestMapping(value = "/filterByTitle/{title},{categoryID}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
 	public List<Post> filterByName(@PathVariable(value = "title") String title, @PathVariable(value = "categoryID") Integer cagetoryID) {
@@ -127,6 +154,11 @@ public class PostController {
 		return list;
 	}
 	
+	/*
+	 * 
+	 * Get the details of the post.
+	 * 投稿の詳細を取得します。
+	 */
 	@RequestMapping(value = "/getDetailPost/{postID}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
 	public Map<String, Object> getDetailPost(@PathVariable(value = "postID") Integer postID ) {
@@ -144,6 +176,10 @@ public class PostController {
 		return result;
 	}
 	
+	/*
+	 * Count all posts with tag ID.
+	 * タグIDを持つすべての投稿をカウントします。
+	 */
 	@RequestMapping(value = "/getPostsByTagID", method = RequestMethod.GET, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
@@ -155,6 +191,10 @@ public class PostController {
 		return tags;
 	}
 	
+	/*
+	 * Get the latest post.
+	 * 最新の投稿を入手してください。
+	 */
 	@RequestMapping(value = "/getPostNew", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object> getPostNew() {
@@ -170,7 +210,10 @@ public class PostController {
 		}
 	}
 	
-
+	/*
+	 * Count the total number of posts.
+	 * 投稿の総数を数えます。
+	 */
 	@RequestMapping(value = "/getNumberOfPost", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object> getNumberOfUser() {

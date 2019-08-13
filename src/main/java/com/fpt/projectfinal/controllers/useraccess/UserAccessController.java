@@ -33,6 +33,10 @@ public class UserAccessController {
 	@Autowired 
 	RoleService roleService;
 	
+	/*
+	 * Create new users who are granted the right to manage medical records.
+	 * 医療記録を管理する権利を付与された新しいユーザーを作成します。
+	 */
 	@RequestMapping(value = "/addUserAccess", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<Object> addUserAccess(@RequestBody  Map<String, Object> payload) {
 
@@ -49,6 +53,10 @@ public class UserAccessController {
 		}
 	}
 	
+	/*
+	 * update users who are granted the right to manage medical records.
+	 * 医療記録を管理する権利を付与されたユーザーを更新します。
+	 */
 	@RequestMapping(value = "/updateUserAccess", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Object> updateUserAccess(@RequestBody Map<String, Object> payload) {
 
@@ -64,6 +72,10 @@ public class UserAccessController {
 		}
 	}
 	
+	/*
+	 * get all the manager of the medical record.
+	 * 医療記録のすべての管理者を取得します。
+	 */
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/getUserAccessByMedicalRecordID", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
@@ -82,6 +94,10 @@ public class UserAccessController {
 		
 	}
 	
+	/*
+	 * get all of the user's profile management rights.
+	 * ユーザーのすべてのプロファイル管理権限を取得します。
+	 */
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/getUserAccessByUser", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody

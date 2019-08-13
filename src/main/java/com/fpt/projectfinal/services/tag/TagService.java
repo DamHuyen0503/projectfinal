@@ -7,6 +7,10 @@ import org.springframework.stereotype.Service;
 import com.fpt.projectfinal.models.Tag;
 public interface TagService {
 
+	/*
+	 * get all information of tag.
+	 * タグのすべての情報を取得します。
+	 */
 	public List<Tag> getAllTag();
 	
 }

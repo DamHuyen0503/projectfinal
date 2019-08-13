@@ -34,7 +34,10 @@ public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;
 
-	
+	/*
+	 * Get all information category. 
+	 * すべての情報カテゴリを取得します。
+	 */
 	@RequestMapping(value = "/getAllCategory", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object> getAllPost() {
@@ -50,7 +53,10 @@ public class CategoryController {
 		}
 	}
 	
-	
+	/*
+	 * Create a new category.
+	 * 新しいカテゴリを作成します。
+	 */
 	@RequestMapping(value = "/addCategory",method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Object> createCategory(@RequestBody Category category,UriComponentsBuilder builder) {
 		try {
@@ -65,6 +71,11 @@ public class CategoryController {
 		}
     }
 	
+	
+	/*
+	 * Update information category.
+	 * 情報カテゴリを更新します。
+	 */
 	@RequestMapping(value = "/updateCategory",method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE})
 	public ResponseEntity<Object> updateCategory(@RequestBody Category category,UriComponentsBuilder builder) {
 		try {
@@ -79,6 +90,11 @@ public class CategoryController {
 		}
     }
 	
+	
+	/*
+	 * Get information category by category ID.
+	 * カテゴリIDで情報カテゴリを取得します。
+	 */
 	@RequestMapping(value = "/getCategoryByID/{categoryID}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object> getCategoryByID(@PathVariable(value = "categoryID") Integer categoryID ) {
@@ -95,6 +111,10 @@ public class CategoryController {
 		}
 	}
 	
+	/*
+	 * Count sum category.
+	 * 合計カテゴリをカウントします。
+	 */
 	@RequestMapping(value = "/CountCategory", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object> getCountCategory() {

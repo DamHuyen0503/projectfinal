@@ -33,7 +33,10 @@ public class AuthenController {
 	AuthenService authenService;
 	
 	
-	
+	/*
+	 * Get all information account. 
+	 * すべての情報アカウントを取得します。
+	 */
 	@RequestMapping(value = "/getAllAccount", method = RequestMethod.GET, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
@@ -42,6 +45,10 @@ public class AuthenController {
 		return list;
 	}
 	
+	/*
+	 * Create new website access account.
+	 * 新しいサイトにアクセスするためのアカウントを作成します。
+	 */
 	@RequestMapping(value = "/addAccount", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object> addAccount(@RequestBody Map<String, Object> payload) {
@@ -58,6 +65,11 @@ public class AuthenController {
 		
 	}
 	
+	
+	/*
+	 * Get all  information account by email.
+	 * メールですべての情報アカウントを取得します。
+	 */
 	@RequestMapping(value = "/getByEmail", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
 	public String getByEmail(@RequestBody Map<String, Object> payload) {
@@ -65,6 +77,10 @@ public class AuthenController {
 			return acc.getEmail();
 	}
 	
+	/*
+	 * update account information.
+	 * アカウント情報を更新する
+	 */
 	@RequestMapping(value = "/updateAccount", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Object> updateAccount(@RequestBody Map<String, Object> payload) {
 

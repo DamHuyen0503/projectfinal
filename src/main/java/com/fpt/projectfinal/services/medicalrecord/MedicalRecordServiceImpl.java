@@ -48,214 +48,118 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Map<String, Object> addMedicalRecord(Map<String, Object> payload) {
-		Map<String, Object> mapOutput = new HashMap<String, Object>();
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		Account acc = accountDao.getAccountByEmail(username);
-		MedicalRecord medicalRecord = new MedicalRecord();
-		medicalRecord.setCreateDate(new Date());
-		medicalRecord.setStatus((int) payload.get("status"));
-		medicalRecord.setPyschologyType((String) payload.get("pshychologyType"));
-		medicalRecord.setJob((String) payload.get("job"));
-		medicalRecord.setCurrentAddress((String) payload.get("currentAddress"));
-		medicalRecord.setRelativesPhone((String) payload.get("relativesPhone"));
-		medicalRecord.setPyschologyType((String) payload.get("pshychologyType"));
-		medicalRecord.setOtherStatus((String) payload.get("otherStatus"));
-		medicalRecord.setRelativesName((String) payload.get("relativesName"));
-		medicalRecord.setNoteOfRelatives((String) payload.get("noteOfRelatives"));
-
-		medicalRecord.setRelativesRelationship((String) payload.get("relativesRelationship"));
-		medicalRecord.setHealth((String) payload.get("health"));
-		medicalRecord.setLearningResult((String) payload.get("learningResult"));
-		medicalRecord.setFriendStatus((String) payload.get("friendStatus"));
-		medicalRecord.setFamilyStatus((String) payload.get("familyStatus"));
-		medicalRecord.setAroundReact((String) payload.get("aroundReact"));
-		medicalRecord.setFeelingHistory((String) payload.get("feelingHistory"));
-		medicalRecord.setReason((String) payload.get("reason"));
-
-		medicalRecord.setSolutionInPast((String) payload.get("solutionInPast"));
-		medicalRecord.setProblemProcess((String) payload.get("problemProcess"));
-		medicalRecord.setCurrentProblem((String) payload.get("currentProblem"));
-
-		medicalRecord.setAppearanceOfProblem((String) payload.get("appearanceOfProblem"));
-		medicalRecord.setReactHistory((String) payload.get("reactHistory"));
-		medicalRecord.setStrength((String) payload.get("strength"));
-		medicalRecord.setResource((String) payload.get("resource"));
-		medicalRecord.setObstacle((String) payload.get("obstacle"));
-		medicalRecord.setResult((String) payload.get("result"));
-		medicalRecord.setProcessing((String) payload.get("processing"));
-		medicalRecord.setCause((String) payload.get("cause"));
-		medicalRecord.setMethod((String) payload.get("method"));
-		medicalRecord.setProblem((String) payload.get("problem"));
-
-		Client client = clientDao.getClientByID((int) payload.get("clientID"));
-		medicalRecord.setClient(client);
-		
-		
-		Set<NoteProcess> notes = new HashSet<>();
-		ArrayList<Object> note_list = (ArrayList<Object>) payload.get("notes");
-//		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-//		Account acc = accountDao.getAccountByEmail(username);
-		for (Object result : note_list) {
-			Map<String, Object> resultmap = (Map) result;
-			try {
-				NoteProcess note = new NoteProcess(
-						ConvertDateTime.ConvertDate(
-								(String)resultmap.get("startTime")
-								), 
-						ConvertDateTime.ConvertDate(
-								(String)resultmap.get("endTime")
-								), 
-						(String)resultmap.get("content"), 
-						(int)resultmap.get("evaluation")
-						);
-				
-				note.setMedicalRecord(medicalRecord);
-				note.setUser(acc.getUser());
-				notes.add(note);
+	 try {
+		 Map<String, Object> mapOutput = new HashMap<String, Object>();
+			String username = SecurityContextHolder.getContext().getAuthentication().getName();
 			
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			Account acc = accountDao.getAccountByEmail(username);
+			MedicalRecord medicalRecord = new MedicalRecord();
+			medicalRecord.setCreateDate(new Date());
+			if (payload.get("status") == null) {
+				mapOutput.put("error", "status null");
+				return mapOutput;
 			}
-		}
-		medicalRecord.setNoteProcess(notes);
+			if ((int)payload.get("status") <0 ||(int)payload.get("status") >4 ) {
+				mapOutput.put("error", "status invalid");
+				return mapOutput;
+			}
+			if (payload.get("clientID") == null) {
+				mapOutput.put("error", "clientID null");
+				return mapOutput;
+			}
+			Client client = clientDao.getClientByID((int) payload.get("clientID"));
+			if (client == null) {
+				mapOutput.put("error", "client not found");
+				return mapOutput;
+			}
+			medicalRecord.setStatus((int) payload.get("status"));
+			medicalRecord.setPyschologyType((String) payload.get("pshychologyType"));
+			medicalRecord.setJob((String) payload.get("job"));
+			medicalRecord.setCurrentAddress((String) payload.get("currentAddress"));
+			medicalRecord.setRelativesPhone((String) payload.get("relativesPhone"));
+			medicalRecord.setPyschologyType((String) payload.get("pshychologyType"));
+			medicalRecord.setOtherStatus((String) payload.get("otherStatus"));
+			medicalRecord.setRelativesName((String) payload.get("relativesName"));
+			medicalRecord.setNoteOfRelatives((String) payload.get("noteOfRelatives"));
+
+			medicalRecord.setRelativesRelationship((String) payload.get("relativesRelationship"));
+			medicalRecord.setHealth((String) payload.get("health"));
+			medicalRecord.setLearningResult((String) payload.get("learningResult"));
+			medicalRecord.setFriendStatus((String) payload.get("friendStatus"));
+			medicalRecord.setFamilyStatus((String) payload.get("familyStatus"));
+			medicalRecord.setAroundReact((String) payload.get("aroundReact"));
+			medicalRecord.setFeelingHistory((String) payload.get("feelingHistory"));
+			medicalRecord.setReason((String) payload.get("reason"));
+
+			medicalRecord.setSolutionInPast((String) payload.get("solutionInPast"));
+			medicalRecord.setProblemProcess((String) payload.get("problemProcess"));
+			medicalRecord.setCurrentProblem((String) payload.get("currentProblem"));
+
+			medicalRecord.setAppearanceOfProblem((String) payload.get("appearanceOfProblem"));
+			medicalRecord.setReactHistory((String) payload.get("reactHistory"));
+			medicalRecord.setStrength((String) payload.get("strength"));
+			medicalRecord.setResource((String) payload.get("resource"));
+			medicalRecord.setObstacle((String) payload.get("obstacle"));
+			medicalRecord.setResult((String) payload.get("result"));
+			medicalRecord.setProcessing((String) payload.get("processing"));
+			medicalRecord.setCause((String) payload.get("cause"));
+			medicalRecord.setMethod((String) payload.get("method"));
+			medicalRecord.setProblem((String) payload.get("problem"));
+			
+			
+			medicalRecord.setClient(client);
+			Set<NoteProcess> notes = new HashSet<>();
+			ArrayList<Object> note_list = (ArrayList<Object>) payload.get("notes");
+			for (Object result : note_list) {
+				Map<String, Object> resultmap = (Map) result;
+				try {
+					NoteProcess note = new NoteProcess(
+							ConvertDateTime.ConvertDate(
+									(String)resultmap.get("startTime")
+									), 
+							ConvertDateTime.ConvertDate(
+									(String)resultmap.get("endTime")
+									), 
+							(String)resultmap.get("content"), 
+							(int)resultmap.get("evaluation")
+							);
+					
+					note.setMedicalRecord(medicalRecord);
+					note.setUser(acc.getUser());
+					notes.add(note);
+				
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			medicalRecord.setNoteProcess(notes);
+				medicalRecordDao.addMedicalRecord(medicalRecord);
+				mapOutput.put("medicalRecordID", medicalRecord.getMedicalRecordID());
+				mapOutput.put("createdDate", medicalRecord.getCreateDate());
+			return mapOutput;
+	 } catch (Exception e) {
+		 Map<String, Object> mapOutput = new HashMap<String, Object>();
+		 mapOutput.put("error", e.getMessage());
+			return mapOutput;
+	}
 		
-		if (!medicalRecordDao.checkExitMedicalRecord(medicalRecord.getMedicalRecordID())) {
-			medicalRecordDao.addMedicalRecord(medicalRecord);
-			mapOutput.put("medicalRecordID", medicalRecord.getMedicalRecordID());
-			mapOutput.put("createdDate", medicalRecord.getCreateDate());
-		} else
-			mapOutput.put("error", "duplicate medicalRecordID");
-		return mapOutput;
 	}
 
 	@Override
 	public Map<String, Object> getMedicalRecordByID(int id) {
-		if (id == 0) {
-			return null;
-		}
-		MedicalRecord medicalRecord = medicalRecordDao.getMedicalRecordByID(id);
 		Map<String, Object> mapRecord = new HashMap<>();
-		mapRecord.put("medicalRecordID", medicalRecord.getMedicalRecordID());
-		mapRecord.put("createdDate", medicalRecord.getCreateDate());
-		mapRecord.put("pshychologyType", medicalRecord.getPyschologyType());
-		mapRecord.put("modifiedDate", new Date());
-		mapRecord.put("job", medicalRecord.getJob());
-		mapRecord.put("currentAddress", medicalRecord.getCurrentAddress());
-		mapRecord.put("relativesPhone", medicalRecord.getRelativesPhone());
-		mapRecord.put("otherStatus", medicalRecord.getObstacle());
-		mapRecord.put("relativesName", medicalRecord.getRelativesName());
-		mapRecord.put("noteOfRelatives", medicalRecord.getNoteOfRelatives());
-		mapRecord.put("relativesRelationship", medicalRecord.getRelativesRelationship());
-		mapRecord.put("health", medicalRecord.getHealth());
-		mapRecord.put("learningResult", medicalRecord.getLearningResult());
-		mapRecord.put("friendStatus", medicalRecord.getFriendStatus());
-		mapRecord.put("familyStatus", medicalRecord.getFamilyStatus());
-		mapRecord.put("aroundReact", medicalRecord.getAroundReact());
-		mapRecord.put("feelingHistory", medicalRecord.getFeelingHistory());
-		mapRecord.put("reason", medicalRecord.getReason());
-		mapRecord.put("solutionInPast", medicalRecord.getSolutionInPast());
-		mapRecord.put("problemProcess", medicalRecord.getProblemProcess());	
-		mapRecord.put("currentProblem", medicalRecord.getCurrentProblem());
-		mapRecord.put("appearanceOfProblem", medicalRecord.getAppearanceOfProblem());
-		mapRecord.put("reactHistory", medicalRecord.getReactHistory());
-		mapRecord.put("strength", medicalRecord.getStrength());
-		mapRecord.put("resource", medicalRecord.getReason());
-		mapRecord.put("obstacle", medicalRecord.getObstacle());
-		mapRecord.put("result", medicalRecord.getResult());
-		mapRecord.put("processing", medicalRecord.getProcessing());
-		mapRecord.put("cause", medicalRecord.getCause());
-		mapRecord.put("method", medicalRecord.getMethod());
-		mapRecord.put("problem", medicalRecord.getProblem());
-		mapRecord.put("status", medicalRecord.getStatus());
-		mapRecord.put("clientID", medicalRecord.getClient().getClientID());
-		return mapRecord;
-	}
-
-	@Override
-	public void updateMedicalRecord(Map<String, Object> payload) {
-		@SuppressWarnings("unused")
-		Map<String, Object> mapOutput = new HashMap<String, Object>();
-		MedicalRecord medicalRecord = new MedicalRecord();
-		medicalRecord.setMedicalRecordID((int) payload.get("medicalRecordID"));
-		medicalRecord.setCreateDate(new Date());
-		medicalRecord.setStatus((int) payload.get("status"));
-		medicalRecord.setPyschologyType((String) payload.get("pshychologyType"));
-		medicalRecord.setJob((String) payload.get("job"));
-		medicalRecord.setCurrentAddress((String) payload.get("currentAddress"));
-		medicalRecord.setRelativesPhone((String) payload.get("relativesPhone"));
-		medicalRecord.setPyschologyType((String) payload.get("pshychologyType"));
-		medicalRecord.setOtherStatus((String) payload.get("otherStatus"));
-		medicalRecord.setRelativesName((String) payload.get("relativesName"));
-		medicalRecord.setNoteOfRelatives((String) payload.get("noteOfRelatives"));
-
-		medicalRecord.setRelativesRelationship((String) payload.get("relativesRelationship"));
-		medicalRecord.setHealth((String) payload.get("health"));
-		medicalRecord.setLearningResult((String) payload.get("learningResult"));
-		medicalRecord.setFriendStatus((String) payload.get("friendStatus"));
-		medicalRecord.setFamilyStatus((String) payload.get("familyStatus"));
-		medicalRecord.setAroundReact((String) payload.get("aroundReact"));
-		medicalRecord.setFeelingHistory((String) payload.get("feelingHistory"));
-		medicalRecord.setReason((String) payload.get("reason"));
-
-		medicalRecord.setSolutionInPast((String) payload.get("solutionInPast"));
-		medicalRecord.setProblemProcess((String) payload.get("problemProcess"));
-		medicalRecord.setCurrentProblem((String) payload.get("currentProblem"));
-
-		medicalRecord.setAppearanceOfProblem((String) payload.get("appearanceOfProblem"));
-		medicalRecord.setReactHistory((String) payload.get("reactHistory"));
-		medicalRecord.setStrength((String) payload.get("strength"));
-		medicalRecord.setResource((String) payload.get("resource"));
-		medicalRecord.setObstacle((String) payload.get("obstacle"));
-		medicalRecord.setResult((String) payload.get("result"));
-		medicalRecord.setProcessing((String) payload.get("processing"));
-		medicalRecord.setCause((String) payload.get("cause"));
-		medicalRecord.setMethod((String) payload.get("method"));
-		medicalRecord.setProblem((String) payload.get("problem"));
-
-		Client client = clientDao.getClientByID((int) payload.get("clientID"));
-		medicalRecord.setClient(client);
-		
-		
-		Set<NoteProcess> notes = new HashSet<>();
-		ArrayList<Object> note_list = (ArrayList<Object>) payload.get("notes");
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		Account acc = accountDao.getAccountByEmail(username);
-		for (Object result : note_list) {
-			Map<String, Object> resultmap = (Map) result;
-			try {
-				NoteProcess note = new NoteProcess(
-						ConvertDateTime.ConvertDate(
-								(String)resultmap.get("startTime")
-								), 
-						ConvertDateTime.ConvertDate(
-								(String)resultmap.get("endTime")
-								), 
-						(String)resultmap.get("content"), 
-						(int)resultmap.get("evaluation")
-						);
-				
-				note.setMedicalRecord(medicalRecord);
-				note.setUser(acc.getUser());
-				notes.add(note);
-			
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		MedicalRecord medicalRecord = medicalRecordDao.getMedicalRecordByID(id);
+		if (medicalRecord == null) {
+			mapRecord.put("message", "not found");
+			return mapRecord;
 		}
-		medicalRecord.setNoteProcess(notes);
-		medicalRecordDao.updateMedicalRecord(medicalRecord);
-	}
-
-	@Override
-	public List<Map<String, Object>> getMedicalRecordByDay(Date day) {
-		List<Map<String, Object>> result = new ArrayList<>();
-		Map<String,  Object> mapMedical = new HashMap<>();
+	
 		
-		List<MedicalRecord> medicalRecords = medicalRecordDao.getMedicalRecordByDay(day);
-		for (MedicalRecord medicalRecord : medicalRecords) {
-			Map<String, Object> mapRecord = new HashMap<>();
+		try {
+			if (id == 0) {
+				mapRecord.put("error", "medicalRecord ID null");
+				return null;
+			}
 			mapRecord.put("medicalRecordID", medicalRecord.getMedicalRecordID());
 			mapRecord.put("createdDate", medicalRecord.getCreateDate());
 			mapRecord.put("pshychologyType", medicalRecord.getPyschologyType());
@@ -287,11 +191,181 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 			mapRecord.put("cause", medicalRecord.getCause());
 			mapRecord.put("method", medicalRecord.getMethod());
 			mapRecord.put("problem", medicalRecord.getProblem());
+			mapRecord.put("status", medicalRecord.getStatus());
 			mapRecord.put("clientID", medicalRecord.getClient().getClientID());
-			result.add(mapRecord);
+			return mapRecord;
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+			mapRecord.put("error", e.getMessage());
+			return mapRecord;
 		}
 		
-		return result;
+	}
+
+	@Override
+	public String updateMedicalRecord(Map<String, Object> payload) throws Exception {
+		@SuppressWarnings("unused")
+		Map<String, Object> mapOutput = new HashMap<String, Object>();
+		
+		if (payload.get("medicalRecordID") == null) {
+			
+			return "medicalRecordID null";
+		}
+		if ((int) payload.get("medicalRecordID") == 0) {
+			return "medicalRecordID invalidate";
+		}
+		MedicalRecord medicalRecord = medicalRecordDao.getMedicalRecordByID((int) payload.get("medicalRecordID"));
+		if (medicalRecord == null)
+		{
+			return "medicalRecord not found";
+		}
+		try {
+			
+			medicalRecord.setMedicalRecordID((int) payload.get("medicalRecordID"));
+			medicalRecord.setCreateDate(new Date());
+			medicalRecord.setStatus((int) payload.get("status"));
+			medicalRecord.setPyschologyType((String) payload.get("pshychologyType"));
+			medicalRecord.setJob((String) payload.get("job"));
+			medicalRecord.setCurrentAddress((String) payload.get("currentAddress"));
+			medicalRecord.setRelativesPhone((String) payload.get("relativesPhone"));
+			medicalRecord.setPyschologyType((String) payload.get("pshychologyType"));
+			medicalRecord.setOtherStatus((String) payload.get("otherStatus"));
+			medicalRecord.setRelativesName((String) payload.get("relativesName"));
+			medicalRecord.setNoteOfRelatives((String) payload.get("noteOfRelatives"));
+
+			medicalRecord.setRelativesRelationship((String) payload.get("relativesRelationship"));
+			medicalRecord.setHealth((String) payload.get("health"));
+			medicalRecord.setLearningResult((String) payload.get("learningResult"));
+			medicalRecord.setFriendStatus((String) payload.get("friendStatus"));
+			medicalRecord.setFamilyStatus((String) payload.get("familyStatus"));
+			medicalRecord.setAroundReact((String) payload.get("aroundReact"));
+			medicalRecord.setFeelingHistory((String) payload.get("feelingHistory"));
+			medicalRecord.setReason((String) payload.get("reason"));
+
+			medicalRecord.setSolutionInPast((String) payload.get("solutionInPast"));
+			medicalRecord.setProblemProcess((String) payload.get("problemProcess"));
+			medicalRecord.setCurrentProblem((String) payload.get("currentProblem"));
+
+			medicalRecord.setAppearanceOfProblem((String) payload.get("appearanceOfProblem"));
+			medicalRecord.setReactHistory((String) payload.get("reactHistory"));
+			medicalRecord.setStrength((String) payload.get("strength"));
+			medicalRecord.setResource((String) payload.get("resource"));
+			medicalRecord.setObstacle((String) payload.get("obstacle"));
+			medicalRecord.setResult((String) payload.get("result"));
+			medicalRecord.setProcessing((String) payload.get("processing"));
+			medicalRecord.setCause((String) payload.get("cause"));
+			medicalRecord.setMethod((String) payload.get("method"));
+			medicalRecord.setProblem((String) payload.get("problem"));
+
+			if (payload.get("clientID") == null) {
+				return "clientID null";
+			}
+			Client client = clientDao.getClientByID((int) payload.get("clientID"));
+			if (client == null) {
+				return "client not found";
+			}
+			medicalRecord.setClient(client);
+			
+			
+			Set<NoteProcess> notes = new HashSet<>();
+			ArrayList<Object> note_list = (ArrayList<Object>) payload.get("notes");
+			String username = SecurityContextHolder.getContext().getAuthentication().getName();
+			Account acc = accountDao.getAccountByEmail(username);
+			for (Object result : note_list) {
+				Map<String, Object> resultmap = (Map) result;
+				
+					NoteProcess note = new NoteProcess(
+							ConvertDateTime.ConvertDate(
+									(String)resultmap.get("startTime")
+									), 
+							ConvertDateTime.ConvertDate(
+									(String)resultmap.get("endTime")
+									), 
+							(String)resultmap.get("content"), 
+							(int)resultmap.get("evaluation")
+							);
+					
+					note.setMedicalRecord(medicalRecord);
+					note.setUser(acc.getUser());
+					notes.add(note);
+				
+				
+			}
+			medicalRecord.setNoteProcess(notes);
+			medicalRecordDao.updateMedicalRecord(medicalRecord);
+			return "successful";
+			
+		}
+		catch (Exception e) {
+			return e.getMessage();
+		}
+		
+		
+	}
+
+	@Override
+	public List<Map<String, Object>> getMedicalRecordByDay(Date day) {
+		List<Map<String, Object>> result = new ArrayList<>();
+		Map<String,  Object> mapMedical = new HashMap<>();
+		if (day == null) {
+			mapMedical.put("error", "date null");
+			result.add(mapMedical);
+			return result;
+		}
+		List<MedicalRecord> medicalRecords = medicalRecordDao.getMedicalRecordByDay(day);
+		if (medicalRecords == null) {
+			mapMedical.put("message", "not have medicalRecord in date");
+			result.add(mapMedical);
+			return result;
+		}
+		try {
+			for (MedicalRecord medicalRecord : medicalRecords) {
+				Map<String, Object> mapRecord = new HashMap<>();
+				mapRecord.put("medicalRecordID", medicalRecord.getMedicalRecordID());
+				mapRecord.put("createdDate", medicalRecord.getCreateDate());
+				mapRecord.put("pshychologyType", medicalRecord.getPyschologyType());
+				mapRecord.put("modifiedDate", new Date());
+				mapRecord.put("job", medicalRecord.getJob());
+				mapRecord.put("currentAddress", medicalRecord.getCurrentAddress());
+				mapRecord.put("relativesPhone", medicalRecord.getRelativesPhone());
+				mapRecord.put("otherStatus", medicalRecord.getObstacle());
+				mapRecord.put("relativesName", medicalRecord.getRelativesName());
+				mapRecord.put("noteOfRelatives", medicalRecord.getNoteOfRelatives());
+				mapRecord.put("relativesRelationship", medicalRecord.getRelativesRelationship());
+				mapRecord.put("health", medicalRecord.getHealth());
+				mapRecord.put("learningResult", medicalRecord.getLearningResult());
+				mapRecord.put("friendStatus", medicalRecord.getFriendStatus());
+				mapRecord.put("familyStatus", medicalRecord.getFamilyStatus());
+				mapRecord.put("aroundReact", medicalRecord.getAroundReact());
+				mapRecord.put("feelingHistory", medicalRecord.getFeelingHistory());
+				mapRecord.put("reason", medicalRecord.getReason());
+				mapRecord.put("solutionInPast", medicalRecord.getSolutionInPast());
+				mapRecord.put("problemProcess", medicalRecord.getProblemProcess());	
+				mapRecord.put("currentProblem", medicalRecord.getCurrentProblem());
+				mapRecord.put("appearanceOfProblem", medicalRecord.getAppearanceOfProblem());
+				mapRecord.put("reactHistory", medicalRecord.getReactHistory());
+				mapRecord.put("strength", medicalRecord.getStrength());
+				mapRecord.put("resource", medicalRecord.getReason());
+				mapRecord.put("obstacle", medicalRecord.getObstacle());
+				mapRecord.put("result", medicalRecord.getResult());
+				mapRecord.put("processing", medicalRecord.getProcessing());
+				mapRecord.put("cause", medicalRecord.getCause());
+				mapRecord.put("method", medicalRecord.getMethod());
+				mapRecord.put("problem", medicalRecord.getProblem());
+				mapRecord.put("clientID", medicalRecord.getClient().getClientID());
+				result.add(mapRecord);
+			}
+			
+			return result;
+		}
+		catch (Exception e) {
+			Map<String,  Object> mapError = new HashMap<>();
+			mapError.put("error", e.getMessage());
+			result.add(mapMedical);
+			return result;
+		}
+		
 	}
 
 	@Override
@@ -310,15 +384,28 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 
 	@Override
 	public List<Map<String, Object>> getMedicalRecordByClient(int clientID) {
+		
 		List<Map<String, Object>> result = new ArrayList<>();
 		Map<String, Object> medicalRecord = new HashMap<>();
+		if (clientID <= 0) {
+			medicalRecord.put("message", "client invalidate");
+			result.add(medicalRecord);
+			return result;
+		}
+		
 		Client client = clientDao.getClientByID(clientID);
 		if (client == null) {
 			medicalRecord.put("message", "client null");
 			result.add(medicalRecord);
 			return result;
 		}
+		
 		List<MedicalRecord> listMedical = medicalRecordDao.getMedicalRecordByClient(client);
+		if (listMedical == null) {
+			medicalRecord.put("message", "medicalRecord not found");
+			result.add(medicalRecord);
+			return result;
+		}
 		for (MedicalRecord medical : listMedical) {
 			List<String> listUser = new ArrayList<>();
 			List<UserAccess> userAccess = userAccessDao.getUserAccessByMedicalRecord(medical);

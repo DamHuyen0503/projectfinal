@@ -22,6 +22,11 @@ public class TagController {
 	final static Logger logger = LoggerFactory.getLogger(CategoryController.class);
 	@Autowired
 	TagService tagService;
+	
+	/*
+	 * get all information of tag.
+	 * タグのすべての情報を取得します。
+	 */
 	@RequestMapping(value = "/getAllTag", method = RequestMethod.GET, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody

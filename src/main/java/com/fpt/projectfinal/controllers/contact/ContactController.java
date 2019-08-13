@@ -29,6 +29,11 @@ public class ContactController {
 	@Autowired 
 	ContactServices contactService;
 
+	
+	/*
+	 * Create new contact. 
+	 * 新しい連絡先を作成します。
+	 */
 	@RequestMapping(value = "/addContact",method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Object> createCategory(@RequestBody Contact contact,UriComponentsBuilder builder) {
 		try {
@@ -43,6 +48,10 @@ public class ContactController {
 		}
     }
 	
+	/*
+	 * Get all information contact. 
+	 * すべての情報の連絡先を取得します。
+	 */
 	@RequestMapping(value = "/getAllContact", method = RequestMethod.GET, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
@@ -51,6 +60,11 @@ public class ContactController {
 		return list;
 	}
 	
+	
+	/*
+	 * Change the status of the contact.
+	 * 連絡先のステータスを変更します。
+	 */
 	@RequestMapping(value = "/changeStatusContact",method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE})
 	public ResponseEntity<Object> updateCategory(@RequestBody Map<String, Object> payload) {
 		try {

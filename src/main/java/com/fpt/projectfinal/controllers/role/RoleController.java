@@ -31,6 +31,10 @@ public class RoleController {
 	@Autowired
 	RoleService roleService; 
 	
+	/*
+	 * Get all roles in the database.
+	 * データベース内のすべてのロールを取得します。
+	 */
 	@RequestMapping(value = "/getAllRole", method = RequestMethod.GET, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
@@ -39,6 +43,10 @@ public class RoleController {
 		return list;
 	}
 	
+	/*
+	 * Get all user role from the token.
+	 * トークンからすべてのユーザーロールを取得します。
+	 */
 	@RequestMapping(value = "/getRoleByToken", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object>  getRoleByToken(){

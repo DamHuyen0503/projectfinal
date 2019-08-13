@@ -29,6 +29,11 @@ public class UserController {
 	@Autowired 
 	UserService userService;
 	
+	
+	/*
+	 * get user by userID. 
+	 * userIDでユーザーを取得します。 
+	 */
 	@RequestMapping(value = "/getUserByID", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object>  getUserByID(@RequestParam  int userID){
@@ -46,6 +51,10 @@ public class UserController {
 		
 	}
 	
+	/*
+	 * update user. 
+	 * ユーザーを更新します。
+	 */
 	@RequestMapping(value = "/updateUser", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Object> updateUser(@RequestBody Map<String, Object> payload) {
 
@@ -61,6 +70,10 @@ public class UserController {
 		}
 	}
 	
+	/*
+	 * update information user send request. 
+	 * 更新情報ユーザー送信リクエスト。
+	 */
 	@RequestMapping(value = "/updateUserSendRequest", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Object> updateUserSendRequest(@RequestBody Map<String, Object> payload) {
 
@@ -77,9 +90,13 @@ public class UserController {
 	}
 	
 
+	/*
+	 * get all information user. 
+	 * すべての情報ユーザーを取得します。
+	 */
 	@RequestMapping(value = "/getAllUser", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	@ResponseBody
-	public ResponseEntity<Object> getAllPost(@RequestBody Map<String, Object> payload) {
+	public ResponseEntity<Object> getAllUser(@RequestBody Map<String, Object> payload) {
 		try {
 			List<Map<String, Object>> list = userService.getAllUser(payload);
 			if (list != null) {
@@ -95,6 +112,10 @@ public class UserController {
 		}
 	}
 	
+	/*
+	 * count total users.
+	 * 合計ユーザーをカウントします。
+	 */
 	@RequestMapping(value = "/getNumberOfUser", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object> getNumberOfUser() {
@@ -111,6 +132,10 @@ public class UserController {
 		}
 	}
 	
+	/*
+	 * get information user send request. 
+	 * 情報ユーザーがリクエストを送信します。
+	 */
 	@RequestMapping(value = "/getUserSendRequest", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object>  getUserSendRequest(){
@@ -127,6 +152,10 @@ public class UserController {
 		
 	}
 	
+	/*
+	 * Get the user information as an expert.
+	 * エキスパートとしてユーザー情報を取得します。
+	 */
 	@RequestMapping(value = "/getAllExpert", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object>  getAllExpert(){

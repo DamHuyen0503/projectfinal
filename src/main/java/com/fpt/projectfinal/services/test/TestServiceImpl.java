@@ -177,12 +177,13 @@ public class TestServiceImpl implements TestService {
 
 	@Override
 	public String addTest(Map<String, Object> payload) {
-		
+		try {
+			
 		if (payload.get("status") == null) {
 			return "status null";
 		}
 		if ((int)payload.get("status") <0 || (int) payload.get("status")>4) {
-			return "status not valid";
+			return "status invalidate";
 		}
 		if (payload.get("title").toString().length() >255) {
 			return "title more than 255";
@@ -193,8 +194,11 @@ public class TestServiceImpl implements TestService {
 		if (payload.get("image").toString().length() >255) {
 			return "image more than 255";
 		}
-		try {
-			String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		if (username == null) {
+			return "token fail";
+		}
+		
 			Account acc = accountDao.getAccountByEmail(username);
 			Category category = categoryDao.getCategoryByID(1);
 			Test test = new Test();
@@ -261,7 +265,7 @@ public class TestServiceImpl implements TestService {
 		} catch (Exception e) {
 			
 			logger.warn(e.getMessage(), e);
-			return "add fail";
+			return e.getMessage();
 		}
 		
 	}

@@ -26,7 +26,10 @@ public class UserTestController {
 	@Autowired 
 	UserTestService userTestService;
 	
-	
+	/*
+	 * create user test. 
+	 * ユーザーテストを作成します。
+	 */
 	@RequestMapping(value = "/addUserTest", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Object> addUserTest(@RequestBody Map<String, Object> payload) {
 		
@@ -45,6 +48,10 @@ public class UserTestController {
 		
 	}
 	
+	/*
+	 * Count the total number of users taking the test.
+	 * テストを受けるユーザーの総数を数えます。
+	 */
 	@RequestMapping(value = "/getNumberOfUserTest", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object> getNumberOfUserTest() {
@@ -61,6 +68,10 @@ public class UserTestController {
 		}
 	}
 	
+	/*
+	 * get all the tests that the user has done.
+	 * ユーザーが行ったすべてのテストを取得します。
+	 */
 	@RequestMapping(value = "/getTestByUserSendRequest", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object> getTestByUserSendRequest() {
