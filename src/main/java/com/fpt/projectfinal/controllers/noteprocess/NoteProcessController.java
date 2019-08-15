@@ -77,7 +77,7 @@ public class NoteProcessController {
 		try {
 
 		
-			return new ResponseEntity<>(noteProcessService.updateNoteProcess(payload), HttpStatus.CREATED);
+			return new ResponseEntity<>(noteProcessService.updateNoteProcess(payload), HttpStatus.OK);
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

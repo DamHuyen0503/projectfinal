@@ -15,16 +15,28 @@ public class ContactServiceImpl implements ContactServices{
 	@Autowired
 	ContactDao contactDao;
 	@Override
-	public String addContact(Contact contact) {
-		if (contact.getName() == null) {
-			return "name null";
+	public String addContact(Map<String, Object> payload) {
+		Contact contact = new Contact();
+		
+		try {
+			if (payload.get("name") == null) {
+				return "name null";
+			}
+		
+			if (payload.get("email") == null) {
+				return "email null";
+			}
+			contact.setDate(new Date());
+			contact.setContent((String) payload.get("content"));
+			contact.setEmail((String) payload.get("email"));
+			contact.setName((String) payload.get("name"));
+			contact.setStatus((int) payload.get("status"));
+			contactDao.addContact(contact);
+			return "successful";
+		} catch (Exception e) {
+			return e.getMessage();
 		}
-		if (contact.getEmail() == null) {
-			return "email null";
-		}
-		contact.setDate(new Date());
-		contactDao.addContact(contact);
-		return "successful";
+		
 	}
 
 	@Override
@@ -34,15 +46,22 @@ public class ContactServiceImpl implements ContactServices{
 
 	@Override
 	public String updateContact(Map<String, Object> payload) {
-		
-		if (payload.get("contactID") == null) {
-			return "contactID null";
+		try {
+			if ((int)payload.get("contactID") <=0) {
+				return "contactID invalid";
+			}
+			
+			Contact contact = contactDao.getContactByID((int) payload.get("contactID"));
+			if (contact == null ) {
+				return "contact not found";
+			}
+			contact.setStatus((int) payload.get("status"));
+			contactDao.updateContact(contact);
+			return "successful";
+		}catch (Exception e) {
+			return e.getMessage();
 		}
 		
-		Contact contact = contactDao.getContactByID((int) payload.get("contactID"));
-		contact.setStatus((int) payload.get("status"));
-		contactDao.updateContact(contact);
-		return "successful";
 		
 	}
 

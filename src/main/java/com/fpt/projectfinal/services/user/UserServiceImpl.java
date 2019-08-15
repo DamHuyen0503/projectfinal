@@ -43,28 +43,40 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public Map<String, Object> getUserByID(int userID) {
-		Map<String,  Object> result = new HashMap();
-		
-		User user = userDao.getUserByID(userID); 
-		
-		result.put("address", user.getAddress());
-		result.put("avatar", user.getAvatar());
-		result.put("createdDate", user.getCreatedDate());
-		result.put("dob", user.getDOB());
-		result.put("firstName", user.getFirstName());
-		result.put("gender", user.getGender());
-		result.put("lastName", user.getLastName());
-		result.put("phoneNumber", user.getPhoneNumber());
-		result.put("userID", user.getUserID());
-		result.put("email", user.getAccount().getEmail());
-		Account acc = accountDao.getAccountByUser(user);
-		Set<Role> listRole = roleDao.getRoleByAcc(acc);
-		Map<String, Object> mapRole = new HashMap<>();
-		for (Role role : listRole) {
-			mapRole.put("roleName", role.getName());
+		try {
+			Map<String,  Object> result = new HashMap();
+			if (userID <=0) {
+				result.put("message", "userID invalid");
+				return result;
+			}
+			
+			
+			User user = userDao.getUserByID(userID); 
+			
+			result.put("address", user.getAddress());
+			result.put("avatar", user.getAvatar());
+			result.put("createdDate", user.getCreatedDate());
+			result.put("dob", user.getDOB());
+			result.put("firstName", user.getFirstName());
+			result.put("gender", user.getGender());
+			result.put("lastName", user.getLastName());
+			result.put("phoneNumber", user.getPhoneNumber());
+			result.put("userID", user.getUserID());
+			result.put("email", user.getAccount().getEmail());
+			Account acc = accountDao.getAccountByUser(user);
+			Set<Role> listRole = roleDao.getRoleByAcc(acc);
+			Map<String, Object> mapRole = new HashMap<>();
+			for (Role role : listRole) {
+				mapRole.put("roleName", role.getName());
+			}
+			result.put("role", mapRole);
+			return result;
+		} catch (Exception e) {
+			Map<String,  Object> result = new HashMap();
+			result.put("error", e.getMessage());
+			return result;
 		}
-		result.put("role", mapRole);
-		return result;
+	
 	}
 
 	@Override

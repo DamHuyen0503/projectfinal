@@ -46,9 +46,13 @@ public class RoleServiceImpl implements RoleService {
 	public Set<String> getRoleByToken(String Token) {
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-		Set<String> roles = authentication.getAuthorities().stream()
+		Set<String> roles = new HashSet<>();
+		roles = authentication.getAuthorities().stream()
 				.map(r -> r.getAuthority()).collect(Collectors.toSet());
+		if (roles.isEmpty()) {
+			roles.add("role not found");
+			
+		}
 		return roles;
 	}
 

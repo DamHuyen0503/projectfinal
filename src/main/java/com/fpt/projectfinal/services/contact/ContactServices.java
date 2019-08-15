@@ -11,7 +11,7 @@ public interface ContactServices {
 	 * Create new contact. 
 	 * 新しい連絡先を作成します。
 	 */
-	public String addContact(Contact contact);
+	public String addContact(Map<String, Object> payload);
 	
 	/*
 	 * Get all information contact. 

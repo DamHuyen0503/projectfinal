@@ -148,14 +148,18 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 	@Override
 	public Map<String, Object> getMedicalRecordByID(int id) {
 		Map<String, Object> mapRecord = new HashMap<>();
-		MedicalRecord medicalRecord = medicalRecordDao.getMedicalRecordByID(id);
-		if (medicalRecord == null) {
-			mapRecord.put("message", "not found");
+		if (id <=0) {
+			mapRecord.put("error", "id invalid");
 			return mapRecord;
 		}
-	
 		
 		try {
+			MedicalRecord medicalRecord = medicalRecordDao.getMedicalRecordByID(id);
+			if (medicalRecord == null) {
+				mapRecord.put("message", "not found");
+				return mapRecord;
+			}
+		
 			if (id == 0) {
 				mapRecord.put("error", "medicalRecord ID null");
 				return null;
@@ -208,20 +212,20 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 		@SuppressWarnings("unused")
 		Map<String, Object> mapOutput = new HashMap<String, Object>();
 		
-		if (payload.get("medicalRecordID") == null) {
-			
-			return "medicalRecordID null";
-		}
-		if ((int) payload.get("medicalRecordID") == 0) {
-			return "medicalRecordID invalidate";
-		}
-		MedicalRecord medicalRecord = medicalRecordDao.getMedicalRecordByID((int) payload.get("medicalRecordID"));
-		if (medicalRecord == null)
-		{
-			return "medicalRecord not found";
-		}
+	
 		try {
-			
+			if (payload.get("medicalRecordID") == null) {
+				
+				return "medicalRecordID null";
+			}
+			if ((int) payload.get("medicalRecordID") == 0) {
+				return "medicalRecordID invalidate";
+			}
+			MedicalRecord medicalRecord = medicalRecordDao.getMedicalRecordByID((int) payload.get("medicalRecordID"));
+			if (medicalRecord == null)
+			{
+				return "medicalRecord not found";
+			}
 			medicalRecord.setMedicalRecordID((int) payload.get("medicalRecordID"));
 			medicalRecord.setCreateDate(new Date());
 			medicalRecord.setStatus((int) payload.get("status"));

@@ -36,22 +36,39 @@ public class NoteProcessServiceImpl  implements NoteProcessServices{
 	
 	@Override
 	public Map<String, Object> getNoteProcessByMedicalRecordID(int medicalRecordID) {
-	
-		List<NoteProcess> notes =   noteprocessDao.getNoteProcessByMedicalRecordID(medicalRecordID);
-		Map<String, Object> map = new HashMap<String, Object>();
-		List<Map<String, Object>> result = new ArrayList<>();
-		for(NoteProcess note:notes) {
-			Map<String, Object> mapNote = new HashMap<>();
-			mapNote.put("content",note.getContent());
-			mapNote.put("endTime", note.getEndTime());
-			mapNote.put("evaluation", note.getEvaluation());
-			mapNote.put("noteID", note.getNoteID());
-			mapNote.put("startTime", note.getStartTime());
-			mapNote.put("endTime", note.getEndTime());
-			result.add(mapNote);
+		
+		
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
+			if (medicalRecordID <=0) {
+				map.put("error","medicalRecordID invalid");
+				return map;
+			}
+			List<NoteProcess> notes =   noteprocessDao.getNoteProcessByMedicalRecordID(medicalRecordID);
+			if (notes.isEmpty()) {
+				map.put("error","noteProcess not found");
+				return map;
+			}
+			List<Map<String, Object>> result = new ArrayList<>();
+			for(NoteProcess note:notes) {
+				Map<String, Object> mapNote = new HashMap<>();
+				mapNote.put("content",note.getContent());
+				mapNote.put("endTime", note.getEndTime());
+				mapNote.put("evaluation", note.getEvaluation());
+				mapNote.put("noteID", note.getNoteID());
+				mapNote.put("startTime", note.getStartTime());
+				mapNote.put("endTime", note.getEndTime());
+				result.add(mapNote);
+			}
+			map.put("notes",result);
+			return map;
+		}catch (Exception e) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("error",e.getMessage());
+			return map;
 		}
-		map.put("notes",result);
-		return map;
+	
+		
 	}
 
 	@Override
@@ -73,6 +90,10 @@ public class NoteProcessServiceImpl  implements NoteProcessServices{
 		}
 		try {
 			MedicalRecord medical = medicalRecorDao.getMedicalRecordByID((int)payload.get("medicalRecordID"));
+			if( medical == null) {
+				result.put("error", "medicalRecord not found");
+				return result;
+			}
 			noteProcess.setContent((String)payload.get("content"));
 			noteProcess.setEndTime(ConvertTimestamp.ConvertDateTime((String) payload.get("endTime")));
 			if (payload.get("evaluation") != null) {
@@ -92,7 +113,7 @@ public class NoteProcessServiceImpl  implements NoteProcessServices{
 			return result;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			result.put("error", "add fail");
+			result.put("error", e.getMessage());
 			return result;
 		}
 	}
@@ -106,6 +127,9 @@ public class NoteProcessServiceImpl  implements NoteProcessServices{
 		MedicalRecord medical = new MedicalRecord();
 		try {
 			NoteProcess noteProcess = noteprocessDao.getNoteProcessByID((int)payload.get("noteProcessID"));
+			if (noteProcess == null) {
+				return "noteProcess not found";
+			}
 			if (payload.get("medicalRecordID") != null) {
 				medical = medicalRecorDao.getMedicalRecordByID((int)payload.get("medicalRecordID"));
 			}
@@ -120,7 +144,7 @@ public class NoteProcessServiceImpl  implements NoteProcessServices{
 			return "successful";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "fail";
+			return e.getMessage();
 		}
 	}
 

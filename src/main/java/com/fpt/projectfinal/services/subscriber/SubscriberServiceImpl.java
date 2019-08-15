@@ -26,22 +26,26 @@ public class SubscriberServiceImpl implements SubscriberService{
 	@Override
 	public String addSubscriber(Map<String, Object> payload) {
 		
-		List<Subscriber> listSubscriber = subscriberDao.getAllSubscriber();
-		for (Subscriber sub : listSubscriber) {
-			if (sub.getEmail().equals((String)payload.get("email"))) {
-				return "duplicate email";
-			}
-		}
-		if (payload.get("email") == null) {
-			return "email null";
-		}
-		if (payload.get("categoryID") == null) {
-			return "categoryID null";
-		}
-		if (payload.get("status") == null) {
-			return "status null";
-		}
+		
 		try {
+			List<Subscriber> listSubscriber = subscriberDao.getAllSubscriber();
+			for (Subscriber sub : listSubscriber) {
+				if (sub.getEmail().equals((String)payload.get("email"))) {
+					return "duplicate email";
+				}
+			}
+			if (payload.get("email") == null) {
+				return "email null";
+			}
+			if (payload.get("categoryID") == null) {
+				return "categoryID null";
+			}
+			if (payload.get("status") == null) {
+				return "status null";
+			}
+			if ((int) payload.get("status") <0 || (int) payload.get("status") >4 ) {
+				return "status invalid";
+			}
 			List<Integer> listCategoryID = (List<Integer>) payload.get("categoryID");
 			Set<Category> setCategory = new  HashSet<>(); 
 			for (int cateID : listCategoryID) {
@@ -58,7 +62,7 @@ public class SubscriberServiceImpl implements SubscriberService{
 			return "successful";
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "add fail";
+			return e.getMessage();
 		}
 	}
 
@@ -71,6 +75,9 @@ public class SubscriberServiceImpl implements SubscriberService{
 	public String updateSubscriber(Map<String, Object> payload) {
 		
 		try {
+			if (payload.get("subscriberID") == null) {
+				return "subscriberID null";
+			}
 			List<Integer> listCategoryID = (List<Integer>) payload.get("categoryID");
 			Set<Category> setCategory = new  HashSet<>(); 
 			for (int cateID : listCategoryID) {
@@ -79,6 +86,9 @@ public class SubscriberServiceImpl implements SubscriberService{
 			}
 			
 			Subscriber sub = subscriberDao.getSubscriberByID((int)payload.get("subscriberID"));
+			if (sub ==  null) {
+				return "sub not found";
+			}
 			sub.setCategorys(setCategory);
 			sub.setStatus((int)payload.get("status"));
 			sub.setSubscriberDate(new Date());
@@ -87,7 +97,7 @@ public class SubscriberServiceImpl implements SubscriberService{
 			return "successful";
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
-			return "update fail";
+			return e.getMessage();
 		}
 	}
 

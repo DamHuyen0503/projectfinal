@@ -35,10 +35,10 @@ public class ContactController {
 	 * 新しい連絡先を作成します。
 	 */
 	@RequestMapping(value = "/addContact",method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Object> createCategory(@RequestBody Contact contact,UriComponentsBuilder builder) {
+	public ResponseEntity<Object> createCategory(@RequestBody Map<String, Object> payload,UriComponentsBuilder builder) {
 		try {
-			contactService.addContact(contact);
-	        return new ResponseEntity<>(contact, HttpStatus.OK);
+			
+	        return new ResponseEntity<>(contactService.addContact(payload), HttpStatus.OK);
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
