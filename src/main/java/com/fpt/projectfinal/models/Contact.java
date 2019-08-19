@@ -21,7 +21,7 @@ public class Contact {
 	@Column(name = "date")
 	private Date date;
 	
-	@Column (name = "content")
+	@Column (name = "content", length = 1000)
 	private String content;
 	
 	@Column (name = "name")
