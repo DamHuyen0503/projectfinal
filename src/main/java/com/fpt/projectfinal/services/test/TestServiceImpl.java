@@ -143,7 +143,8 @@ public class TestServiceImpl implements TestService {
 		map.put("image", test.getImage());
 		map.put("createdDate", test.getCreatedDate());
 		map.put("modifiedDate", test.getModifiedDate());
-//		
+		map.put("status", test.getStatus());
+
 		User user = test.getUser();
 		
 		Map<String, Object> u = new HashMap<>();
