@@ -100,9 +100,10 @@ public class UserTestServiceImpl implements UserTestService {
 				result.put("title", test.getTitle());
 				result.put("result", u.getResult());
 				Set<Result> setResult = resultDao.getResultByTest(test);
-				Map<String, Object> mapContentResult = new HashMap<>();
+				
 				List<Object> contentResult = new ArrayList<>();
 				for(Result res : setResult) {
+					Map<String, Object> mapContentResult = new HashMap<>();
 					mapContentResult.put("resultID", res.getResultID());
 					mapContentResult.put("content", res.getContent());
 					contentResult.add(mapContentResult);
