@@ -35,4 +35,10 @@ public interface SubscriberDao {
 	 * IDでサブスクライバーを取得します。
 	 */
 	public Subscriber getSubscriberByID (int subscriberID);
+	
+	/*
+	 * get subscriber by category
+	 *  カテゴリー別に加入者を取得する
+	 */
+	public List<Subscriber> listSubscriberByCategory(int categoryID);
 }

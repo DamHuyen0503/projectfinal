@@ -1,13 +1,16 @@
 package com.fpt.projectfinal.daos.subscriber;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.PersistenceUnitUtil;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -58,6 +61,21 @@ public class SubscriberDaoImpl implements SubscriberDao {
 			return subscribers.get(0);
 		}
 		return null;
+	}
+
+	@Override
+	public List<Subscriber> listSubscriberByCategory(int categoryID) {
+		PersistenceUnitUtil impl = session.getPersistenceUnitUtil();
+		List<Subscriber> subs = new ArrayList<>();
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.append("SELECT S FROM Subscriber S ");
+			stringBuilder.append("JOIN S.categorys SC ");
+			stringBuilder.append("WHERE SC.categoryID = :categoryId ");
+			
+			Query<Subscriber> query = session.getCurrentSession().createQuery(stringBuilder.toString());
+			query = query.setParameter("categoryId", categoryID);
+//		    subs = session.getCurrentSession().createQuery(stringBuilder.toString()).setParameter("categoryId", categoryID).getResultList();
+			return query.getResultList();
 	}
 
 }
