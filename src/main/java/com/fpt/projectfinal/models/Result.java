@@ -25,7 +25,7 @@ public class Result {
 	private int lowestPoint;
 	
 
-	@Column(name = "content")
+	@Column(name = "content", length = 1000)
 	private String content;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
