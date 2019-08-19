@@ -65,11 +65,12 @@ public class UserServiceImpl implements UserService{
 			result.put("email", user.getAccount().getEmail());
 			Account acc = accountDao.getAccountByUser(user);
 			Set<Role> listRole = roleDao.getRoleByAcc(acc);
-			Map<String, Object> mapRole = new HashMap<>();
+//			Map<String, Object> mapRole = new HashMap<>();
+			List<String> resultRole = new ArrayList<>(); 
 			for (Role role : listRole) {
-				mapRole.put("roleName", role.getName());
+				resultRole.add(role.getName());
 			}
-			result.put("role", mapRole);
+			result.put("role", resultRole);
 			return result;
 		} catch (Exception e) {
 			Map<String,  Object> result = new HashMap();
