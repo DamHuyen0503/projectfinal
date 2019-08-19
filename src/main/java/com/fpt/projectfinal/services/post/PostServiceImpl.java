@@ -300,8 +300,32 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<Post> getPostsByTagID(Integer tagID, Integer page) {
-		return postDao.getPostsByTagID(tagID, page);
+	public List<Map<String, Object>> getPostsByTagID(Integer tagID, Integer page) {
+		List<Map<String, Object>> result = new ArrayList<>();
+		List<Post> listPost = postDao.getPostsByTagID(tagID, page);
+		for (Post post : listPost) {
+			Map<String, Object> mapPost = new HashMap<>();
+			mapPost.put("content", post.getContent());
+			mapPost.put("createdDate", post.getCreatedDate());
+			mapPost.put("discription", post.getDescription());
+			mapPost.put("image", post.getImage());
+			mapPost.put("modifiedDate", post.getModifiedDate());
+			mapPost.put("postID", post.getPostID());
+			mapPost.put("status", post.getStatus());
+			mapPost.put("title", post.getTitle());
+			Set<Tag> setTag = tagDao.getTagByPost(post);
+			List<Map<String, Object>> listTag = new ArrayList<>();
+			for (Tag tag : setTag) {
+				Map<String, Object> mapTag = new HashMap<>();
+				mapTag.put("content", tag.getContent());
+				mapTag.put("createdDate", tag.getCreatedDate());
+				mapTag.put("tagID", tag.getTagID());
+				listTag.add(mapTag);
+			}
+			mapPost.put("tags", listTag);
+			result.add(mapPost);
+		}
+		return result;
 	}
 
 	@Override

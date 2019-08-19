@@ -47,7 +47,7 @@ public class MedicalRecordController {
 
 			produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
-	public ResponseEntity<Object> createMedicalRecord(@RequestBody Map<String, Object> payload, UriComponentsBuilder builder) {
+	public ResponseEntity<Object> createMedicalRecord(@RequestBody Map<String, Object> payload) {
 
 		try {
 			

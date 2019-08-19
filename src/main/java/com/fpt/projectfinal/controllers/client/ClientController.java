@@ -68,7 +68,7 @@ public class ClientController {
 	 * 情報の顧客を更新します。
 	 */
 	@RequestMapping(value = "/updateClient",method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Object> updateClient(@RequestBody Client client,UriComponentsBuilder builder) {
+	public ResponseEntity<Object> updateClient(@RequestBody Client client) {
 		try {
 			clientService.updateClient(client);
 	        return new ResponseEntity<>(client, HttpStatus.CREATED);

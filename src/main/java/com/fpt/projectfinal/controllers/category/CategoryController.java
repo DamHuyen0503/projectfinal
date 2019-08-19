@@ -40,7 +40,7 @@ public class CategoryController {
 	 */
 	@RequestMapping(value = "/getAllCategory", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	@ResponseBody
-	public ResponseEntity<Object> getAllPost() {
+	public ResponseEntity<Object> getAllCategory() {
 		try {
 			
 			return new ResponseEntity<>(categoryService.getAllCategory(), HttpStatus.OK);
@@ -58,7 +58,7 @@ public class CategoryController {
 	 * 新しいカテゴリを作成します。
 	 */
 	@RequestMapping(value = "/addCategory",method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Object> createCategory(@RequestBody Category category,UriComponentsBuilder builder) {
+	public ResponseEntity<Object> createCategory(@RequestBody Category category) {
 		try {
 			categoryService.addCategory(category);
 	        return new ResponseEntity<>(category, HttpStatus.OK);
@@ -77,7 +77,7 @@ public class CategoryController {
 	 * 情報カテゴリを更新します。
 	 */
 	@RequestMapping(value = "/updateCategory",method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE})
-	public ResponseEntity<Object> updateCategory(@RequestBody Category category,UriComponentsBuilder builder) {
+	public ResponseEntity<Object> updateCategory(@RequestBody Category category) {
 		try {
 			categoryService.updateCategory(category);
 	        return new ResponseEntity<>(category, HttpStatus.OK);
