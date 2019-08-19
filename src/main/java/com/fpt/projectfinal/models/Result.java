@@ -1,5 +1,6 @@
 package com.fpt.projectfinal.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,7 +29,7 @@ public class Result {
 	@Column(name = "content", length = 1000)
 	private String content;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="postID")
 	private Test test;
 

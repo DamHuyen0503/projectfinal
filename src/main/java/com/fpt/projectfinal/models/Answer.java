@@ -1,5 +1,6 @@
 package com.fpt.projectfinal.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,7 +29,7 @@ public class Answer {
 	@Column(name = "Image")
 	private String image;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "questionID")
 	private Question question;
 

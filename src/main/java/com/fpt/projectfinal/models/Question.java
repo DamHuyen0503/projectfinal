@@ -34,7 +34,7 @@ public class Question {
 	private Set<Answer> Answer; 
 
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="postID")
 	private Test test;
 

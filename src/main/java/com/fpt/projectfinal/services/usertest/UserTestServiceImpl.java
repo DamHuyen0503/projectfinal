@@ -13,10 +13,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.fpt.projectfinal.daos.account.AccountDao;
+import com.fpt.projectfinal.daos.result.ResultDao;
 import com.fpt.projectfinal.daos.test.TestDao;
 import com.fpt.projectfinal.daos.user.UserDao;
 import com.fpt.projectfinal.daos.userTest.UserTestDao;
 import com.fpt.projectfinal.models.Account;
+import com.fpt.projectfinal.models.Result;
 import com.fpt.projectfinal.models.Test;
 import com.fpt.projectfinal.models.User;
 import com.fpt.projectfinal.models.UserTest;
@@ -33,6 +35,9 @@ public class UserTestServiceImpl implements UserTestService {
 	
 	@Autowired
 	AccountDao accountDao;
+	
+	@Autowired
+	ResultDao resultDao;
 	
 	@Override
 	public String addUserTest(Map<String, Object> payload) {
@@ -94,14 +99,24 @@ public class UserTestServiceImpl implements UserTestService {
 				result.put("image", test.getImage());
 				result.put("title", test.getTitle());
 				result.put("result", u.getResult());
-				result.put("resultContent", test.getContent());
+				Set<Result> setResult = resultDao.getResultByTest(test);
+				Map<String, Object> mapContentResult = new HashMap<>();
+				List<Object> contentResult = new ArrayList<>();
+				for(Result res : setResult) {
+					mapContentResult.put("resultID", res.getResultID());
+					mapContentResult.put("content", res.getContent());
+					contentResult.add(mapContentResult);
+				}
+				result.put("resultContent", contentResult);
 				result.put("date", u.getDate());
 				listUserTest.add(result);
 			}
 			return listUserTest;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			result.put("message", "get fail");
+			result = new HashMap<String, Object>();
+			listUserTest = new ArrayList<>();
+			result.put("message", e.getMessage());
 			listUserTest.add(result);
 			return listUserTest;
 		}
