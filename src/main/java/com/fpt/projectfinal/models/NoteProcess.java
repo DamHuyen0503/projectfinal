@@ -38,7 +38,7 @@ public class NoteProcess {
 	@Column (name = "Evaluation")
 	private int evaluation;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne( cascade = CascadeType.ALL)
 	@JoinColumn(name = "medicalRecordID")
 	private MedicalRecord  medicalRecord;
 	

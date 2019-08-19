@@ -144,16 +144,21 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao{
 
 	@Override
 	public List<MedicalRecord> getMedicalByNoteProcess(NoteProcess note) {
+		List<MedicalRecord> medicalRecords = new ArrayList<MedicalRecord>();
 		PersistenceUnitUtil impl = session.getPersistenceUnitUtil();
 		if(!impl.isLoaded(note.getMedicalRecord())) {
 			CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
 			CriteriaQuery<MedicalRecord> query = builder.createQuery(MedicalRecord.class);
 			Root<MedicalRecord> root = query.from(MedicalRecord.class);
 			query.select(root).where(builder.equal(root.get("noteProcess"), note));
-			List<MedicalRecord> medicalRecords = session.getCurrentSession().createQuery(query).getResultList();
+			medicalRecords = session.getCurrentSession().createQuery(query).getResultList();
 			return medicalRecords;
 		}
-		return (List<MedicalRecord>) note.getMedicalRecord();
+		else {
+			medicalRecords = new ArrayList<>();
+			medicalRecords.add(note.getMedicalRecord());
+			return medicalRecords;
+		}
 	}
 
 	
