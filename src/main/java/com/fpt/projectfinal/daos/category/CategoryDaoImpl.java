@@ -81,4 +81,24 @@ public class CategoryDaoImpl implements CategoryDao {
 
 	}
 
+	@Override
+	public List<Category> CountPostByCategory() {
+		CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
+		CriteriaQuery<Category> query = builder.createQuery(Category.class);
+		Root<Category> root = query.from(Category.class);
+		query.select(root);
+		List<Category> categories = session.getCurrentSession().createQuery(query).getResultList();
+		for (Category c:categories) {
+			CriteriaQuery<Post> queryPost = builder.createQuery(Post.class);
+			Root<Post> rootPost = queryPost.from(Post.class);
+			queryPost.select(rootPost).where(builder.equal(rootPost.get("category"), c),
+											builder.equal(root.get("status"), 1)	
+											);
+			Set<Post> posts = new HashSet(session.getCurrentSession().createQuery(queryPost).getResultList());
+			c.setPost(posts);
+			System.out.println(posts.size());
+		}
+		return categories;
+	}
+
 }

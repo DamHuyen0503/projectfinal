@@ -9,7 +9,7 @@ import com.fpt.projectfinal.models.MedicalRecord;
 
 public interface ClientDao {
 	
-	public Set<Client> getAllClient(Map<String, Object> payload);
+	public Set<Client> getAllClient(String sort, String order, int page, String searchString, int status, int expert);
 	
 	/*
 	 * Create new client. 
@@ -34,4 +34,6 @@ public interface ClientDao {
 	 * medicalRecordIDによって情報クライアントを取得します。
 	 */
 	public Set<Client> getClientByMedicalRecord(MedicalRecord medicalRecord);
+	
+	public List<ClientDao> getClientByExpert(String sort, String order, int page, String searchString, int status);
 }

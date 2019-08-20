@@ -230,4 +230,49 @@ public class PostController {
 		}
 	}
 	
+	@RequestMapping(value = "/getPostsByString", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	@ResponseBody
+	public ResponseEntity<Object> getAllPost(@RequestParam String stringSearch, int page) {
+		try {
+			
+			return new ResponseEntity<>(postService.getPostsByString(stringSearch, page), HttpStatus.OK);
+		} catch (NullPointerException e) {
+			logger.warn(e.getMessage(), e);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@RequestMapping(value = "/getPostsByCategory", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	@ResponseBody
+	public ResponseEntity<Object> getPostByCategory(@RequestParam int categoryID, int page) {
+		try {
+			
+			return new ResponseEntity<>(postService.getPostsByCategory(categoryID, page), HttpStatus.OK);
+		} catch (NullPointerException e) {
+			logger.warn(e.getMessage(), e);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+
+	@RequestMapping(value = "/getPostsByAuthor", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	@ResponseBody
+	public ResponseEntity<Object> getPostsByAuthor(@RequestParam int userID, int page) {
+		try {
+			
+			return new ResponseEntity<>(postService.getPostsByAuthor(userID, page), HttpStatus.OK);
+		} catch (NullPointerException e) {
+			logger.warn(e.getMessage(), e);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }

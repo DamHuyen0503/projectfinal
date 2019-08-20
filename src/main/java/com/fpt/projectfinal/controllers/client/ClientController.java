@@ -107,15 +107,15 @@ public class ClientController {
 	 * get all customers in the database
 	 * データベース内のすべての顧客を取得します。
 	 */
-	@RequestMapping(value = "/getAllClient", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	@RequestMapping(value = "/getAllClientByAdmin", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	@ResponseBody
-	public ResponseEntity<Object> getAllClient(@RequestBody Map<String, Object> payload) {
+	public ResponseEntity<Object> getAllClient(@RequestParam String sort, String order, int page, String searchString, int status, int expert) {
 		try {
 			List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
 			Set<String> roles = roleService.getRoleByToken("");
 			for(String role : roles) {
 				if (role.equals(ROLEADMIN)) {
-					list = clientService.getAllClient(payload);
+					list = clientService.getAllClient(sort, order, page, searchString, status, expert);
 					return new ResponseEntity<>(list, HttpStatus.OK);
 				}
 			}

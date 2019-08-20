@@ -41,4 +41,7 @@ public interface CategoryService {
 	 * 合計カテゴリをカウントします。
 	 */
 	public List<Map<String, Object>> CountCategory();
+	
+	
+	public List<Map<String, Object>> CountPostByCategory();
 }

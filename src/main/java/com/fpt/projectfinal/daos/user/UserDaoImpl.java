@@ -23,8 +23,10 @@ import org.w3c.dom.ls.LSInput;
 import com.fpt.projectfinal.daos.account.AccountDao;
 import com.fpt.projectfinal.daos.role.RoleDao;
 import com.fpt.projectfinal.models.Account;
+import com.fpt.projectfinal.models.Contact;
 import com.fpt.projectfinal.models.Post;
 import com.fpt.projectfinal.models.Role;
+import com.fpt.projectfinal.models.Subscriber;
 import com.fpt.projectfinal.models.Test;
 import com.fpt.projectfinal.models.User;
 
@@ -91,34 +93,36 @@ public class UserDaoImpl implements UserDao {
 	}
 	@SuppressWarnings("unused")
 	@Override
-	public List<User> getAllUser(Map<String, Object> payload) {
-		List<User> result = new ArrayList<>();
-		 
-		CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
-		CriteriaQuery<User> query = builder.createQuery(User.class);
-		Root<User> root = query.from(User.class);	
-		Role role = roleDao.getRoleByID((int)payload.get("roleID"));
-		Set<Account> accounts = accountDao.getAccountByRole(role);
-		String sort = (String) payload.get("sort");
-		for(Account acc : accounts) {
-			query.select(root).where(builder.like(root.get("firstName"), "%" + payload.get("searchString") + "%"), 
-					 builder.equal(root.get("account"), acc)).orderBy(builder.asc(root.get(sort)));
-		
-			
-			Query<User> q	=  session.getCurrentSession().createQuery(query);
-			q.setFirstResult(((int) payload.get("page") - 1) * 3);
-			q.setMaxResults(3);
-			List<User> user = q.getResultList();
-			if (user.size() >0) {
-				result.add(user.get(0));
-			}
-			
-		}
-		
-		if(result.size()>0){
-			
-			return result;
-		}
+	public List<User> getAllUser(String sort, String order, int page, int roleID, String searchString) {
+//		PersistenceUnitUtil impl = session.getPersistenceUnitUtil();
+//		List<Subscriber> subs = new ArrayList<>();
+//			StringBuilder stringBuilder = new StringBuilder();
+//			stringBuilder.append("SELECT S FROM Subscriber S ");
+//			stringBuilder.append("JOIN S.categorys SC ");
+//			stringBuilder.append("WHERE SC.categoryID = :categoryId ");
+//			
+//			Query<Subscriber> query = session.getCurrentSession().createQuery(stringBuilder.toString());
+//			query = query.setParameter("categoryId", categoryID);
+////		    subs = session.getCurrentSession().createQuery(stringBuilder.toString()).setParameter("categoryId", categoryID).getResultList();
+//			return query.getResultList();
+//		List<User> result = new ArrayList<>();
+//		CriteriaBuilder cb = session.getCurrentSession().getCriteriaBuilder();
+//		CriteriaQuery<User> cr = cb.createQuery(User.class);
+//		Root<User> root = cr.from(User.class);
+//		cr.distinct(true);
+//		cr.where(cb.equal(root.get("roleID"), roleID),
+//				 cb.like(root.get("firstName"), "%" + searchString + "%")
+//				);
+//		if ("asc".equals(order)) {
+//			cr.orderBy(cb.asc(root.get(sort)));
+//		} else {
+//			cr.orderBy(cb.desc(root.get(sort)));
+//		}
+//		Query<User> q	=  session.getCurrentSession().createQuery(cr);
+//		q.setFirstResult((page - 1) * 3);
+//		q.setMaxResults(3);
+//		List<User> resultContact = q.getResultList();
+//		return resultContact;
 		return null;
 	}
 	@Override

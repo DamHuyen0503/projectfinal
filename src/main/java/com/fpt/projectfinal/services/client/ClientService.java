@@ -8,7 +8,7 @@ import com.fpt.projectfinal.models.Client;
 
 public interface ClientService {
 	
-	public List<Map<String, Object>> getAllClient(Map<String, Object> payload);
+	public List<Map<String, Object>> getAllClient(String sort, String order, int page, String searchString, int status, int expert);
 	
 	/*
 	 * Create new client. 

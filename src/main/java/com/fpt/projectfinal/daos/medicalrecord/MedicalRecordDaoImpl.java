@@ -138,7 +138,10 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao{
 			 medicalRecords = session.getCurrentSession().createQuery(query).getResultList();
 			return medicalRecords;
 		}
-		return medicalRecords;
+		else {
+			medicalRecords.add(userAccess.getMedicalRecord());
+			return medicalRecords;
+		}
 	}
 
 

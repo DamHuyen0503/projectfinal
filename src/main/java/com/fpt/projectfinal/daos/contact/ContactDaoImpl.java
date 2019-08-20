@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 
 import com.fpt.projectfinal.models.Account;
 import com.fpt.projectfinal.models.Contact;
+import com.fpt.projectfinal.models.Post;
 import com.fpt.projectfinal.models.Role;
 import com.fpt.projectfinal.models.User;
 @Repository
@@ -31,35 +32,28 @@ public class ContactDaoImpl implements ContactDao{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Contact> getAllContact(Map<String, Object> payload) {
+	public List<Contact> getAllContact(String sort, String order, int page, int status, String searchString) {
 		List<Contact> result = new ArrayList<>();
 		 
-		CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
-		CriteriaQuery<Contact> query = builder.createQuery(Contact.class);
-		Root<Contact> root = query.from(Contact.class);	
-		List<Contact> listContact = this.getContactByStatus((int)payload.get("status"));
-	
-		String sort = (String) payload.get("sort");
-		for(Contact contact : listContact) {
-			query =	query.select(root).where(builder.like(root.get("content"), "%" + payload.get("searchString") + "%"));
-			query =  ((CriteriaQuery<Contact>) builder).orderBy(builder.asc(root.get(sort)));
-//			 builder.equal(root.get("contact"), contact)).orderBy(builder.asc(root.get(sort)));
-			
-			Query<Contact> q	=  session.getCurrentSession().createQuery(query);
-			q.setFirstResult(((int) payload.get("page") - 1) * 3);
-			q.setMaxResults(3);
-			List<Contact> contacts = q.getResultList();
-			if (contacts.size() >0) {
-				result.add(contacts.get(0));
+		CriteriaBuilder cb = session.getCurrentSession().getCriteriaBuilder();
+		CriteriaQuery<Contact> cr = cb.createQuery(Contact.class);
+		Root<Contact> root = cr.from(Contact.class);
+		cr.distinct(true);
+			cr.where(cb.equal(root.get("status"), status), 
+					cb.like(root.get("content"), "%" + searchString + "%")
+					);
+		
+			if ("asc".equals(order)) {
+				cr.orderBy(cb.asc(root.get(sort)));
+			} else {
+				cr.orderBy(cb.desc(root.get(sort)));
 			}
 			
-		}
-		
-		if(result.size()>0){
-			
-			return result;
-		}
-		return null;
+			Query<Contact> q	=  session.getCurrentSession().createQuery(cr);
+			q.setFirstResult((page - 1) * 3);
+			q.setMaxResults(3);
+			List<Contact> resultContact = q.getResultList();
+			return resultContact;
 	}
 
 	@Override
@@ -94,6 +88,11 @@ public class ContactDaoImpl implements ContactDao{
 			return contacts;
 		}
 		return null;
+	}
+
+	@Override
+	public List<Contact> getAll() {
+		return this.session.getCurrentSession().createQuery("from Contact").list();
 	}
 
 }

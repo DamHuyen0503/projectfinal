@@ -1,6 +1,7 @@
 package com.fpt.projectfinal.daos.post;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -211,6 +212,64 @@ public class PostDaoImpl implements PostDao {
 		query.select(builder.count(root)).where(builder.notEqual(root.get("category"), cate));
 		List<Long> count = session.getCurrentSession().createQuery(query).getResultList();
 		return count.get(0);
+	}
+
+	@Override
+	public Map<String, Object> getPostsByString(String stringSearch, int page) {
+		Map<String , Object> result = new HashMap<String, Object>();
+		CriteriaBuilder cb = session.getCurrentSession().getCriteriaBuilder();
+		CriteriaQuery<Post> cr = cb.createQuery(Post.class);
+		Root<Post> root = cr.from(Post.class);
+		cr.where(cb.notEqual(root.get("category"), 1),
+				cb.like(root.get("title"), "%" + stringSearch + "%"));
+		
+		Query<Post> query = session.getCurrentSession().createQuery(cr);
+		result.put("count", query.getResultList().size());
+		query.setFirstResult((page-1) * 5);
+		query.setMaxResults(5);
+
+		
+		List<Post> post = query.getResultList();
+		result.put("Post", post);
+		return result;
+	}
+
+	@Override
+	public Map<String, Object> getPostsByCategory(int categoryID, int page) {
+		Map<String , Object> result = new HashMap<String, Object>();
+		CriteriaBuilder cb = session.getCurrentSession().getCriteriaBuilder();
+		CriteriaQuery<Post> cr = cb.createQuery(Post.class);
+		Root<Post> root = cr.from(Post.class);
+		cr.where(cb.equal(root.get("category"), categoryID ));
+		
+		Query<Post> query = session.getCurrentSession().createQuery(cr);
+		result.put("count", query.getResultList().size());
+		query.setFirstResult((page-1) * 5);
+		query.setMaxResults(5);
+
+		
+		List<Post> post = query.getResultList();
+		result.put("Post", post);
+		return result;
+	}
+
+	@Override
+	public Map<String, Object> getPostsByAuthor(int userID, int page) {
+		Map<String , Object> result = new HashMap<String, Object>();
+		CriteriaBuilder cb = session.getCurrentSession().getCriteriaBuilder();
+		CriteriaQuery<Post> cr = cb.createQuery(Post.class);
+		Root<Post> root = cr.from(Post.class);
+		cr.where(cb.equal(root.get("user"), userID ));
+		
+		Query<Post> query = session.getCurrentSession().createQuery(cr);
+		result.put("count", query.getResultList().size());
+		query.setFirstResult((page-1) * 5);
+		query.setMaxResults(5);
+
+		
+		List<Post> post = query.getResultList();
+		result.put("Post", post);
+		return result;
 	}
 
 

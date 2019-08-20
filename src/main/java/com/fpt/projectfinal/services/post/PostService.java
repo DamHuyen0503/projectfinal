@@ -80,4 +80,11 @@ public interface PostService {
 	 * 投稿の総数を数えます。
 	 */
 	public Long getNumberOfPost();
+	
+	
+	public List<Map<String, Object>> getPostsByString (String stringSearch, int page);
+	
+	public List<Map<String, Object>> getPostsByCategory (int categoryID, int page);
+	
+	public List<Map<String, Object>> getPostsByAuthor (int userID, int page);
 }

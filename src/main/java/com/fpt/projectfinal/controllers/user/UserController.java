@@ -96,9 +96,9 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/getAllUser", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	@ResponseBody
-	public ResponseEntity<Object> getAllUser(@RequestBody Map<String, Object> payload) {
+	public ResponseEntity<Object> getAllUser(@RequestParam String sort, String order, int page, int roleID, String searchString) {
 		try {
-			List<Map<String, Object>> list = userService.getAllUser(payload);
+			List<Map<String, Object>> list = userService.getAllUser(sort, order, page, roleID, searchString);
 			if (list != null) {
 				return new ResponseEntity<>(list, HttpStatus.OK);
 			}

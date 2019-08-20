@@ -76,4 +76,11 @@ public interface PostDao {
 	 * 投稿の総数を数えます。
 	 */
 	public Long getNumberOfPost();
+	
+	
+	public Map<String , Object> getPostsByString(String stringSearch, int page);
+	
+	public Map<String , Object> getPostsByCategory(int categoryID, int page);
+	
+	public Map<String , Object> getPostsByAuthor(int userID, int page);
 }

@@ -35,4 +35,6 @@ public interface CategoryDao {
 	 * 合計カテゴリをカウントします。
 	 */
 	public List<Category> CountCategory();
+	
+	public List<Category> CountPostByCategory();
 }

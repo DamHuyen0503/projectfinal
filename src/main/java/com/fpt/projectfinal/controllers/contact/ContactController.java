@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -54,11 +55,19 @@ public class ContactController {
 	 */
 	@RequestMapping(value = "/getAllContact", method = RequestMethod.GET, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
-	@ResponseBody
-	public List<Contact> getContact(@RequestBody Map<String, Object> payload) {
-		List<Contact> list = contactService.getAllContact(payload);
-		return list;
-	}
+	public ResponseEntity<Object> getContact(@RequestParam String sort, String order, int page, int status, String searchString) {
+		try {
+			
+	        return new ResponseEntity<>(contactService.getAllContact(sort, order, page, status, searchString), HttpStatus.OK);
+		} catch (NullPointerException e) {
+			logger.warn(e.getMessage(), e);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+    }
+	
 	
 	
 	/*

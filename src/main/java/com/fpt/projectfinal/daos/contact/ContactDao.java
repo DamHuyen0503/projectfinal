@@ -17,7 +17,7 @@ public interface ContactDao {
 	 * Get all information contact. 
 	 * すべての情報の連絡先を取得します。
 	 */
-	public List<Contact> getAllContact(Map<String, Object> payload);
+	public List<Contact> getAllContact(String sort, String order, int page, int status, String searchString);
 	
 
 	/*
@@ -38,4 +38,6 @@ public interface ContactDao {
 	 */
 	public List<Contact> getContactByStatus(int status);
 	
+	
+	public List<Contact> getAll();
 }

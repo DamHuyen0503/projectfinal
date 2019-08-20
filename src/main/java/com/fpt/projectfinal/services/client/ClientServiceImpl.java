@@ -25,9 +25,9 @@ public class ClientServiceImpl implements ClientService{
 	MedicalRecordDao medicalRecordDao;
 	
 	@Override
-	public List<Map<String, Object>> getAllClient(Map<String, Object> payload) {
+	public List<Map<String, Object>> getAllClient(String sort, String order, int page, String searchString, int status, int expert) {
 		List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
-		Set<Client> setClient = clientDao.getAllClient(payload);
+		Set<Client> setClient = clientDao.getAllClient(sort, order, page, searchString, status, expert);
 		for(Client client : setClient) {
 			Map<String, Object> mapClient = new HashMap<>();
 			mapClient.put("clientID", client.getClientID());

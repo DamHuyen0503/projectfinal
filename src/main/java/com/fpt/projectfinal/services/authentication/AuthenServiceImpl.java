@@ -1,5 +1,6 @@
 package com.fpt.projectfinal.services.authentication;
 
+import java.io.EOFException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -48,6 +49,7 @@ public class AuthenServiceImpl implements AuthenService {
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public String addAccount(Map<String, Object> payload) {
 		if (payload.get("email") == null) {
@@ -69,6 +71,10 @@ public class AuthenServiceImpl implements AuthenService {
 			Account acc = new Account();
 			acc.setEmail((String)payload.get("email"));
 			acc.setPassword((String)payload.get("password"));
+			Role r = roleDao.getRoleByID(1);
+			Set<Role> setRole = new HashSet<>();
+			setRole.add(r);
+			acc.setRoles(setRole);
 			Map<String,Object> mapUser =  (Map<String, Object>) payload.get("user");
 			User u = new User();
 			u.setAddress((String)mapUser.get("address"));
@@ -78,6 +84,7 @@ public class AuthenServiceImpl implements AuthenService {
 			u.setPhoneNumber((String)mapUser.get("phoneNumber"));
 			u.setAvatar((String)mapUser.get("avatar"));
 			u.setDOB((Date)mapUser.get("DOB"));
+			
 			acc.setRoles(roleDao.getRoleByName("User"));
 			u.setAccount(acc);
 			acc.setUser(u);

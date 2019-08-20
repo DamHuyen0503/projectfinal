@@ -1,4 +1,4 @@
-package com.fpt.projectfinal.controllers.authen;
+  package com.fpt.projectfinal.controllers.authen;
 
 import java.util.List;
 import java.util.Map;
@@ -52,7 +52,7 @@ public class AuthenController {
 	@RequestMapping(value = "/addAccount", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
 	public ResponseEntity<Object> addAccount(@RequestBody Map<String, Object> payload) {
-		
+		System.out.println("check");
 		try {
 			return new ResponseEntity<>(authenService.addAccount(payload), HttpStatus.OK);
 		} catch (NullPointerException e) {

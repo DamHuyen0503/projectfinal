@@ -94,6 +94,7 @@ public class UserTestServiceImpl implements UserTestService {
 		try {
 			
 			for (UserTest u : userTest) {
+				result = new HashMap<>();
 				Test test = testDao.getTestById(u.getTest().getPostID());
 				result.put("postID", test.getPostID());
 				result.put("image", test.getImage());
@@ -106,6 +107,8 @@ public class UserTestServiceImpl implements UserTestService {
 					Map<String, Object> mapContentResult = new HashMap<>();
 					mapContentResult.put("resultID", res.getResultID());
 					mapContentResult.put("content", res.getContent());
+					mapContentResult.put("highestPoint", res.getHighestPoint());
+					mapContentResult.put("lowestPoint", res.getLowestPoint());
 					contentResult.add(mapContentResult);
 				}
 				result.put("resultContent", contentResult);

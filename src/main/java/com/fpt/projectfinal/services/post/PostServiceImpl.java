@@ -356,5 +356,83 @@ public class PostServiceImpl implements PostService {
 		return postDao.getNumberOfPost();
 	}
 
+	@Override
+	public List<Map<String, Object>> getPostsByString(String stringSearch, int page) {
+		Map<String, Object> resultPost = postDao.getPostsByString(stringSearch, page);
+		List<Post> listPost = (List<Post>) resultPost.get("Post");
+		List<Map<String, Object>> result = new ArrayList<>();
+		Map<String, Object> mapPost = new HashMap<>();
+		mapPost.put("sum of post", resultPost.get("count"));
+		result.add(mapPost);
+		for (Post post : listPost) {
+			mapPost = new HashMap<>();
+			mapPost.put("postID", post.getPostID());
+			mapPost.put("content", post.getContent());
+			mapPost.put("createdDate", post.getCreatedDate());
+			mapPost.put("description", post.getDescription());
+			mapPost.put("image", post.getImage());
+			mapPost.put("modifiedDate", post.getModifiedDate());
+			mapPost.put("status", post.getStatus());
+			mapPost.put("title", post.getTitle());
+			mapPost.put("categoryID", post.getCategory().getCategoryID());
+			Set<Tag> tags = post.getTags();
+			mapPost.put("tags", tags);
+			result.add(mapPost);
+		}
+		return result;
+	}
+
+	@Override
+	public List<Map<String, Object>> getPostsByCategory(int categoryID, int page) {
+		Map<String, Object> resultPost = postDao.getPostsByCategory(categoryID, page);
+		List<Post> listPost = (List<Post>) resultPost.get("Post");
+		List<Map<String, Object>> result = new ArrayList<>();
+		Map<String, Object> mapPost = new HashMap<>();
+		mapPost.put("sum of post", resultPost.get("count"));
+		result.add(mapPost);
+		for (Post post : listPost) {
+			mapPost = new HashMap<>();
+			mapPost.put("postID", post.getPostID());
+			mapPost.put("content", post.getContent());
+			mapPost.put("createdDate", post.getCreatedDate());
+			mapPost.put("description", post.getDescription());
+			mapPost.put("image", post.getImage());
+			mapPost.put("modifiedDate", post.getModifiedDate());
+			mapPost.put("status", post.getStatus());
+			mapPost.put("title", post.getTitle());
+			mapPost.put("categoryID", post.getCategory().getCategoryID());
+			Set<Tag> tags = post.getTags();
+			mapPost.put("tags", tags);
+			result.add(mapPost);
+		}
+		return result;
+	}
+
+	@Override
+	public List<Map<String, Object>> getPostsByAuthor(int userID, int page) {
+		Map<String, Object> resultPost = postDao.getPostsByAuthor(userID, page);
+		List<Post> listPost = (List<Post>) resultPost.get("Post");
+		List<Map<String, Object>> result = new ArrayList<>();
+		Map<String, Object> mapPost = new HashMap<>();
+		mapPost.put("sum of post", resultPost.get("count"));
+		result.add(mapPost);
+		for (Post post : listPost) {
+			mapPost = new HashMap<>();
+			mapPost.put("postID", post.getPostID());
+			mapPost.put("content", post.getContent());
+			mapPost.put("createdDate", post.getCreatedDate());
+			mapPost.put("description", post.getDescription());
+			mapPost.put("image", post.getImage());
+			mapPost.put("modifiedDate", post.getModifiedDate());
+			mapPost.put("status", post.getStatus());
+			mapPost.put("title", post.getTitle());
+			mapPost.put("categoryID", post.getCategory().getCategoryID());
+			Set<Tag> tags = post.getTags();
+			mapPost.put("tags", tags);
+			result.add(mapPost);
+		}
+		return result;
+	}
+
 
 }

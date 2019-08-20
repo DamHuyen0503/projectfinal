@@ -32,7 +32,7 @@ public interface UserService {
 	 * get all information user. 
 	 * すべての情報ユーザーを取得します。
 	 */
-	public List<Map<String, Object>> getAllUser(Map<String, Object> payload);
+	public List<Map<String, Object>> getAllUser(String sort, String order, int page, int roleID, String searchString);
 	
 	/*
 	 * count total users.

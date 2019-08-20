@@ -43,13 +43,13 @@ public class ClientDaoImpl implements ClientDao {
 	@Autowired
 	MedicalRecordDao medicalRecordDao; 
 	@Override
-	public Set<Client> getAllClient(Map<String, Object> payload) {
+	public Set<Client> getAllClient(String sort, String order, int page, String searchString, int status, int expert) {
 		Set<Client> result = new HashSet<>();
 		 
 		CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
 		CriteriaQuery<Client> query = builder.createQuery(Client.class);
 		Root<Client> root = query.from(Client.class);	
-		User user = userDao.getUserByID((int) payload.get("expert"));
+		User user = userDao.getUserByID(expert);
 		List<UserAccess> listUserAccess = userAccessDao.getUserAccessByUser(user);
 		for (UserAccess userAccess : listUserAccess) {
 			List<MedicalRecord> listMedicalReocord = medicalRecordDao.getMedicalRecordByUserAccess(userAccess);
@@ -58,14 +58,14 @@ public class ClientDaoImpl implements ClientDao {
 			}
 		}
 		
-		String sort = (String) payload.get("sort");
+		
 		for(Client client : result) {
-			query.select(root).where(builder.like(root.get("fullName"), "%" + payload.get("searchString") + "%"), 
-					 builder.equal(root.get("client"), client)).orderBy(builder.asc(root.get(sort)));
+			query.select(root).where(builder.like(root.get("fullName"), "%" + searchString + "%"), 
+					 				 builder.equal(root.get("client"), client));
 		
 			
 			Query<Client> q	=  session.getCurrentSession().createQuery(query);
-			q.setFirstResult(((int) payload.get("page") - 1) * 3);
+			q.setFirstResult((page - 1) * 3);
 			q.setMaxResults(3);
 			List<Client> client1 = q.getResultList();
 			if (client1.size() >0) {
@@ -120,6 +120,12 @@ public class ClientDaoImpl implements ClientDao {
 			return new HashSet<>(cls);
 		}
 		return (Set<Client>) medicalRecord.getClient();
+	}
+
+	@Override
+	public List<ClientDao> getClientByExpert(String sort, String order, int page, String searchString, int status) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

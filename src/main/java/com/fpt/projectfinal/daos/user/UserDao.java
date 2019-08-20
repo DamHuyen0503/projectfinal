@@ -34,7 +34,7 @@ public interface UserDao {
 	 * get all information user. 
 	 * すべての情報ユーザーを取得します。
 	 */
-	public List<User> getAllUser(Map<String, Object> payload);
+	public List<User> getAllUser(String sort, String order, int page, int roleID, String searchString);
 	
 	
 	public User getUserByAccount (Account account);

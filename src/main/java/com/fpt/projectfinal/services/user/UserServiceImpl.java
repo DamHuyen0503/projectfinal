@@ -110,9 +110,9 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public List<Map<String, Object>> getAllUser(Map<String, Object> payload) {
+	public List<Map<String, Object>> getAllUser(String sort, String order, int page, int roleID, String searchString) {
 		List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
-		List<User> listUser = userDao.getAllUser(payload);
+		List<User> listUser = userDao.getAllUser(sort, order, page, roleID, searchString);
 		for (User user : listUser) {
 			Map<String, Object> u = new HashMap<String, Object>();
 			u.put("address", user.getAddress());

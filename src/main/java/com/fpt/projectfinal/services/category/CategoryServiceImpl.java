@@ -3,14 +3,17 @@ package com.fpt.projectfinal.services.category;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fpt.projectfinal.daos.category.CategoryDao;
 import com.fpt.projectfinal.models.Category;
+import com.fpt.projectfinal.models.Post;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -84,11 +87,22 @@ public class CategoryServiceImpl implements CategoryService {
 			cmap.put("description", c.getDescription());
 			cmap.put("createdDate", c.getCreatedDate());
 			cmap.put("modifiedDate", c.getModifiedDate());
-			cmap.put("numberOfPosts", c.getPost().size());
+			Set<Post> setPost = c.getPost();
+			int count=0;
+			for (Post post : setPost) {
+				if (post.getStatus().equals(1) || post.getStatus().equals(2)) count++;
+			}
+			cmap.put("numberOfPosts", count);
 			map.add(cmap);
 		}
 
 		return map;
+	}
+
+	@Override
+	public List<Map<String, Object>> CountPostByCategory() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
