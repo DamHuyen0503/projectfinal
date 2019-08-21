@@ -8,6 +8,9 @@ import com.fpt.projectfinal.models.Client;
 
 public interface ClientService {
 	
+	
+	public List<Map<String, Object>> getAllClient(String sort, String order, int page, String searchString, int status, String username);
+	
 	public List<Map<String, Object>> getAllClient(String sort, String order, int page, String searchString, int status, int expert);
 	
 	/*

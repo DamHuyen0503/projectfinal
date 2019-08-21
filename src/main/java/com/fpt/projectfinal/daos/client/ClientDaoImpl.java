@@ -25,6 +25,7 @@ import com.fpt.projectfinal.models.Answer;
 import com.fpt.projectfinal.models.Client;
 import com.fpt.projectfinal.models.MedicalRecord;
 import com.fpt.projectfinal.models.Role;
+import com.fpt.projectfinal.models.Subscriber;
 import com.fpt.projectfinal.models.User;
 import com.fpt.projectfinal.models.UserAccess;
 
@@ -42,43 +43,33 @@ public class ClientDaoImpl implements ClientDao {
 	
 	@Autowired
 	MedicalRecordDao medicalRecordDao; 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Set<Client> getAllClient(String sort, String order, int page, String searchString, int status, int expert) {
-		Set<Client> result = new HashSet<>();
-		 
-		CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
-		CriteriaQuery<Client> query = builder.createQuery(Client.class);
-		Root<Client> root = query.from(Client.class);	
-		User user = userDao.getUserByID(expert);
-		List<UserAccess> listUserAccess = userAccessDao.getUserAccessByUser(user);
-		for (UserAccess userAccess : listUserAccess) {
-			List<MedicalRecord> listMedicalReocord = medicalRecordDao.getMedicalRecordByUserAccess(userAccess);
-			for(MedicalRecord medical : listMedicalReocord) {
-				result.add(medical.getClient());
+	public List<Client> getAllClient(String sort, String order, int page, String searchString, int status, int expert) {
+		try {
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.append("SELECT U.medicalRecord.client FROM UserAccess U ");
+			stringBuilder.append("WHERE U.user.userID = :userID  and fullName like :searchString ");
+			stringBuilder.append("and U.medicalRecord.status = :status ");
+			stringBuilder.append("order by U.medicalRecord.client.").append(sort).append(" ").append(order);
+			
+			Query<Client> query = session.getCurrentSession().createQuery(stringBuilder.toString());
+			query = query.setParameter("userID", expert);
+			query = query.setParameter("status", status);
+			query = query.setParameter("searchString", "%" +searchString+ "%");
+			
+			query.setFirstResult((page - 1) * 5);
+			query.setMaxResults(5);
+			List<Client> l = query.getResultList();
+			for (Client c : l) {
+				System.out.println("clientDao: "+c.getClientID());
 			}
+//			return new ArrayList<>(new HashSet(query.getResultList()));
+			return query.getResultList();
+		} catch (Exception e) {
+			return new ArrayList<>();
 		}
-		
-		
-		for(Client client : result) {
-			query.select(root).where(builder.like(root.get("fullName"), "%" + searchString + "%"), 
-					 				 builder.equal(root.get("client"), client));
-		
-			
-			Query<Client> q	=  session.getCurrentSession().createQuery(query);
-			q.setFirstResult((page - 1) * 3);
-			q.setMaxResults(3);
-			List<Client> client1 = q.getResultList();
-			if (client1.size() >0) {
-				result.add(client1.get(0));
-			}
-			
-		}
-		
-		if(result.size()>0){
-			
-			return result;
-		}
-		return null;
+	
 	}
 
 	@Override
@@ -126,6 +117,28 @@ public class ClientDaoImpl implements ClientDao {
 	public List<ClientDao> getClientByExpert(String sort, String order, int page, String searchString, int status) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<Client> getAllClient(String sort, String order, int page, String searchString, int status, String username) {
+		try {
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.append("SELECT U.medicalRecord.client FROM UserAccess U ");
+			stringBuilder.append("WHERE U.user.account.email = :username and fullName like :searchString ");
+			stringBuilder.append("and U.medicalRecord.status = :status ");
+			stringBuilder.append("order by U.medicalRecord.client.").append(sort).append(" ").append(order);
+			
+			Query<Client> query = session.getCurrentSession().createQuery(stringBuilder.toString());
+			query = query.setParameter("username", username);
+			query = query.setParameter("status", status);
+			query = query.setParameter("searchString", "%" +searchString+ "%");
+			
+			query.setFirstResult((page - 1) * 5);
+			query.setMaxResults(5);
+			return new ArrayList<>(new HashSet(query.getResultList()));
+		} catch (Exception e) {
+			return new ArrayList<>();
+		}
 	}
 
 

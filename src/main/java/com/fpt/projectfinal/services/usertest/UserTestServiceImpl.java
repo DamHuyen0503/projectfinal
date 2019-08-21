@@ -14,11 +14,13 @@ import org.springframework.stereotype.Service;
 
 import com.fpt.projectfinal.daos.account.AccountDao;
 import com.fpt.projectfinal.daos.result.ResultDao;
+import com.fpt.projectfinal.daos.role.RoleDao;
 import com.fpt.projectfinal.daos.test.TestDao;
 import com.fpt.projectfinal.daos.user.UserDao;
 import com.fpt.projectfinal.daos.userTest.UserTestDao;
 import com.fpt.projectfinal.models.Account;
 import com.fpt.projectfinal.models.Result;
+import com.fpt.projectfinal.models.Role;
 import com.fpt.projectfinal.models.Test;
 import com.fpt.projectfinal.models.User;
 import com.fpt.projectfinal.models.UserTest;
@@ -39,6 +41,8 @@ public class UserTestServiceImpl implements UserTestService {
 	@Autowired
 	ResultDao resultDao;
 	
+	@Autowired
+	RoleDao roleDao;
 	@Override
 	public String addUserTest(Map<String, Object> payload) {
 		UserTest userTest = new UserTest();
@@ -80,6 +84,10 @@ public class UserTestServiceImpl implements UserTestService {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Account acc = accountDao.getAccountByEmail(username);
 		User user = userDao.getUserByAccount(acc);
+		Set<Role> role = roleDao.getRoleByAcc(acc);
+		for (Role r: role) {
+			System.out.println("Role:" + r.getName());
+		}
 		if (username.equals("")) {
 			result.put("message", "username null");
 			listUserTest.add(result);

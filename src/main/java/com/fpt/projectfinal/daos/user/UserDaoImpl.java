@@ -23,6 +23,7 @@ import org.w3c.dom.ls.LSInput;
 import com.fpt.projectfinal.daos.account.AccountDao;
 import com.fpt.projectfinal.daos.role.RoleDao;
 import com.fpt.projectfinal.models.Account;
+import com.fpt.projectfinal.models.Client;
 import com.fpt.projectfinal.models.Contact;
 import com.fpt.projectfinal.models.Post;
 import com.fpt.projectfinal.models.Role;
@@ -94,36 +95,27 @@ public class UserDaoImpl implements UserDao {
 	@SuppressWarnings("unused")
 	@Override
 	public List<User> getAllUser(String sort, String order, int page, int roleID, String searchString) {
-//		PersistenceUnitUtil impl = session.getPersistenceUnitUtil();
-//		List<Subscriber> subs = new ArrayList<>();
-//			StringBuilder stringBuilder = new StringBuilder();
-//			stringBuilder.append("SELECT S FROM Subscriber S ");
-//			stringBuilder.append("JOIN S.categorys SC ");
-//			stringBuilder.append("WHERE SC.categoryID = :categoryId ");
-//			
-//			Query<Subscriber> query = session.getCurrentSession().createQuery(stringBuilder.toString());
-//			query = query.setParameter("categoryId", categoryID);
-////		    subs = session.getCurrentSession().createQuery(stringBuilder.toString()).setParameter("categoryId", categoryID).getResultList();
-//			return query.getResultList();
-//		List<User> result = new ArrayList<>();
-//		CriteriaBuilder cb = session.getCurrentSession().getCriteriaBuilder();
-//		CriteriaQuery<User> cr = cb.createQuery(User.class);
-//		Root<User> root = cr.from(User.class);
-//		cr.distinct(true);
-//		cr.where(cb.equal(root.get("roleID"), roleID),
-//				 cb.like(root.get("firstName"), "%" + searchString + "%")
-//				);
-//		if ("asc".equals(order)) {
-//			cr.orderBy(cb.asc(root.get(sort)));
-//		} else {
-//			cr.orderBy(cb.desc(root.get(sort)));
-//		}
-//		Query<User> q	=  session.getCurrentSession().createQuery(cr);
-//		q.setFirstResult((page - 1) * 3);
-//		q.setMaxResults(3);
-//		List<User> resultContact = q.getResultList();
-//		return resultContact;
-		return null;
+		try {
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.append("SELECT U.getAllUser FROM User U ");
+			stringBuilder.append("WHERE U.account.roles.roleID = :roleID  and lastName like :searchString ");
+		
+			stringBuilder.append("order by U.medicalRecord.client.").append(sort).append(" ").append(order);
+			
+			Query<User> query = session.getCurrentSession().createQuery(stringBuilder.toString());
+			query = query.setParameter("roleID", roleID);
+			
+			query = query.setParameter("searchString", "%" +searchString+ "%");
+			
+			query.setFirstResult((page - 1) * 5);
+			query.setMaxResults(5);
+			List<User> l = query.getResultList();
+			return query.getResultList();
+		} catch (Exception e) {
+			return new ArrayList<>();
+			
+		}
+	
 	}
 	@Override
 	public User getUserByAccount(Account account) {

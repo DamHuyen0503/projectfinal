@@ -82,9 +82,9 @@ public interface PostService {
 	public Long getNumberOfPost();
 	
 	
-	public List<Map<String, Object>> getPostsByString (String stringSearch, int page);
+	public Map<String, Object> getPostsByString (String stringSearch, int page);
 	
-	public List<Map<String, Object>> getPostsByCategory (int categoryID, int page);
+	public Map<String, Object> getPostsByCategory (int categoryID, int page);
 	
-	public List<Map<String, Object>> getPostsByAuthor (int userID, int page);
+	public Map<String, Object> getPostsByAuthor (int userID, int page);
 }

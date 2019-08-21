@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -107,9 +108,9 @@ public class ClientController {
 	 * get all customers in the database
 	 * データベース内のすべての顧客を取得します。
 	 */
-	@RequestMapping(value = "/getAllClientByAdmin", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	@RequestMapping(value = "/getAllClient", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	@ResponseBody
-	public ResponseEntity<Object> getAllClient(@RequestParam String sort, String order, int page, String searchString, int status, int expert) {
+	public ResponseEntity<Object> getAllClientByAdmin(@RequestParam String sort, String order, int page, String searchString, int status, int expert) {
 		try {
 			List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
 			Set<String> roles = roleService.getRoleByToken("");
@@ -118,10 +119,14 @@ public class ClientController {
 					list = clientService.getAllClient(sort, order, page, searchString, status, expert);
 					return new ResponseEntity<>(list, HttpStatus.OK);
 				}
-			}
-			
+				if (role.equals(ROLEEXPERT)) {
+					String username = SecurityContextHolder.getContext().getAuthentication().getName();
+					
+					list = clientService.getAllClient(sort, order, page, searchString, status, username);
+					return new ResponseEntity<>(list, HttpStatus.OK);
+				}
+			}	
 			return new ResponseEntity<> ("not found", HttpStatus.BAD_REQUEST);
-			
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -130,4 +135,8 @@ public class ClientController {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	
+	
+	
 }

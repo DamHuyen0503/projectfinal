@@ -27,8 +27,9 @@ public class ClientServiceImpl implements ClientService{
 	@Override
 	public List<Map<String, Object>> getAllClient(String sort, String order, int page, String searchString, int status, int expert) {
 		List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
-		Set<Client> setClient = clientDao.getAllClient(sort, order, page, searchString, status, expert);
+		List<Client> setClient = clientDao.getAllClient(sort, order, page, searchString, status, expert);
 		for(Client client : setClient) {
+			
 			Map<String, Object> mapClient = new HashMap<>();
 			mapClient.put("clientID", client.getClientID());
 			mapClient.put("gender", client.getGender());
@@ -132,6 +133,31 @@ public class ClientServiceImpl implements ClientService{
 			return result;
 		}
 		
+	}
+
+	@Override
+	public List<Map<String, Object>> getAllClient(String sort, String order, int page, String searchString,int status, String username) {
+		List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
+		List<Client> setClient = clientDao.getAllClient(sort, order, page, searchString, status, username);
+		for(Client client : setClient) {
+			Map<String, Object> mapClient = new HashMap<>();
+			mapClient.put("clientID", client.getClientID());
+			mapClient.put("gender", client.getGender());
+			mapClient.put("dob", client.getDob());
+			mapClient.put("address", client.getAddress());
+			
+			mapClient.put("phoneNumber", client.getPhoneNumber());
+			mapClient.put("note", client.getNote());
+			mapClient.put("alias", client.getAlias());
+			mapClient.put("ssn", client.getSsn());
+
+			mapClient.put("fullName", client.getFullName());
+			mapClient.put("email", client.getEmail());
+			mapClient.put("createdDate", client.getCreatedDate());
+			result.add(mapClient);
+		}
+		
+		return result;
 	}
 
 	

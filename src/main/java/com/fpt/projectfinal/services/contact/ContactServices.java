@@ -17,7 +17,7 @@ public interface ContactServices {
 	 * Get all information contact. 
 	 * すべての情報の連絡先を取得します。
 	 */
-	public List<Contact> getAllContact(String sort, String order, int page, int status, String searchString);
+	public Map<String, Object> getAllContact(String sort, String order, int page, int status, String searchString);
 	
 
 	/*

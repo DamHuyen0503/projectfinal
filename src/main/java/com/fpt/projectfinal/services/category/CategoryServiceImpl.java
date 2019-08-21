@@ -101,8 +101,27 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<Map<String, Object>> CountPostByCategory() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Category> list = this.categorydao.CountCategory();
+		List<Map<String, Object>> map = new ArrayList<Map<String, Object>>();
+		for (Category c : list) {
+			Map<String, Object> cmap = new HashMap<>();
+			cmap.put("categoryID", c.getCategoryID());
+			cmap.put("name", c.getName());
+			cmap.put("image", c.getImage());
+		
+			cmap.put("description", c.getDescription());
+			cmap.put("createdDate", c.getCreatedDate());
+			cmap.put("modifiedDate", c.getModifiedDate());
+			Set<Post> setPost = c.getPost();
+			int count=0;
+			for (Post post : setPost) {
+				if (post.getStatus().equals(1)) count++;
+			}
+			cmap.put("numberOfPosts", count);
+			map.add(cmap);
+		}
+
+		return map;
 	}
 
 }

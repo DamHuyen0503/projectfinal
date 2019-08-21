@@ -9,7 +9,9 @@ import com.fpt.projectfinal.models.MedicalRecord;
 
 public interface ClientDao {
 	
-	public Set<Client> getAllClient(String sort, String order, int page, String searchString, int status, int expert);
+	public List<Client> getAllClient(String sort, String order, int page, String searchString, int status, String username);
+	
+	public List<Client> getAllClient(String sort, String order, int page, String searchString, int status, int expert);
 	
 	/*
 	 * Create new client. 

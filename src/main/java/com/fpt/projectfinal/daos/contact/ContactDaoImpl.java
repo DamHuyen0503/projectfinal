@@ -1,6 +1,7 @@
 package com.fpt.projectfinal.daos.contact;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -32,8 +33,8 @@ public class ContactDaoImpl implements ContactDao{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Contact> getAllContact(String sort, String order, int page, int status, String searchString) {
-		List<Contact> result = new ArrayList<>();
+	public Map<String, Object> getAllContact(String sort, String order, int page, int status, String searchString) {
+		Map<String, Object> result = new HashMap<String, Object>();
 		 
 		CriteriaBuilder cb = session.getCurrentSession().getCriteriaBuilder();
 		CriteriaQuery<Contact> cr = cb.createQuery(Contact.class);
@@ -50,10 +51,14 @@ public class ContactDaoImpl implements ContactDao{
 			}
 			
 			Query<Contact> q	=  session.getCurrentSession().createQuery(cr);
+			List<Contact> c = q.getResultList();
+			
 			q.setFirstResult((page - 1) * 3);
 			q.setMaxResults(3);
 			List<Contact> resultContact = q.getResultList();
-			return resultContact;
+			result.put("count", c.size());
+			result.put("listContact", resultContact);
+			return result;
 	}
 
 	@Override

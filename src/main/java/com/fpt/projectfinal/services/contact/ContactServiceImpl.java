@@ -40,7 +40,7 @@ public class ContactServiceImpl implements ContactServices{
 	}
 
 	@Override
-	public List<Contact> getAllContact(String sort, String order, int page, int status, String searchString) {
+	public Map<String, Object> getAllContact(String sort, String order, int page, int status, String searchString) {
 		return contactDao.getAllContact(sort, order, page, status, searchString);
 	}
 

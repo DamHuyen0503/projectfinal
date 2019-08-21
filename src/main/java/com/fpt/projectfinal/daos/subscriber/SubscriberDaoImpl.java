@@ -65,8 +65,6 @@ public class SubscriberDaoImpl implements SubscriberDao {
 
 	@Override
 	public List<Subscriber> listSubscriberByCategory(int categoryID) {
-		PersistenceUnitUtil impl = session.getPersistenceUnitUtil();
-		List<Subscriber> subs = new ArrayList<>();
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.append("SELECT S FROM Subscriber S ");
 			stringBuilder.append("JOIN S.categorys SC ");
@@ -74,6 +72,7 @@ public class SubscriberDaoImpl implements SubscriberDao {
 			
 			Query<Subscriber> query = session.getCurrentSession().createQuery(stringBuilder.toString());
 			query = query.setParameter("categoryId", categoryID);
+			
 //		    subs = session.getCurrentSession().createQuery(stringBuilder.toString()).setParameter("categoryId", categoryID).getResultList();
 			return query.getResultList();
 	}

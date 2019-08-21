@@ -216,7 +216,7 @@ public class PostController {
 	 */
 	@RequestMapping(value = "/getNumberOfPost", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	@ResponseBody
-	public ResponseEntity<Object> getNumberOfUser() {
+	public ResponseEntity<Object> getNumberOfPost() {
 		try {
 			Long count = postService.getNumberOfPost();
 		
