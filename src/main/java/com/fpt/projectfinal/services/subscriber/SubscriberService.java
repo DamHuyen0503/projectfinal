@@ -16,9 +16,4 @@ public interface SubscriberService {
 	 */
 	public Long getNumberOfSubscriber();
 	
-	/*
-	 * update a subscriber.
-	 * サブスクライバーを更新します。
-	 */
-	public String updateSubscriber(Map<String, Object> payload);
 }

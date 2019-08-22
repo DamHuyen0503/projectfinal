@@ -58,7 +58,7 @@ public class ClientServiceImpl implements ClientService{
 				return "DOB null";
 			}
 	
-			if ((int)payload.get("gender") <=0  || (int)payload.get("gender") >2) {
+			if ((int)payload.get("gender") <0  || (int)payload.get("gender") >2) {
 				return "gender invalid";
 			}
 			if (payload.get("address") == null) {

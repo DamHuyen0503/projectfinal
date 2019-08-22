@@ -98,11 +98,9 @@ public class UserController {
 	@ResponseBody
 	public ResponseEntity<Object> getAllUser(@RequestParam String sort, String order, int page, int roleID, String searchString) {
 		try {
-			List<Map<String, Object>> list = userService.getAllUser(sort, order, page, roleID, searchString);
-			if (list != null) {
-				return new ResponseEntity<>(list, HttpStatus.OK);
-			}
-			return new ResponseEntity<>(list, HttpStatus.BAD_REQUEST);
+			
+				return new ResponseEntity<>(userService.getAllUser(sort, order, page, roleID, searchString), HttpStatus.OK);
+			
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

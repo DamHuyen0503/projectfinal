@@ -3,6 +3,7 @@ package com.fpt.projectfinal.daos.category;
 import java.util.List;
 
 import com.fpt.projectfinal.models.Category;
+import com.fpt.projectfinal.models.Subscriber;
 
 public interface CategoryDao {
 	/*
@@ -37,4 +38,6 @@ public interface CategoryDao {
 	public List<Category> CountCategory();
 	
 	public List<Category> CountPostByCategory();
+	
+	public List<Category> getCategoryBySubscriber(int subscriberID);
 }

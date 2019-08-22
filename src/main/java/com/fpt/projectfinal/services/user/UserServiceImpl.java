@@ -110,24 +110,36 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public List<Map<String, Object>> getAllUser(String sort, String order, int page, int roleID, String searchString) {
-		List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
-		List<User> listUser = userDao.getAllUser(sort, order, page, roleID, searchString);
-		for (User user : listUser) {
-			Map<String, Object> u = new HashMap<String, Object>();
-			u.put("address", user.getAddress());
-			u.put("userID", user.getUserID());
-			u.put("firstName", user.getFirstName());
-			u.put("createdDate", user.getCreatedDate());
-			u.put("avatar", user.getAvatar());
-			u.put("dob", user.getDOB());
-			u.put("gender", user.getGender());
-			u.put("lastName", user.getLastName());
-			u.put("phoneNumber", user.getPhoneNumber());
+	public Map<String, Object> getAllUser(String sort, String order, int page, int roleID, String searchString) {
+		Map<String, Object> result = new HashMap<>();
+		try {
 			
-			result.add(u);
+			Map<String, Object> mapUser = userDao.getAllUser(sort, order, page, roleID, searchString);
+			List<User> listUser = (List<User>) mapUser.get("listUser");
+			List<Object> listResult = new ArrayList<>();
+			result.put("count", mapUser.get("count"));
+			for (User user : listUser) {
+				Map<String, Object> u = new HashMap<String, Object>();
+				u.put("address", user.getAddress());
+				u.put("userID", user.getUserID());
+				u.put("firstName", user.getFirstName());
+				u.put("createdDate", user.getCreatedDate());
+				u.put("avatar", user.getAvatar());
+				u.put("dob", user.getDOB());
+				u.put("gender", user.getGender());
+				u.put("lastName", user.getLastName());
+				u.put("phoneNumber", user.getPhoneNumber());
+				listResult.add(u);
+				
+			}
+			result.put("listUser", listResult);
+			return result;
+		} catch (Exception e) {
+			result = new HashMap<>();
+			result.put("error", e.getMessage());
+			return result;
 		}
-		return result;
+		
 	}
 
 	@Override
@@ -178,11 +190,15 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public List<Map<String, Object>> getAllExpert() {
-		List<Map<String, Object>> result = new ArrayList<>();
+	public Map<String, Object> getAllExpert() {
+		Map<String, Object> result = new HashMap<>();
 		List<User> listUser = userDao.getAllExpert();
+		List<Object> listResult = new ArrayList<>();
+		result.put("count", listUser.size());
+		
 		for (User user : listUser) {
 			Map<String, Object> mapUser = new HashMap<>();
+			mapUser = new HashMap<>();
 			mapUser.put("address", user.getAddress());
 			mapUser.put("avatar", user.getAvatar());
 			mapUser.put("createdDate", user.getCreatedDate());
@@ -193,10 +209,12 @@ public class UserServiceImpl implements UserService{
 			mapUser.put("phoneNumber", user.getPhoneNumber());
 			mapUser.put("userID", user.getUserID());
 			mapUser.put("email", user.getAccount().getEmail());
-			result.add(mapUser);
+			Set<Role> role = roleDao.getRoleByAcc(user.getAccount());
+			mapUser.put("role", role);
+			listResult.add(mapUser);
 		}
 		
-		
+		result.put("listExpert", listResult);
 		return result;
 	}
 

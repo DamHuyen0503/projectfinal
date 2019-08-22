@@ -32,7 +32,7 @@ public interface UserService {
 	 * get all information user. 
 	 * すべての情報ユーザーを取得します。
 	 */
-	public List<Map<String, Object>> getAllUser(String sort, String order, int page, int roleID, String searchString);
+	public Map<String, Object> getAllUser(String sort, String order, int page, int roleID, String searchString);
 	
 	/*
 	 * count total users.
@@ -56,7 +56,7 @@ public interface UserService {
 	 * Get the user information as an expert.
 	 * エキスパートとしてユーザー情報を取得します。
 	 */
-	public List<Map<String, Object>> getAllExpert();
+	public Map<String, Object> getAllExpert();
 	
 	
 }

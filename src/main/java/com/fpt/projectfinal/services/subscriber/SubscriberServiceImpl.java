@@ -28,12 +28,7 @@ public class SubscriberServiceImpl implements SubscriberService{
 		
 		
 		try {
-			List<Subscriber> listSubscriber = subscriberDao.getAllSubscriber();
-			for (Subscriber sub : listSubscriber) {
-				if (sub.getEmail().equals((String)payload.get("email"))) {
-					return "duplicate email";
-				}
-			}
+			
 			if (payload.get("email") == null) {
 				return "email null";
 			}
@@ -46,6 +41,7 @@ public class SubscriberServiceImpl implements SubscriberService{
 			if ((int) payload.get("status") <0 || (int) payload.get("status") >4 ) {
 				return "status invalid";
 			}
+			
 			List<Integer> listCategoryID = (List<Integer>) payload.get("categoryID");
 			Set<Category> setCategory = new  HashSet<>(); 
 			for (int cateID : listCategoryID) {
@@ -53,13 +49,31 @@ public class SubscriberServiceImpl implements SubscriberService{
 				setCategory.add(cate);
 			}
 			
+			List<Subscriber> listSubscriber = subscriberDao.getAllSubscriber();
+			for (Subscriber sub : listSubscriber) {
+				if (sub.getEmail().equals((String)payload.get("email"))) {
+//					Subscriber subscriber = subscriberDao.getSubscriberByID((int)payload.get("subscriberID"));
+					List<Category> cate = categoryDao.getCategoryBySubscriber(sub.getSubscriberID());
+					for(Category c : setCategory) {
+						cate.add(c);
+					}
+					Set<Category> setCate = new HashSet<>(cate);
+					sub.setCategorys(setCate);
+					sub.setStatus((int)payload.get("status"));
+					sub.setSubscriberDate(new Date());
+					sub.setEmail((String)payload.get("email"));
+					subscriberDao.updateSubscriber(sub);
+					return "update successful";
+				}
+			}
+				
 			Subscriber sub = new Subscriber();
 			sub.setCategorys(setCategory);
 			sub.setStatus((int)payload.get("status"));
 			sub.setSubscriberDate(new Date());
 			sub.setEmail((String)payload.get("email"));
 			subscriberDao.addSubscriber(sub);
-			return "successful";
+			return " add successful";
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 			return e.getMessage();
@@ -71,34 +85,5 @@ public class SubscriberServiceImpl implements SubscriberService{
 		return subscriberDao.getNumberOfSubscriber();
 	}
 
-	@Override
-	public String updateSubscriber(Map<String, Object> payload) {
-		
-		try {
-			if (payload.get("subscriberID") == null) {
-				return "subscriberID null";
-			}
-			List<Integer> listCategoryID = (List<Integer>) payload.get("categoryID");
-			Set<Category> setCategory = new  HashSet<>(); 
-			for (int cateID : listCategoryID) {
-				Category cate = categoryDao.getCategoryByID(cateID);
-				setCategory.add(cate);
-			}
-			
-			Subscriber sub = subscriberDao.getSubscriberByID((int)payload.get("subscriberID"));
-			if (sub ==  null) {
-				return "sub not found";
-			}
-			sub.setCategorys(setCategory);
-			sub.setStatus((int)payload.get("status"));
-			sub.setSubscriberDate(new Date());
-			sub.setEmail((String)payload.get("email"));
-			subscriberDao.updateSubscriber(sub);
-			return "successful";
-		}catch (Exception e) {
-			System.out.println(e.getMessage());
-			return e.getMessage();
-		}
-	}
 
 }

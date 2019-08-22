@@ -1,10 +1,12 @@
 package com.fpt.projectfinal.daos.category;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.PersistenceUnitUtil;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
@@ -14,12 +16,15 @@ import javax.transaction.Transactional;
 
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.fpt.projectfinal.models.Account;
 import com.fpt.projectfinal.models.Category;
 import com.fpt.projectfinal.models.Post;
+import com.fpt.projectfinal.models.Subscriber;
+import com.fpt.projectfinal.models.User;
 
 @Repository
 @Transactional
@@ -81,6 +86,7 @@ public class CategoryDaoImpl implements CategoryDao {
 
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public List<Category> CountPostByCategory() {
 		CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
@@ -92,13 +98,24 @@ public class CategoryDaoImpl implements CategoryDao {
 			CriteriaQuery<Post> queryPost = builder.createQuery(Post.class);
 			Root<Post> rootPost = queryPost.from(Post.class);
 			queryPost.select(rootPost).where(builder.equal(rootPost.get("category"), c),
-											builder.equal(root.get("status"), 1)	
-											);
+											builder.equal(root.get("status"), 1)	);
+			@SuppressWarnings("unchecked")
 			Set<Post> posts = new HashSet(session.getCurrentSession().createQuery(queryPost).getResultList());
 			c.setPost(posts);
 			System.out.println(posts.size());
 		}
 		return categories;
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Category> getCategoryBySubscriber(int subscriberID) {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("SELECT C FROM Category C JOIN C.subscriber s ");
+		stringBuilder.append("WHERE s.subscriberID = :subscriberID");
+		Query<Category> query = session.getCurrentSession().createQuery(stringBuilder.toString());
+		query = query.setParameter("subscriberID", subscriberID);
+		return query.getResultList();
+	} 
 
 }

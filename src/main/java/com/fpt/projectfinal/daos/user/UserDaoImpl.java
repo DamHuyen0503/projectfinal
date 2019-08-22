@@ -1,6 +1,7 @@
 package com.fpt.projectfinal.daos.user;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -92,27 +93,34 @@ public class UserDaoImpl implements UserDao {
 	public void updateUser(User user) {
 		this.session.getCurrentSession().update(user);
 	}
-	@SuppressWarnings("unused")
+	@SuppressWarnings({ "unused", "unchecked" })
 	@Override
-	public List<User> getAllUser(String sort, String order, int page, int roleID, String searchString) {
+	public Map<String, Object> getAllUser(String sort, String order, int page, int roleID, String searchString) {
+		Map<String, Object> mapUser = new HashMap<String, Object>();
 		try {
+			
 			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.append("SELECT U.getAllUser FROM User U ");
-			stringBuilder.append("WHERE U.account.roles.roleID = :roleID  and lastName like :searchString ");
+			stringBuilder.append("SELECT U FROM User U JOIN U.account.roles r ");
+			stringBuilder.append("WHERE r.roleID = :roleID  and lastName like :searchString ");
 		
-			stringBuilder.append("order by U.medicalRecord.client.").append(sort).append(" ").append(order);
+			stringBuilder.append("order by U.").append(sort).append(" ").append(order);
 			
 			Query<User> query = session.getCurrentSession().createQuery(stringBuilder.toString());
+			
 			query = query.setParameter("roleID", roleID);
-			
 			query = query.setParameter("searchString", "%" +searchString+ "%");
-			
+			List<User> l = query.getResultList();
+			mapUser.put("count", l.size());
 			query.setFirstResult((page - 1) * 5);
 			query.setMaxResults(5);
-			List<User> l = query.getResultList();
-			return query.getResultList();
+			List<User> listUser = query.getResultList();
+			mapUser.put("listUser", listUser);
+			return mapUser;
 		} catch (Exception e) {
-			return new ArrayList<>();
+			mapUser = new HashMap<>();
+			mapUser.put("error", e.getMessage());
+			System.out.println(e.getMessage());
+			return mapUser;
 			
 		}
 	
@@ -149,13 +157,22 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public List<User> getAllExpert() {
 		List<User> result = new ArrayList<>();
-		Set<Account> listAccount = new HashSet<Account>();
+		Set<Account> setAccount = new HashSet<Account>();
 		Set<Role> setRole =  roleDao.getRoleByName("EXPERT");
+		Set<Role> setRoleAdmin = roleDao.getRoleByName("ADMIN");
+		for (Role role : setRoleAdmin) {
+			setRole.add(role);
+		}
 		for(Role role : setRole) {
-			listAccount =  accountDao.getAccountByRole(role);	
+			Set<Account> acc = new HashSet<>();
+			acc =  accountDao.getAccountByRole(role);
+			for(Account a : acc) {
+				setAccount.add(a);
+			}
+			
 		}
 		
-		for(Account account : listAccount) {
+		for(Account account : setAccount) {
 			User user = this.getUserByAccount(account);
 			result.add(user);
 		}

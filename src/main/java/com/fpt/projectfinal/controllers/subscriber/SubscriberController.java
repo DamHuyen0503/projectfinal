@@ -65,24 +65,5 @@ public class SubscriberController {
 		}
 	}
 	
-	/*
-	 * update a subscriber.
-	 * サブスクライバーを更新します。
-	 */
-	@RequestMapping(value = "/updateSubscriber", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<Object> updateSubscriber(@RequestBody  Map<String, Object> payload) {
-
-		try {
-
-		
-			return new ResponseEntity<>(subscriberService.updateSubscriber(payload), HttpStatus.CREATED);
-		} catch (NullPointerException e) {
-			logger.warn(e.getMessage(), e);
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
 
 }

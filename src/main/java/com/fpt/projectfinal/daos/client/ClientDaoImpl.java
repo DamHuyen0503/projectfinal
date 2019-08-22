@@ -48,24 +48,45 @@ public class ClientDaoImpl implements ClientDao {
 	public List<Client> getAllClient(String sort, String order, int page, String searchString, int status, int expert) {
 		try {
 			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.append("SELECT U.medicalRecord.client FROM UserAccess U ");
-			stringBuilder.append("WHERE U.user.userID = :userID  and fullName like :searchString ");
-			stringBuilder.append("and U.medicalRecord.status = :status ");
-			stringBuilder.append("order by U.medicalRecord.client.").append(sort).append(" ").append(order);
-			
-			Query<Client> query = session.getCurrentSession().createQuery(stringBuilder.toString());
-			query = query.setParameter("userID", expert);
-			query = query.setParameter("status", status);
-			query = query.setParameter("searchString", "%" +searchString+ "%");
-			
-			query.setFirstResult((page - 1) * 5);
-			query.setMaxResults(5);
-			List<Client> l = query.getResultList();
-			for (Client c : l) {
-				System.out.println("clientDao: "+c.getClientID());
+			if (expert == 0) {
+				stringBuilder.append("SELECT U.medicalRecord.client FROM UserAccess U ");
+				stringBuilder.append("WHERE fullName like :searchString ");
+				stringBuilder.append("and U.medicalRecord.status = :status ");
+				stringBuilder.append("order by U.medicalRecord.client.").append(sort).append(" ").append(order);
+				Query<Client> query = session.getCurrentSession().createQuery(stringBuilder.toString());
+				query = query.setParameter("status", status);
+				query = query.setParameter("searchString", "%" +searchString+ "%");
+				query.setFirstResult((page - 1) * 5);
+				query.setMaxResults(5);
+				List<Client> l = query.getResultList();
+				for (Client c : l) {
+					System.out.println("clientDao: "+c.getClientID());
+				}
+				return query.getResultList();
 			}
-//			return new ArrayList<>(new HashSet(query.getResultList()));
-			return query.getResultList();
+			else {
+				stringBuilder.append("SELECT U.medicalRecord.client FROM UserAccess U ");
+				stringBuilder.append("WHERE U.user.userID = :userID  and fullName like :searchString ");
+				stringBuilder.append("and U.medicalRecord.status = :status ");
+				stringBuilder.append("order by U.medicalRecord.client.").append(sort).append(" ").append(order);
+				Query<Client> query = session.getCurrentSession().createQuery(stringBuilder.toString());
+				query = query.setParameter("userID", expert);
+				query = query.setParameter("status", status);
+				query = query.setParameter("searchString", "%" +searchString+ "%");
+				query.setFirstResult((page - 1) * 5);
+				query.setMaxResults(5);
+				List<Client> l = query.getResultList();
+				for (Client c : l) {
+					System.out.println("clientDao: "+c.getClientID());
+				}
+				return query.getResultList();
+				}
+			
+			
+			
+			
+			
+			
 		} catch (Exception e) {
 			return new ArrayList<>();
 		}
@@ -135,7 +156,7 @@ public class ClientDaoImpl implements ClientDao {
 			
 			query.setFirstResult((page - 1) * 5);
 			query.setMaxResults(5);
-			return new ArrayList<>(new HashSet(query.getResultList()));
+			return query.getResultList();
 		} catch (Exception e) {
 			return new ArrayList<>();
 		}

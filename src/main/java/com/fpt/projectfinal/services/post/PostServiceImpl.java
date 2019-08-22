@@ -138,6 +138,7 @@ public class PostServiceImpl implements PostService {
 		User user = post.getUser();
 		
 		Map<String, Object> u = new HashMap<>();
+		u.put("userID", user.getUserID());
 		u.put("address", user.getAddress());
 		u.put("avatar", user.getAvatar());
 		u.put("createdDate", user.getCreatedDate());
