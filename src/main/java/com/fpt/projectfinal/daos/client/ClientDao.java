@@ -9,7 +9,7 @@ import com.fpt.projectfinal.models.MedicalRecord;
 
 public interface ClientDao {
 	
-	public List<Client> getAll(String sort, String order, int page, String searchString);
+	public Map<String, Object> getAll(String sort, String order, int page, String searchString);
 	
 	public List<Client> getAllClient(String sort, String order, int page, String searchString, int status, String username);
 	

@@ -150,23 +150,21 @@ public class ClientDaoImpl implements ClientDao {
 	}
 
 	@Override
-	public List<Client> getAll(String sort, String order, int page, String searchString) {
+	public Map<String, Object> getAll(String sort, String order, int page, String searchString) {
 		StringBuilder stringBuilder = new StringBuilder();
-		
+			Map<String, Object> mapResult = new HashMap<>();
 			stringBuilder.append("SELECT C FROM Client C ");
 			stringBuilder.append("WHERE fullName like :searchString ");
-//			stringBuilder.append("and U.medicalRecord.status = :status ");
 			stringBuilder.append("order by ").append(sort).append(" ").append(order);
 			Query<Client> query = session.getCurrentSession().createQuery(stringBuilder.toString());
-//			query = query.setParameter("status", status);
 			query = query.setParameter("searchString", "%" +searchString+ "%");
+			List<Client> l = query.getResultList();
+			mapResult.put("count", l.size());
 			query.setFirstResult((page - 1) * 5);
 			query.setMaxResults(5);
-			List<Client> l = query.getResultList();
-			for (Client c : l) {
-				System.out.println("clientDao: "+c.getClientID());
-			}
-			return query.getResultList();
+			mapResult.put("listClient", query.getResultList());
+			
+			return mapResult ;
 		
 	}
 
