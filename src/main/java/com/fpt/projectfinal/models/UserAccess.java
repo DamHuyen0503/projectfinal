@@ -23,7 +23,7 @@ public class UserAccess {
 	private int userAccessID;
 	
 	@Column(name = "Status")
-	private Integer status;
+	private int status;
 
 	@Column(name = "StartedDate", updatable = false)
 	private Date startedDate;
@@ -62,12 +62,14 @@ public class UserAccess {
 		this.userAccessID = userAccessID;
 	}
 
-	public Integer getStatus() {
+	
+
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(Integer status) {
-		status = status;
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 	public Date getStartedDate() {

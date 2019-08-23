@@ -57,6 +57,7 @@ public class UserAccessServiceImpl implements UserAccessService{
 			userAccess.setUser(user);
 			userAccess.setMedicalRecord(medical);
 			userAccess.setStartedDate(new Date());
+			System.out.println((int)payload.get("status"));
 			userAccess.setStatus((int)payload.get("status"));
 			userAccessDao.addUserAccess(userAccess);
 			

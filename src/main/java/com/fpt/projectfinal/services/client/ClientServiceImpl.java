@@ -161,13 +161,14 @@ public class ClientServiceImpl implements ClientService{
 	}
 
 	@Override
-	public List<Map<String, Object>> getAll(String sort, String order, int page, String searchString) {
-		List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
+	public Map<String, Object> getAll(String sort, String order, int page, String searchString) {
+		Map<String, Object> mapresult = new HashMap<>();
+		List<Object> clientList = new ArrayList<>();
 		Map<String, Object> clientMap = clientDao.getAll(sort, order, page, searchString);
 		List<Client> listClient = (List<Client>) clientMap.get("listClient");
 		Map<String, Object> mapClient  = new HashMap<>();
-		mapClient.put("count", clientMap.get("count"));
-		result.add(mapClient);
+		mapresult.put("count", clientMap.get("count"));
+		
 		for(Client client : listClient) {
 			
 			mapClient  = new HashMap<>();
@@ -184,10 +185,10 @@ public class ClientServiceImpl implements ClientService{
 			mapClient.put("fullName", client.getFullName());
 			mapClient.put("email", client.getEmail());
 			mapClient.put("createdDate", client.getCreatedDate());
-			result.add(mapClient);
+			clientList.add(mapClient);
 		}
-		
-		return result;
+		mapresult.put("listClient", clientList);
+		return mapresult;
 	}
 
 	
