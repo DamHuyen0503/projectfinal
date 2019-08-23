@@ -98,24 +98,40 @@ public class UserDaoImpl implements UserDao {
 	public Map<String, Object> getAllUser(String sort, String order, int page, int roleID, String searchString) {
 		Map<String, Object> mapUser = new HashMap<String, Object>();
 		try {
-			
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.append("SELECT U FROM User U JOIN U.account.roles r ");
-			stringBuilder.append("WHERE r.roleID = :roleID  and lastName like :searchString ");
+			if (roleID == 0) {
+				stringBuilder.append("WHERE lastName like :searchString ");
+				stringBuilder.append("order by U.").append(sort).append(" ").append(order);
+				Query< User> query = session.getCurrentSession().createQuery(stringBuilder.toString());
+				query = query.setParameter("searchString", "%" +searchString+ "%");
+				List<User> l = query.getResultList();
+				mapUser.put("count", l.size());
+				query.setFirstResult((page - 1) * 5);
+				query.setMaxResults(5);
+				List<User> listUser = query.getResultList();
+				mapUser.put("listUser", listUser);
+				return mapUser;
+			} 
+			else {
+				stringBuilder.append("WHERE r.roleID = :roleID  and lastName like :searchString ");
+				stringBuilder.append("order by U.").append(sort).append(" ").append(order);
+				Query<User> query = session.getCurrentSession().createQuery(stringBuilder.toString());
+				query = query.setParameter("roleID", roleID);
+				query = query.setParameter("searchString", "%" +searchString+ "%");
+				List<User> l = query.getResultList();
+				mapUser.put("count", l.size());
+				query.setFirstResult((page - 1) * 5);
+				query.setMaxResults(5);
+				List<User> listUser = query.getResultList();
+				mapUser.put("listUser", listUser);
+				return mapUser;
+			}
+			
+			
 		
-			stringBuilder.append("order by U.").append(sort).append(" ").append(order);
 			
-			Query<User> query = session.getCurrentSession().createQuery(stringBuilder.toString());
 			
-			query = query.setParameter("roleID", roleID);
-			query = query.setParameter("searchString", "%" +searchString+ "%");
-			List<User> l = query.getResultList();
-			mapUser.put("count", l.size());
-			query.setFirstResult((page - 1) * 5);
-			query.setMaxResults(5);
-			List<User> listUser = query.getResultList();
-			mapUser.put("listUser", listUser);
-			return mapUser;
 		} catch (Exception e) {
 			mapUser = new HashMap<>();
 			mapUser.put("error", e.getMessage());

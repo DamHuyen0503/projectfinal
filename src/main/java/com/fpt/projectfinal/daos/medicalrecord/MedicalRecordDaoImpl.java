@@ -1,4 +1,4 @@
-package com.fpt.projectfinal.daos.medicalrecord;
+ package com.fpt.projectfinal.daos.medicalrecord;
 
 import java.beans.Expression;
 import java.text.ParseException;
@@ -162,6 +162,12 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao{
 			medicalRecords.add(note.getMedicalRecord());
 			return medicalRecords;
 		}
+	}
+
+
+	@Override
+	public List<MedicalRecord> getAll() {
+		return this.session.getCurrentSession().createQuery("from MedicalRecord").list();
 	}
 
 	

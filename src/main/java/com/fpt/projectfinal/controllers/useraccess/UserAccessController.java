@@ -79,11 +79,11 @@ public class UserAccessController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/getUserAccessByMedicalRecordID", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
-	public ResponseEntity<Object>  getAllTestByID(@RequestParam  int medicalRecordID){
+	public ResponseEntity<Object>  getUserAccessByMedicalRecordID(@RequestParam  int medicalRecordID){
 		
 		try {
 			List<Map<String, Object>> map=  userAccessService.getUserAccessByMedicalRecordID(medicalRecordID);
-	        return new ResponseEntity<>(map, HttpStatus.CREATED);
+	        return new ResponseEntity<>(map, HttpStatus.OK);
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

@@ -221,7 +221,8 @@ public class PostDaoImpl implements PostDao {
 		CriteriaQuery<Post> cr = cb.createQuery(Post.class);
 		Root<Post> root = cr.from(Post.class);
 		cr.where(cb.notEqual(root.get("category"), 1),
-				cb.like(root.get("title"), "%" + stringSearch + "%"));
+				cb.like(root.get("title"), "%" + stringSearch + "%"),
+				cb.equal(root.get("status"), 1));
 		
 		Query<Post> query = session.getCurrentSession().createQuery(cr);
 		result.put("count", query.getResultList().size());
@@ -240,7 +241,8 @@ public class PostDaoImpl implements PostDao {
 		CriteriaBuilder cb = session.getCurrentSession().getCriteriaBuilder();
 		CriteriaQuery<Post> cr = cb.createQuery(Post.class);
 		Root<Post> root = cr.from(Post.class);
-		cr.where(cb.equal(root.get("category"), categoryID ));
+		cr.where(cb.equal(root.get("category"), categoryID ),
+				cb.equal(root.get("status"), 1));
 		
 		Query<Post> query = session.getCurrentSession().createQuery(cr);
 		result.put("count", query.getResultList().size());
@@ -259,7 +261,8 @@ public class PostDaoImpl implements PostDao {
 		CriteriaBuilder cb = session.getCurrentSession().getCriteriaBuilder();
 		CriteriaQuery<Post> cr = cb.createQuery(Post.class);
 		Root<Post> root = cr.from(Post.class);
-		cr.where(cb.equal(root.get("user"), userID ));
+		cr.where(cb.equal(root.get("user"), userID ), 
+				cb.equal(root.get("status"), 1));
 		
 		Query<Post> query = session.getCurrentSession().createQuery(cr);
 		result.put("count", query.getResultList().size());

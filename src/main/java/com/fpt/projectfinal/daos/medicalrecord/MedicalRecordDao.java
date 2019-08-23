@@ -66,4 +66,5 @@ public interface MedicalRecordDao {
 	 */
 	public List<MedicalRecord> getMedicalByNoteProcess(NoteProcess note);
 	
+	public List<MedicalRecord> getAll();
 }

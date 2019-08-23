@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,10 +13,12 @@ import org.springframework.stereotype.Service;
 
 import com.fpt.projectfinal.daos.account.AccountDao;
 import com.fpt.projectfinal.daos.medicalrecord.MedicalRecordDao;
+import com.fpt.projectfinal.daos.role.RoleDao;
 import com.fpt.projectfinal.daos.user.UserDao;
 import com.fpt.projectfinal.daos.useraccess.UserAccessDao;
 import com.fpt.projectfinal.models.Account;
 import com.fpt.projectfinal.models.MedicalRecord;
+import com.fpt.projectfinal.models.Role;
 import com.fpt.projectfinal.models.User;
 import com.fpt.projectfinal.models.UserAccess;
 import com.fpt.projectfinal.services.authentication.AuthenService;
@@ -35,6 +38,10 @@ public class UserAccessServiceImpl implements UserAccessService{
 	
 	@Autowired
 	UserDao userDao ;
+	
+	@Autowired
+	RoleDao roleDao;
+	
 	@Override
 	public String addUserAccess(Map<String, Object> payload) {
 		if (payload.get("userID") == null) {
@@ -101,7 +108,10 @@ public class UserAccessServiceImpl implements UserAccessService{
 			
 			for (UserAccess userAccess : listUser) {
 				Map<String, Object> mapUser = new HashMap<>();
-				
+				User user = userAccess.getUser();
+				Account account = accountDao.getAccountByUser(user);
+				Set<Role> role = roleDao.getRoleByAcc(account);
+				mapUser.put("roles", role);
 				mapUser.put("userID", userAccess.getUser().getUserID());
 				mapUser.put("userName", userAccess.getUser().getFirstName());
 				mapUser.put("status", userAccess.getStatus());

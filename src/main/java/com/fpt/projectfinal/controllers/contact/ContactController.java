@@ -36,7 +36,7 @@ public class ContactController {
 	 * 新しい連絡先を作成します。
 	 */
 	@RequestMapping(value = "/addContact",method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Object> createCategory(@RequestBody Map<String, Object> payload,UriComponentsBuilder builder) {
+	public ResponseEntity<Object> createContact(@RequestBody Map<String, Object> payload) {
 		try {
 			
 	        return new ResponseEntity<>(contactService.addContact(payload), HttpStatus.OK);
