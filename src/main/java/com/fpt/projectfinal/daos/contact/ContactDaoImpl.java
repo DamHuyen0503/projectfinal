@@ -40,15 +40,18 @@ public class ContactDaoImpl implements ContactDao{
 		CriteriaQuery<Contact> cr = cb.createQuery(Contact.class);
 		Root<Contact> root = cr.from(Contact.class);
 		cr.distinct(true);
+		if (status == 0) {
+			cr.where(cb.like(root.get("content"), "%" + searchString + "%"));		
+		}
+		else {
 			cr.where(cb.equal(root.get("status"), status), 
-					cb.like(root.get("content"), "%" + searchString + "%")
-					);
-		
-			if ("asc".equals(order)) {
-				cr.orderBy(cb.asc(root.get(sort)));
-			} else {
-				cr.orderBy(cb.desc(root.get(sort)));
-			}
+					cb.like(root.get("content"), "%" + searchString + "%"));	
+		}
+		if ("asc".equals(order)) {
+			cr.orderBy(cb.asc(root.get(sort)));
+		} else {
+			cr.orderBy(cb.desc(root.get(sort)));
+		}
 			
 			Query<Contact> q	=  session.getCurrentSession().createQuery(cr);
 			List<Contact> c = q.getResultList();
