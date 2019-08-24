@@ -130,10 +130,18 @@ public class PostServiceImpl implements PostService {
 		map.put("status",post.getStatus());
 		map.put("title",post.getTitle());
 		Map<String, Object> mapCate = new HashMap<>();
-		mapCate.put("categoryID", post.getCategory().getCategoryID());
-		mapCate.put("name", post.getCategory().getName());
+		if (post.getCategory() == null) {
+			mapCate.put("categoryID", null);
+			mapCate.put("name", null);
+			map.put("category", mapCate);
+		}
+		else {
+			mapCate.put("categoryID", post.getCategory().getCategoryID());
+			mapCate.put("name", post.getCategory().getName());
+			map.put("category", mapCate);
+		}
 		
-		map.put("category", mapCate);
+		
 		map.put("modifiedDate",post.getModifiedDate());
 		User user = post.getUser();
 		
