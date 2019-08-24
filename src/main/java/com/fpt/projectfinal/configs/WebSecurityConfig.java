@@ -59,12 +59,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		 http.cors().and().csrf().disable().authorizeRequests()
 	                // No need authentication.
 	                // .antMatchers("/").permitAll()
-	                .antMatchers(HttpMethod.POST, "/login").permitAll() //
-	                .antMatchers(HttpMethod.GET, "/uploadOneFile/**").permitAll() //
+	                .antMatchers(HttpMethod.POST, "/login").permitAll() 
+	                .antMatchers(HttpMethod.GET, "/uploadOneFile/**").permitAll() 
 	                .antMatchers(HttpMethod.POST, "/addAccount").permitAll()//
 	                .antMatchers(HttpMethod.GET, "/getDetailPost/**").permitAll()
 	                .antMatchers(HttpMethod.GET, "/CountCategory").permitAll()
-	                
+	                .antMatchers(HttpMethod.GET, "/getAllSlider").permitAll()
+	                .antMatchers(HttpMethod.GET, "/getAllCategory").permitAll()
+	                .antMatchers(HttpMethod.GET, "/getAllTag").permitAll()
+	                .antMatchers(HttpMethod.POST, "/addSubscriber").permitAll() 
+	                .antMatchers(HttpMethod.GET, "/getPostNew").permitAll()
+	                .antMatchers(HttpMethod.GET, "/addContact").permitAll()// bug
+	                .antMatchers(HttpMethod.GET, "/getPostsByString/**").permitAll()
+	                .antMatchers(HttpMethod.GET, "/getPostsByCategory/**").permitAll()
+	                .antMatchers(HttpMethod.GET, "/getPostsByAuthor/**").permitAll()
 	                // Need authentication.
 	                .anyRequest().authenticated()
 	                //
