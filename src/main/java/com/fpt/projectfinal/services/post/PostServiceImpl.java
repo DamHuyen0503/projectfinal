@@ -109,8 +109,7 @@ public class PostServiceImpl implements PostService {
 			postDao.updatePost(post);
 			return "successful";
 		}catch (Exception e) {
-			e.getMessage();
-			return "update fail";
+			return e.getMessage();
 		}
 		
 	
@@ -118,49 +117,56 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public Map<String, Object> getPostById(int id) {
-		Post post = postDao.getPostById(id);
-		
-		post.setTags(tagDao.getTagByPost(post));
 		Map<String, Object> map = new HashMap<>();
-		map.put("postID", post.getPostID());
-		map.put("content",post.getContent());
-		map.put("createdDate",post.getCreatedDate());
-		map.put("description",post.getDescription());
-		map.put("image",post.getImage());
-		map.put("status",post.getStatus());
-		map.put("title",post.getTitle());
-		Map<String, Object> mapCate = new HashMap<>();
-		if (post.getCategory() == null) {
-			mapCate.put("categoryID", null);
-			mapCate.put("name", null);
-			map.put("category", mapCate);
+		Post post = postDao.getPostById(id);
+		if (post == null) {
+			map.put("result", "post not found");
 		}
-		else {
-			mapCate.put("categoryID", post.getCategory().getCategoryID());
-			mapCate.put("name", post.getCategory().getName());
-			map.put("category", mapCate);
+		try {
+			post.setTags(tagDao.getTagByPost(post));
+			
+			map.put("postID", post.getPostID());
+			map.put("content",post.getContent());
+			map.put("createdDate",post.getCreatedDate());
+			map.put("description",post.getDescription());
+			map.put("image",post.getImage());
+			map.put("status",post.getStatus());
+			map.put("title",post.getTitle());
+			Map<String, Object> mapCate = new HashMap<>();
+			if (post.getCategory() == null) {
+				mapCate.put("categoryID", null);
+				mapCate.put("name", null);
+				map.put("category", mapCate);
+			}
+			else {
+				mapCate.put("categoryID", post.getCategory().getCategoryID());
+				mapCate.put("name", post.getCategory().getName());
+				map.put("category", mapCate);
+			}
+			map.put("modifiedDate",post.getModifiedDate());
+			User user = post.getUser();
+			Map<String, Object> u = new HashMap<>();
+			u.put("userID", user.getUserID());
+			u.put("address", user.getAddress());
+			u.put("avatar", user.getAvatar());
+			u.put("createdDate", user.getCreatedDate());
+			u.put("dob", user.getDOB());
+			u.put("firstName", user.getFirstName());
+			u.put("lastName", user.getLastName());
+			u.put("phoneNumber", user.getPhoneNumber());
+			map.put("user", u);
+			List<String> tags = new ArrayList();
+			for (Tag tag : post.getTags()) {
+				tags.add(tag.getContent());
+			}
+			map.put("tags", tags);
+			return map;
+		} catch (Exception e) {
+			map = new HashMap<>();
+			map.put("error", e.getMessage());
+			return map;
 		}
 		
-		
-		map.put("modifiedDate",post.getModifiedDate());
-		User user = post.getUser();
-		
-		Map<String, Object> u = new HashMap<>();
-		u.put("userID", user.getUserID());
-		u.put("address", user.getAddress());
-		u.put("avatar", user.getAvatar());
-		u.put("createdDate", user.getCreatedDate());
-		u.put("dob", user.getDOB());
-		u.put("firstName", user.getFirstName());
-		u.put("lastName", user.getLastName());
-		u.put("phoneNumber", user.getPhoneNumber());
-		map.put("user", u);
-		List<String> tags = new ArrayList();
-		for (Tag tag : post.getTags()) {
-			tags.add(tag.getContent());
-		}
-		map.put("tags", tags);
-		return map;
 	}
 
 	@Override
@@ -297,7 +303,7 @@ public class PostServiceImpl implements PostService {
 			return "successful";
 		} catch (Exception e) {
 			e.getMessage();
-			return "add fail";
+			return e.getMessage();
 		}
 		
 	}
@@ -312,29 +318,44 @@ public class PostServiceImpl implements PostService {
 	public List<Map<String, Object>> getPostsByTagID(Integer tagID, Integer page) {
 		List<Map<String, Object>> result = new ArrayList<>();
 		List<Post> listPost = postDao.getPostsByTagID(tagID, page);
-		for (Post post : listPost) {
+		if (listPost == null) {
 			Map<String, Object> mapPost = new HashMap<>();
-			mapPost.put("content", post.getContent());
-			mapPost.put("createdDate", post.getCreatedDate());
-			mapPost.put("discription", post.getDescription());
-			mapPost.put("image", post.getImage());
-			mapPost.put("modifiedDate", post.getModifiedDate());
-			mapPost.put("postID", post.getPostID());
-			mapPost.put("status", post.getStatus());
-			mapPost.put("title", post.getTitle());
-			Set<Tag> setTag = tagDao.getTagByPost(post);
-			List<Map<String, Object>> listTag = new ArrayList<>();
-			for (Tag tag : setTag) {
-				Map<String, Object> mapTag = new HashMap<>();
-				mapTag.put("content", tag.getContent());
-				mapTag.put("createdDate", tag.getCreatedDate());
-				mapTag.put("tagID", tag.getTagID());
-				listTag.add(mapTag);
-			}
-			mapPost.put("tags", listTag);
+			mapPost.put("message", "post not found");
 			result.add(mapPost);
+			return result;
 		}
-		return result;
+		try {
+			for (Post post : listPost) {
+				Map<String, Object> mapPost = new HashMap<>();
+				mapPost.put("content", post.getContent());
+				mapPost.put("createdDate", post.getCreatedDate());
+				mapPost.put("discription", post.getDescription());
+				mapPost.put("image", post.getImage());
+				mapPost.put("modifiedDate", post.getModifiedDate());
+				mapPost.put("postID", post.getPostID());
+				mapPost.put("status", post.getStatus());
+				mapPost.put("title", post.getTitle());
+				Set<Tag> setTag = tagDao.getTagByPost(post);
+				List<Map<String, Object>> listTag = new ArrayList<>();
+				for (Tag tag : setTag) {
+					Map<String, Object> mapTag = new HashMap<>();
+					mapTag.put("content", tag.getContent());
+					mapTag.put("createdDate", tag.getCreatedDate());
+					mapTag.put("tagID", tag.getTagID());
+					listTag.add(mapTag);
+				}
+				mapPost.put("tags", listTag);
+				result.add(mapPost);
+			}
+			return result;
+		} catch (Exception e) {
+			result = new ArrayList<>();
+			Map<String, Object> mapPost = new HashMap<>();
+			mapPost.put("error", e.getMessage());
+			result.add(mapPost);
+			return result;
+		}
+		
 	}
 
 	@Override

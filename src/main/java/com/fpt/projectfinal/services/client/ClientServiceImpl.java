@@ -27,27 +27,37 @@ public class ClientServiceImpl implements ClientService{
 	@Override
 	public List<Map<String, Object>> getAllClient(String sort, String order, int page, String searchString, int status, int expert) {
 		List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
-		List<Client> setClient = clientDao.getAllClient(sort, order, page, searchString, status, expert);
-		for(Client client : setClient) {
+		try { 
 			
-			Map<String, Object> mapClient = new HashMap<>();
-			mapClient.put("clientID", client.getClientID());
-			mapClient.put("gender", client.getGender());
-			mapClient.put("dob", client.getDob());
-			mapClient.put("address", client.getAddress());
-			
-			mapClient.put("phoneNumber", client.getPhoneNumber());
-			mapClient.put("note", client.getNote());
-			mapClient.put("alias", client.getAlias());
-			mapClient.put("ssn", client.getSsn());
+			List<Client> setClient = clientDao.getAllClient(sort, order, page, searchString, status, expert);
+			for(Client client : setClient) {
+				
+				Map<String, Object> mapClient = new HashMap<>();
+				mapClient.put("clientID", client.getClientID());
+				mapClient.put("gender", client.getGender());
+				mapClient.put("dob", client.getDob());
+				mapClient.put("address", client.getAddress());
+				
+				mapClient.put("phoneNumber", client.getPhoneNumber());
+				mapClient.put("note", client.getNote());
+				mapClient.put("alias", client.getAlias());
+				mapClient.put("ssn", client.getSsn());
 
-			mapClient.put("fullName", client.getFullName());
-			mapClient.put("email", client.getEmail());
-			mapClient.put("createdDate", client.getCreatedDate());
-			result.add(mapClient);
+				mapClient.put("fullName", client.getFullName());
+				mapClient.put("email", client.getEmail());
+				mapClient.put("createdDate", client.getCreatedDate());
+				result.add(mapClient);
+			}
+			
+			return result;
+		}catch (Exception e) {
+			result = new ArrayList<>();
+			Map<String, Object> error = new HashMap<>();
+			error.put("error", e.getMessage());
+			result.add(error);
+			return result;
 		}
 		
-		return result;
 	}
 	
 	@Override
@@ -138,62 +148,78 @@ public class ClientServiceImpl implements ClientService{
 	@Override
 	public List<Map<String, Object>> getAllClient(String sort, String order, int page, String searchString,int status, String username) {
 		List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
-		List<Client> setClient = clientDao.getAllClient(sort, order, page, searchString, status, username);
-		for(Client client : setClient) {
-			Map<String, Object> mapClient = new HashMap<>();
-			mapClient.put("clientID", client.getClientID());
-			mapClient.put("gender", client.getGender());
-			mapClient.put("dob", client.getDob());
-			mapClient.put("address", client.getAddress());
-			
-			mapClient.put("phoneNumber", client.getPhoneNumber());
-			mapClient.put("note", client.getNote());
-			mapClient.put("alias", client.getAlias());
-			mapClient.put("ssn", client.getSsn());
+		try {
+			List<Client> setClient = clientDao.getAllClient(sort, order, page, searchString, status, username);
+			for(Client client : setClient) {
+				Map<String, Object> mapClient = new HashMap<>();
+				mapClient.put("clientID", client.getClientID());
+				mapClient.put("gender", client.getGender());
+				mapClient.put("dob", client.getDob());
+				mapClient.put("address", client.getAddress());
+				
+				mapClient.put("phoneNumber", client.getPhoneNumber());
+				mapClient.put("note", client.getNote());
+				mapClient.put("alias", client.getAlias());
+				mapClient.put("ssn", client.getSsn());
 
-			mapClient.put("fullName", client.getFullName());
-			mapClient.put("email", client.getEmail());
-			mapClient.put("createdDate", client.getCreatedDate());
-			result.add(mapClient);
+				mapClient.put("fullName", client.getFullName());
+				mapClient.put("email", client.getEmail());
+				mapClient.put("createdDate", client.getCreatedDate());
+				result.add(mapClient);
+			}
+			
+			return result;
+
+		} catch (Exception e) {
+			result = new ArrayList<>();
+			Map<String, Object> error = new HashMap<>();
+			error.put("error", e.getMessage());
+			result.add(error);
+			return result;
 		}
-		
-		return result;
-	}
+			}
 
 	@Override
 	public Map<String, Object> getAll(String sort, String order, int page, String searchString) {
 		Map<String, Object> mapresult = new HashMap<>();
 		List<Object> clientList = new ArrayList<>();
-		Map<String, Object> clientMap = clientDao.getAll(sort, order, page, searchString);
-		List<Client> listClient = (List<Client>) clientMap.get("listClient");
-		Map<String, Object> mapClient  = new HashMap<>();
-		mapresult.put("count", clientMap.get("count"));
-		
-		for(Client client : listClient) {
-			List<MedicalRecord> listMedical = medicalRecordDao.getMedicalRecordByClient(client);
-			mapClient  = new HashMap<>();
-			mapClient.put("clientID", client.getClientID());
-			mapClient.put("gender", client.getGender());
-			mapClient.put("dob", client.getDob());
-			mapClient.put("address", client.getAddress());
+		try {
+			Map<String, Object> clientMap = clientDao.getAll(sort, order, page, searchString);
+			List<Client> listClient = (List<Client>) clientMap.get("listClient");
+			Map<String, Object> mapClient  = new HashMap<>();
+			mapresult.put("count", clientMap.get("count"));
 			
-			mapClient.put("phoneNumber", client.getPhoneNumber());
-			mapClient.put("note", client.getNote());
-			mapClient.put("alias", client.getAlias());
-			mapClient.put("ssn", client.getSsn());
+			for(Client client : listClient) {
+				List<MedicalRecord> listMedical = medicalRecordDao.getMedicalRecordByClient(client);
+				mapClient  = new HashMap<>();
+				mapClient.put("clientID", client.getClientID());
+				mapClient.put("gender", client.getGender());
+				mapClient.put("dob", client.getDob());
+				mapClient.put("address", client.getAddress());
+				
+				mapClient.put("phoneNumber", client.getPhoneNumber());
+				mapClient.put("note", client.getNote());
+				mapClient.put("alias", client.getAlias());
+				mapClient.put("ssn", client.getSsn());
 
-			mapClient.put("fullName", client.getFullName());
-			mapClient.put("email", client.getEmail());
-			mapClient.put("createdDate", client.getCreatedDate());
-			List<Integer> listMedicalID = new ArrayList<>();
-			for (MedicalRecord medical : listMedical) {
-				 listMedicalID.add(medical.getMedicalRecordID());
+				mapClient.put("fullName", client.getFullName());
+				mapClient.put("email", client.getEmail());
+				mapClient.put("createdDate", client.getCreatedDate());
+				List<Integer> listMedicalID = new ArrayList<>();
+				for (MedicalRecord medical : listMedical) {
+					 listMedicalID.add(medical.getMedicalRecordID());
+				}
+				mapClient.put("medicalRecordID", listMedicalID);
+				clientList.add(mapClient);
 			}
-			mapClient.put("medicalRecordID", listMedicalID);
-			clientList.add(mapClient);
+			mapresult.put("listClient", clientList);
+			return mapresult;
+		} catch (Exception e) {
+			mapresult = new HashMap<>();
+			mapresult.put("error", e.getMessage());
+			return mapresult;
 		}
-		mapresult.put("listClient", clientList);
-		return mapresult;
+		
 	}
 
 	

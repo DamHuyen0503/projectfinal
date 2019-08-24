@@ -131,7 +131,7 @@ public class UserAccessServiceImpl implements UserAccessService{
 			}
 			return result;
 		}catch (Exception e) {
-			message.put("message", "userAcces not have");
+			message.put("message", e.getMessage());
 			return (List<Map<String, Object>>) message;
 		}
 	}
