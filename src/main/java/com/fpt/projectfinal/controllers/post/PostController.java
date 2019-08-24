@@ -92,7 +92,7 @@ public class PostController {
 		try {
 
 		
-			return new ResponseEntity<>(postService.addPost(payload), HttpStatus.CREATED);
+			return new ResponseEntity<>(postService.addPost(payload), HttpStatus.OK);
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -183,7 +183,7 @@ public class PostController {
 	@RequestMapping(value = "/getPostsByTagID", method = RequestMethod.GET, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
-	public Map<String, Object> getPostsByTagID(@RequestParam Integer tagID, @RequestParam Integer page) {
+	public Map<String, Object> getPostsByTagID(@RequestParam Integer tagID,  int page) {
 		Map<String, Object> tags = new HashMap<String, Object>();
 		tags.put("count", postService.getCountPostsByTagID(tagID, page));
 		tags.put("listPost", postService.getPostsByTagID(tagID, page));

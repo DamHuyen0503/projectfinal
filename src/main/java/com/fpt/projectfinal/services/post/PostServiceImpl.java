@@ -22,6 +22,7 @@ import com.fpt.projectfinal.daos.account.AccountDao;
 import com.fpt.projectfinal.daos.category.CategoryDao;
 import com.fpt.projectfinal.daos.post.PostDao;
 import com.fpt.projectfinal.daos.tag.TagDao;
+import com.fpt.projectfinal.daos.user.UserDao;
 import com.fpt.projectfinal.models.Account;
 import com.fpt.projectfinal.models.Category;
 import com.fpt.projectfinal.models.Post;
@@ -45,6 +46,9 @@ public class PostServiceImpl implements PostService {
 
 	@Autowired
 	AccountDao accountDao;
+	
+	@Autowired 
+	UserDao userDao;
 	
 	@Override
 	public String updatePost(Map<String, Object> payload) {
@@ -270,7 +274,8 @@ public class PostServiceImpl implements PostService {
 			
 			
 			Post post = new Post();
-			post.setUser(acc.getUser());
+			User user = userDao.getUserByAccount(acc);
+			post.setUser(user);
 			post.setCreatedDate(new Date());
 			post.setTitle((String) payload.get("title"));
 			post.setCategory(category);
@@ -329,7 +334,7 @@ public class PostServiceImpl implements PostService {
 				Map<String, Object> mapPost = new HashMap<>();
 				mapPost.put("content", post.getContent());
 				mapPost.put("createdDate", post.getCreatedDate());
-				mapPost.put("discription", post.getDescription());
+				mapPost.put("description", post.getDescription());
 				mapPost.put("image", post.getImage());
 				mapPost.put("modifiedDate", post.getModifiedDate());
 				mapPost.put("postID", post.getPostID());
