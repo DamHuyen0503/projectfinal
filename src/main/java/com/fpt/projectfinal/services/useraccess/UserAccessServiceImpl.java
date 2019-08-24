@@ -50,20 +50,26 @@ public class UserAccessServiceImpl implements UserAccessService{
 		if (payload.get("medicalRecordID") == null) {
 			return "medicalRecord null";
 		}
+		User user = userDao.getUserByID((int)payload.get("userID"));
+		if (user == null) {
+			return "user not found";
+		}
 		try {
 			UserAccess userAccess = new UserAccess();
 			MedicalRecord medical = medicalRecordDao.getMedicalRecordByID((int)payload.get("medicalRecordID"));
-			User user = userDao.getUserByID((int)payload.get("userID"));
+			
 			userAccess.setUser(user);
 			userAccess.setMedicalRecord(medical);
-			System.out.println(new Date());
 			userAccess.setStartedDate(new Date());
+			userAccess.setFinishedDate(new Date());
+			
 			userAccess.setStatus((int)payload.get("status"));
 			userAccessDao.addUserAccess(userAccess);
 			
+			
 			return "successful";
 		} catch (Exception e) {
-			return "add fail";
+			return e.getMessage();
 		}
 		
 	}
@@ -90,7 +96,7 @@ public class UserAccessServiceImpl implements UserAccessService{
 			
 			return "successful";
 		} catch (Exception e) {
-			return "update fail";
+			return e.getMessage();
 		}
 	}
 	@SuppressWarnings({ "unchecked", "unused" })
@@ -160,7 +166,7 @@ public class UserAccessServiceImpl implements UserAccessService{
 			return result;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			listUserAccess.put("message", "get fail");
+			listUserAccess.put("message", e.getMessage());
 			result.add(listUserAccess);
 			return result;
 		}

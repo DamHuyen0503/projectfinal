@@ -24,11 +24,13 @@ public class UserAccess {
 	@Column(name = "Status")
 	private int status;
 
-	@Column(name = "StartedDate")
+	@Column(name = "StartedDate", updatable = false)
 	private Date startedDate;
 
 	@Column(name = "FinishedDate")
 	private Date finishedDate;
+	
+	
 //
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "userID")
@@ -42,16 +44,18 @@ public class UserAccess {
 		super();
 	}
 
-	public UserAccess(int userAccessID, Integer status, Date startedDate, Date finishedDate, User user,
+
+	public UserAccess(int userAccessID, int status, Date startedDate, Date finishedDate, User user,
 			MedicalRecord medicalRecord) {
 		super();
 		this.userAccessID = userAccessID;
-		status = status;
-		startedDate = startedDate;
-		finishedDate = finishedDate;
+		this.status = status;
+		this.startedDate = startedDate;
+		this.finishedDate = finishedDate;
 		this.user = user;
 		this.medicalRecord = medicalRecord;
 	}
+
 
 	public int getUserAccessID() {
 		return userAccessID;
@@ -75,17 +79,22 @@ public class UserAccess {
 		return startedDate;
 	}
 
-	public void setStartedDate(Date startedDate) {
-		startedDate = startedDate;
-	}
+	
 
 	public Date getFinishedDate() {
 		return finishedDate;
 	}
 
+
 	public void setFinishedDate(Date finishedDate) {
-		finishedDate = finishedDate;
+		this.finishedDate = finishedDate;
 	}
+
+
+	public void setStartedDate(Date startedDate) {
+		this.startedDate = startedDate;
+	}
+
 
 	public User getUser() {
 		return user;
