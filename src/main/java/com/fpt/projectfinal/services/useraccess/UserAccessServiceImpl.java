@@ -116,8 +116,11 @@ public class UserAccessServiceImpl implements UserAccessService{
 				mapUser.put("userID", userAccess.getUser().getUserID());
 				mapUser.put("userName", userAccess.getUser().getFirstName());
 				mapUser.put("status", userAccess.getStatus());
-				mapUser.put("staredDate", userAccess.getStartedDate());
+				mapUser.put("startedDate", userAccess.getStartedDate());
 				mapUser.put("finishedDate",userAccess.getFinishedDate() );
+				mapUser.put("firstName", user.getFirstName());
+				mapUser.put("lastName", user.getLastName());
+				mapUser.put("email", account.getEmail());
 				result.add(mapUser);
 			}
 			return result;

@@ -63,7 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	                .antMatchers(HttpMethod.GET, "/uploadOneFile/**").permitAll() 
 	                .antMatchers(HttpMethod.POST,"/addAccount").permitAll()//
 	                .antMatchers(HttpMethod.GET, "/getDetailPost/**").permitAll()
-	                .antMatchers(HttpMethod.GET, "/CountCategory").permitAll()
+	                .antMatchers(HttpMethod.GET, "/CountPostByCategory").permitAll()
 	                .antMatchers(HttpMethod.GET, "/getAllSlider").permitAll()
 	                .antMatchers(HttpMethod.GET, "/getAllCategory").permitAll()
 	                .antMatchers(HttpMethod.GET, "/getAllTag").permitAll()
