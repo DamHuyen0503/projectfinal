@@ -75,6 +75,8 @@ public class ClientDaoImpl implements ClientDao {
 					result.add(c);
 				}
 			}
+			
+			
 			return result;
 		}
 		return new  ArrayList<>();		

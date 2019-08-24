@@ -206,10 +206,7 @@ public class ClientServiceImpl implements ClientService{
 				mapClient.put("email", client.getEmail());
 				mapClient.put("createdDate", client.getCreatedDate());
 				List<Integer> listMedicalID = new ArrayList<>();
-				for (MedicalRecord medical : listMedical) {
-					 listMedicalID.add(medical.getMedicalRecordID());
-				}
-				mapClient.put("medicalRecordID", listMedicalID);
+				mapClient.put("countMedicalRecord", listMedical.size());
 				clientList.add(mapClient);
 			}
 			mapresult.put("listClient", clientList);
