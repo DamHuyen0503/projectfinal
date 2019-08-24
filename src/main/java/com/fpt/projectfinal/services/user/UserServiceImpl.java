@@ -119,6 +119,7 @@ public class UserServiceImpl implements UserService{
 			List<Object> listResult = new ArrayList<>();
 			result.put("count", mapUser.get("count"));
 			for (User user : listUser) {
+				Account account = accountDao.getAccountByUser(user);
 				Map<String, Object> u = new HashMap<String, Object>();
 				u.put("address", user.getAddress());
 				u.put("userID", user.getUserID());
@@ -129,6 +130,7 @@ public class UserServiceImpl implements UserService{
 				u.put("gender", user.getGender());
 				u.put("lastName", user.getLastName());
 				u.put("phoneNumber", user.getPhoneNumber());
+				u.put("email", account.getEmail());
 				listResult.add(u);
 				
 			}
