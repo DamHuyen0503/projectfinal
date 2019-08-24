@@ -170,7 +170,7 @@ public class ClientServiceImpl implements ClientService{
 		mapresult.put("count", clientMap.get("count"));
 		
 		for(Client client : listClient) {
-			
+			List<MedicalRecord> listMedical = medicalRecordDao.getMedicalRecordByClient(client);
 			mapClient  = new HashMap<>();
 			mapClient.put("clientID", client.getClientID());
 			mapClient.put("gender", client.getGender());
@@ -185,6 +185,11 @@ public class ClientServiceImpl implements ClientService{
 			mapClient.put("fullName", client.getFullName());
 			mapClient.put("email", client.getEmail());
 			mapClient.put("createdDate", client.getCreatedDate());
+			List<Integer> listMedicalID = new ArrayList<>();
+			for (MedicalRecord medical : listMedical) {
+				 listMedicalID.add(medical.getMedicalRecordID());
+			}
+			mapClient.put("medicalRecordID", listMedicalID);
 			clientList.add(mapClient);
 		}
 		mapresult.put("listClient", clientList);
