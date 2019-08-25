@@ -359,7 +359,7 @@ public class TestServiceImpl implements TestService {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			
-			return "update fail";
+			return e.getMessage();
 		}
 		
 }
