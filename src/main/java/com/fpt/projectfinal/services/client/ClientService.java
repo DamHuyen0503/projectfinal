@@ -18,7 +18,7 @@ public interface ClientService {
 	 * Create new client. 
 	 * 新しいクライアントを作成します。
 	 */
-	public String addClient(Map<String, Object> payload);
+	public Object addClient(Map<String, Object> payload);
 	
 	/*
 	 * Update information customers.

@@ -61,7 +61,7 @@ public class ClientServiceImpl implements ClientService{
 	}
 	
 	@Override
-	public String addClient(Map<String, Object> payload) {
+	public Object addClient(Map<String, Object> payload) {
 		Client client = new Client();
 		try {
 			if (payload.get("dob") == null) {
@@ -89,13 +89,14 @@ public class ClientServiceImpl implements ClientService{
 			client.setFullName((String)payload.get("fullName"));
 			client.setPhoneNumber((String) payload.get("phoneNumber"));
 			client.setAddress((String)payload.get("address"));
+			client.setAlias((String) payload.get("alias"));
 			client.setCreatedDate(new Date());
 			clientDao.addClient(client);
-			return "successful";
+			
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
 			return e.getMessage();
 		}
+		return client;
 	}
 
 	
