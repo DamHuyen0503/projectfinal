@@ -90,7 +90,7 @@ public class UserAccessServiceImpl implements UserAccessService{
 			User user = userDao.getUserByID((int)payload.get("userID"));
 			userAccess.setUser(user);
 			userAccess.setMedicalRecord(medical);
-			userAccess.setStartedDate(new Date());
+			userAccess.setFinishedDate(new Date());
 			userAccess.setStatus((int)payload.get("status"));
 			userAccessDao.updateUserAccess(userAccess);
 			
