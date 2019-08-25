@@ -12,4 +12,6 @@ public interface QuestionDao {
 	 * テストのすべての質問を取得します。  
 	 */
 	public List<Question> getQuestionByTest(Test test);
+	
+	public void deleteQuestion(Question question);
 }

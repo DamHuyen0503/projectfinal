@@ -30,11 +30,11 @@ public class Question {
 	@Column(name = "score")
 	private int score;
 
-	@OneToMany(cascade = CascadeType.ALL,mappedBy="question",fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL,mappedBy="question")
 	private Set<Answer> Answer; 
 
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name="postID")
 	private Test test;
 

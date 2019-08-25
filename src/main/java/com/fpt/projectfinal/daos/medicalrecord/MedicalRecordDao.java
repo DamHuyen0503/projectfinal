@@ -40,7 +40,7 @@ public interface MedicalRecordDao {
 	 * Get all the medical record information created in the day.
 	 * その日に作成されたすべての医療記録情報を取得します。
 	 */
-	public List<MedicalRecord> getMedicalRecordByDay(Date day);
+	public List<MedicalRecord> getMedicalRecordByDay(Date day, int userID);
 	
 	/*
 	 * Get all the information of all medical records when the user is admin.

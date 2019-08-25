@@ -37,4 +37,10 @@ public class QusetionDaoImpl implements QuestionDao {
 		
 	}
 
+	@Override
+	public void deleteQuestion(Question question) {
+		this.session.getCurrentSession().delete(question);
+		
+	}
+
 }

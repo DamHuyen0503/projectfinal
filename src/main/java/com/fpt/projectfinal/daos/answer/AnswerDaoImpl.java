@@ -1,7 +1,10 @@
 package com.fpt.projectfinal.daos.answer;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.PersistenceUnitUtil;
@@ -11,15 +14,18 @@ import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.fpt.projectfinal.models.Answer;
+import com.fpt.projectfinal.models.Client;
 import com.fpt.projectfinal.models.Question;
+import com.fpt.projectfinal.models.Slider;
 
 @Repository
 @Transactional
-public class AnswerImpl implements AnswerDao {
+public class AnswerDaoImpl implements AnswerDao {
 
 	@Autowired
 	SessionFactory session;
@@ -36,6 +42,17 @@ public class AnswerImpl implements AnswerDao {
 		}
 		return question.getAnswer();
 	}
-
+	@Override
+	public void deleteAnswer(Answer answer) {
+//		StringBuilder stringBuilder = new StringBuilder();
+//		stringBuilder.append("DELETE from Answer a ");
+//		stringBuilder.append("WHERE a.question.questionID =: questionID");
+//		Query<Answer> query = session.getCurrentSession().createQuery(stringBuilder.toString());
+//		
+//		query = query.setParameter("questionID", questionID);
+//		query.getResultList();
+		this.session.getCurrentSession().delete(answer);
+	}
+		
 	
 }

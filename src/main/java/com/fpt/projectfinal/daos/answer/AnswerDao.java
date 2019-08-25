@@ -7,4 +7,6 @@ import com.fpt.projectfinal.models.Question;
 
 public interface AnswerDao {
 	public Set<Answer> getAnswerByQuestion(Question question);
+	
+	public void deleteAnswer(Answer answer);
 }

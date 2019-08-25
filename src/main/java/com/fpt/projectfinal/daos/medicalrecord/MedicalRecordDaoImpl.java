@@ -82,18 +82,14 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao{
 	}
 
 	@Override
-	public List<MedicalRecord> getMedicalRecordByDay(Date day) {
+	public List<MedicalRecord> getMedicalRecordByDay(Date day, int userID) {
 		
 		CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
 		CriteriaQuery<MedicalRecord> query = builder.createQuery(MedicalRecord.class);
 		Root<MedicalRecord> root = query.from(MedicalRecord.class);
 		javax.persistence.criteria.Expression<Date> expression = root.get("createDate");
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-//		builder.greaterThanOrEqualTo(expression,day);
-//		builder.lessThanOrEqualTo(expression, new Date(day.getTime()+ TimeUnit.DAYS.toMillis(1)));
-		
-		System.out.println(new Date(day.getTime()+ TimeUnit.DAYS.toMillis(1)).toString());
-			query.select(root).where(builder.between(expression, day, new Date(day.getTime()+ TimeUnit.DAYS.toMillis(1))));
+		query.select(root).where(builder.between(expression, day, new Date(day.getTime()+ TimeUnit.DAYS.toMillis(1))));
 	
 		List<MedicalRecord> medicals = session.getCurrentSession().createQuery(query).getResultList();
 		if(medicals.size()>0){

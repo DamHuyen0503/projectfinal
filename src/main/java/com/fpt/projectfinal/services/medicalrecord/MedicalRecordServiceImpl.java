@@ -22,6 +22,7 @@ import com.fpt.projectfinal.models.Account;
 import com.fpt.projectfinal.models.Client;
 import com.fpt.projectfinal.models.MedicalRecord;
 import com.fpt.projectfinal.models.NoteProcess;
+import com.fpt.projectfinal.models.User;
 import com.fpt.projectfinal.models.UserAccess;
 import com.fpt.projectfinal.utils.ConvertDateTime;
 
@@ -312,12 +313,20 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 	public List<Map<String, Object>> getMedicalRecordByDay(Date day) {
 		List<Map<String, Object>> result = new ArrayList<>();
 		Map<String,  Object> mapMedical = new HashMap<>();
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		if (username == null) {
+			mapMedical.put("error", "token null");
+			return result;
+		}
+		Account account = accountDao.getAccountByEmail(username);
+		User user = userDao.getUserByAccount(account);
+		
 		if (day == null) {
 			mapMedical.put("error", "date null");
 			result.add(mapMedical);
 			return result;
 		}
-		List<MedicalRecord> medicalRecords = medicalRecordDao.getMedicalRecordByDay(day);
+		List<MedicalRecord> medicalRecords = medicalRecordDao.getMedicalRecordByDay(day, user.getUserID());
 		if (medicalRecords == null) {
 			mapMedical.put("message", "not have medicalRecord in date");
 			result.add(mapMedical);

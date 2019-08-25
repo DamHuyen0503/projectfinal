@@ -325,6 +325,16 @@ public class TestServiceImpl implements TestService {
 				tags.add(new Tag(obj, new Date()));
 			}
 			test.setTags(tags);
+			
+			List<Question> listQuestion = questionDao.getQuestionByTest(test);
+			for (Question q : listQuestion) {
+				Set<Answer> setAnswer = answerDao.getAnswerByQuestion(q);
+				for(Answer ans : setAnswer) {
+					answerDao.deleteAnswer(ans);
+				}
+				
+				questionDao.deleteQuestion(q);
+			}
 			Set<Question> questions = new HashSet<>();
 			ArrayList<Object> question_list = (ArrayList<Object>) payload.get("questions");
 			for (Object quest : question_list) {

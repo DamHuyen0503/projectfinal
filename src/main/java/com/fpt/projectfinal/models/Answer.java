@@ -18,7 +18,7 @@ public class Answer {
 	@Column(name = "AnswerID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
-	private Integer AnswerID;
+	private Integer answerID;
 
 	@Column(name = "content")
 	private String content;
@@ -29,7 +29,7 @@ public class Answer {
 	@Column(name = "Image")
 	private String image;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "questionID")
 	private Question question;
 
@@ -59,14 +59,7 @@ public class Answer {
 
 
 
-	public Integer getAnswerID() {
-		return AnswerID;
-	}
-
-	public void setAnswerID(Integer answerID) {
-		AnswerID = answerID;
-	}
-
+	
 	public String getContent() {
 		return content;
 	}
@@ -97,6 +90,26 @@ public class Answer {
 
 	public void setQuestion(Question question) {
 		this.question = question;
+	}
+
+
+
+
+
+
+
+	public Integer getAnswerID() {
+		return answerID;
+	}
+
+
+
+
+
+
+
+	public void setAnswerID(Integer answerID) {
+		this.answerID = answerID;
 	}
 	
 	
