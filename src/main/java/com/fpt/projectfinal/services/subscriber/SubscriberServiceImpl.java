@@ -53,12 +53,12 @@ public class SubscriberServiceImpl implements SubscriberService{
 			for (Subscriber sub : listSubscriber) {
 				if (sub.getEmail().equals((String)payload.get("email"))) {
 //					Subscriber subscriber = subscriberDao.getSubscriberByID((int)payload.get("subscriberID"));
-					List<Category> cate = categoryDao.getCategoryBySubscriber(sub.getSubscriberID());
-					for(Category c : setCategory) {
-						cate.add(c);
-					}
-					Set<Category> setCate = new HashSet<>(cate);
-					sub.setCategorys(setCate);
+//					List<Category> cate = categoryDao.getCategoryBySubscriber(sub.getSubscriberID());
+//					for(Category c : setCategory) {
+//						cate.add(c);
+//					}
+					Set<Category> setCate = new HashSet<>();
+					sub.setCategorys(setCategory);
 					sub.setStatus((int)payload.get("status"));
 					sub.setSubscriberDate(new Date());
 					sub.setEmail((String)payload.get("email"));
