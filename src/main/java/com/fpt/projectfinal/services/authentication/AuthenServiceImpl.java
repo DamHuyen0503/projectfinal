@@ -77,6 +77,7 @@ public class AuthenServiceImpl implements AuthenService {
 			acc.setRoles(setRole);
 			Map<String,Object> mapUser =  (Map<String, Object>) payload.get("user");
 			User u = new User();
+			u.setGender((int) mapUser.get("gender"));
 			u.setAddress((String)mapUser.get("address"));
 			u.setCreatedDate(new Date());
 			u.setFirstName((String)mapUser.get("firstName"));
