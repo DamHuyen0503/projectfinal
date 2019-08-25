@@ -187,7 +187,7 @@ public class UserServiceImpl implements UserService{
 			userDao.updateUser(user);
 			return "successful";
 		}catch (Exception e) {
-			return "update fail";
+			return e.getMessage();
 		}
 	}
 
