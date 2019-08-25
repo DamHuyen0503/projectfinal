@@ -31,4 +31,6 @@ public interface TestService {
 	 * テストのすべての情報を取得します。
 	 */
 	public List<Map<String, Object>> getAllTest();
+	
+	public int checkTest(int testID);
 }

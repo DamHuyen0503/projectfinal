@@ -363,5 +363,17 @@ public class TestServiceImpl implements TestService {
 		}
 		
 }
+	@Override
+	public int checkTest(int testID) {
+		Test test = testDao.getTestById(testID);
+		List<Question> listQuestion = questionDao.getQuestionByTest(test);
+		if (listQuestion.size() <=0) {
+			return 0;
+		}
+		else {
+			return 1;
+		}
+		
+	}
 
 }
