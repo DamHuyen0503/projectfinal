@@ -40,7 +40,7 @@ public class ContactDaoImpl implements ContactDao{
 		CriteriaQuery<Contact> cr = cb.createQuery(Contact.class);
 		Root<Contact> root = cr.from(Contact.class);
 		cr.distinct(true);
-		if (status == 0) {
+		if (status == 2) {
 			cr.where(cb.like(root.get("content"), "%" + searchString + "%"));		
 		}
 		else {
