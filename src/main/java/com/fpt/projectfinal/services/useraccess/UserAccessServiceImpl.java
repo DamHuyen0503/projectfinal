@@ -118,6 +118,7 @@ public class UserAccessServiceImpl implements UserAccessService{
 				User user = userAccess.getUser();
 				Account account = accountDao.getAccountByUser(user);
 				Set<Role> role = roleDao.getRoleByAcc(account);
+				mapUser.put("userAccessID", userAccess.getUserAccessID());
 				mapUser.put("roles", role);
 				mapUser.put("userID", userAccess.getUser().getUserID());
 				mapUser.put("userName", userAccess.getUser().getFirstName());
