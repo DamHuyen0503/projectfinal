@@ -304,6 +304,8 @@ public class TestServiceImpl implements TestService {
 			test.setContent((String) payload.get("content"));
 			test.setImage((String) payload.get("image"));
 			test.setDescription((String) payload.get("description"));
+			test.setStatus((Integer)payload.get("status"));
+			test.setModifiedDate(new Date());
 
 			List<Tag> listTag = tagDao.getAllTag();
 			Set<Tag> tags = new HashSet<>();

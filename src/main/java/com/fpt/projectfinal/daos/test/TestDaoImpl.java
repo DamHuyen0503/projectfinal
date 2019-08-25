@@ -35,12 +35,12 @@ public class TestDaoImpl implements TestDao {
 	PostDao postDao;
 	
 	@Override
-	public void addTest(com.fpt.projectfinal.models.Test test) {
+	public void addTest(Test test) {
 		this.session.getCurrentSession().save(test);
 	}
 
 	@Override
-	public void updateTest(com.fpt.projectfinal.models.Test test) {
+	public void updateTest(Test test) {
 		this.session.getCurrentSession().update(test);
 	}
 

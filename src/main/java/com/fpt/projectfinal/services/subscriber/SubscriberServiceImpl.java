@@ -63,7 +63,7 @@ public class SubscriberServiceImpl implements SubscriberService{
 					sub.setSubscriberDate(new Date());
 					sub.setEmail((String)payload.get("email"));
 					subscriberDao.updateSubscriber(sub);
-					return "update successful";
+					return "successful";
 				}
 			}
 				
@@ -73,7 +73,7 @@ public class SubscriberServiceImpl implements SubscriberService{
 			sub.setSubscriberDate(new Date());
 			sub.setEmail((String)payload.get("email"));
 			subscriberDao.addSubscriber(sub);
-			return " add successful";
+			return "successful";
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 			return e.getMessage();
