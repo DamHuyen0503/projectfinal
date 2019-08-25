@@ -27,7 +27,7 @@ public class UserTest {
 	private int result;
 	
 	@Column (name = "date", updatable = false)
-	@Temporal(TemporalType.DATE)
+//	@Temporal(TemporalType.DATE)
 	private Date date;
 
 	@ManyToOne(cascade = CascadeType.ALL)

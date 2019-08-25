@@ -59,7 +59,7 @@ public class UserTestServiceImpl implements UserTestService {
 			return "successful";
 		}catch (Exception e) {
 			System.out.print(e.getMessage());
-			return "add fail";
+			return e.getMessage();
 		}
 		
 	}
