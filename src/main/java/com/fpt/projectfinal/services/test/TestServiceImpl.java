@@ -180,7 +180,7 @@ public class TestServiceImpl implements TestService {
 	public String addTest(Map<String, Object> payload) {
 		try {
 			
-		if (payload.get("status") == null) {
+		if (payload.get("status") == null) { 
 			return "status null";
 		}
 		if ((int)payload.get("status") <0 || (int) payload.get("status")>4) {
@@ -277,7 +277,7 @@ public class TestServiceImpl implements TestService {
 		if (username == null) {
 			return "token fail";
 		}
-		Test test = new Test();
+		Test test = testDao.getTestById((int) payload.get("postID"));
 		if (payload.get("postID") == null) {
 			return "postID null";
 		}
