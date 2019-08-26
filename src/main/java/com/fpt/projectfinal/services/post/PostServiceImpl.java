@@ -320,9 +320,9 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<Map<String, Object>> getPostsByTagID(Integer tagID, Integer page) {
+	public List<Map<String, Object>> getPostsByTag(Integer tagID, Integer page) {
 		List<Map<String, Object>> result = new ArrayList<>();
-		List<Post> listPost = postDao.getPostsByTagID(tagID, page);
+		List<Post> listPost = postDao.getPostsByTag(tagID, page);
 		if (listPost == null) {
 			Map<String, Object> mapPost = new HashMap<>();
 			mapPost.put("message", "post not found");

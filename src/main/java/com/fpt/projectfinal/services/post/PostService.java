@@ -42,7 +42,7 @@ public interface PostService {
 	 */
 	public Long getCountPostsByTagID(Integer tagID, Integer page);
 	
-	public List<Map<String, Object>> getPostsByTagID(Integer tagID, Integer page);
+	public List<Map<String, Object>> getPostsByTag(Integer tagID, Integer page);
 	
 	
 	public Long getCountPostDataForTable(String sort, String order, Integer page, Integer categoryID,

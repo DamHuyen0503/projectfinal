@@ -18,6 +18,7 @@ import javax.transaction.Transactional;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -25,6 +26,7 @@ import com.fpt.projectfinal.models.Category;
 import com.fpt.projectfinal.models.Client;
 import com.fpt.projectfinal.models.MedicalRecord;
 import com.fpt.projectfinal.models.NoteProcess;
+import com.fpt.projectfinal.models.Subscriber;
 import com.fpt.projectfinal.models.Test;
 import com.fpt.projectfinal.models.User;
 import com.fpt.projectfinal.models.UserAccess;
@@ -83,9 +85,10 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao{
 
 	@Override
 	public List<MedicalRecord> getMedicalRecordByDay(Date day, int userID) {
-		
+
 		CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
 		CriteriaQuery<MedicalRecord> query = builder.createQuery(MedicalRecord.class);
+//		CriteriaQuery<UserAccess> queryUserAccess = queryMedical.
 		Root<MedicalRecord> root = query.from(MedicalRecord.class);
 		javax.persistence.criteria.Expression<Date> expression = root.get("createDate");
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -97,6 +100,7 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao{
 			return medicals;
 		}
 		return null;	
+
 	}
 
 	@SuppressWarnings("unchecked")

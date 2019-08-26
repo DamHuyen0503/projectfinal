@@ -74,7 +74,7 @@ public class UserTestController {
 	 */
 	@RequestMapping(value = "/getTestByUserSendRequest", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	@ResponseBody
-	public ResponseEntity<Object> getTestByUserSendRequest() {
+	public ResponseEntity<Object> getTestHistory() {
 		try {
 			
 			return new ResponseEntity<>(userTestService.getUserTestByUser(), HttpStatus.OK);

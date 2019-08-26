@@ -131,7 +131,7 @@ public class MedicalRecord {
 	@JsonIgnore
 	private Set<NoteProcess> noteProcess; 
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "medicalRecord")
+	@OneToMany(cascade = CascadeType.ALL,  mappedBy = "medicalRecord")
 	@JsonIgnore
 	private Set<UserAccess> userAccess; 
 	

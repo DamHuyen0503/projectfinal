@@ -183,10 +183,10 @@ public class PostController {
 	@RequestMapping(value = "/getPostsByTagID", method = RequestMethod.GET, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
-	public Map<String, Object> getPostsByTagID(@RequestParam Integer tagID,  int page) {
+	public Map<String, Object> getPostsByTag(@RequestParam Integer tagID,  int page) {
 		Map<String, Object> tags = new HashMap<String, Object>();
 		tags.put("count", postService.getCountPostsByTagID(tagID, page));
-		tags.put("listPost", postService.getPostsByTagID(tagID, page));
+		tags.put("listPost", postService.getPostsByTag(tagID, page));
 		
 		return tags;
 	}

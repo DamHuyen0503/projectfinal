@@ -170,7 +170,7 @@ public class PostDaoImpl implements PostDao {
 	}
 
 	@Override
-	public List<Post> getPostsByTagID(Integer tagID, Integer page) {
+	public List<Post> getPostsByTag(Integer tagID, Integer page) {
 		
 		CriteriaBuilder cb = session.getCurrentSession().getCriteriaBuilder();
 		CriteriaQuery<Post> cr = cb.createQuery(Post.class);

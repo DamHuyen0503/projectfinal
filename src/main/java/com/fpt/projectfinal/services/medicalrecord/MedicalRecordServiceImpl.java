@@ -334,40 +334,44 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 		}
 		try {
 			for (MedicalRecord medicalRecord : medicalRecords) {
-				Map<String, Object> mapRecord = new HashMap<>();
-				mapRecord.put("medicalRecordID", medicalRecord.getMedicalRecordID());
-				mapRecord.put("createdDate", medicalRecord.getCreateDate());
-				mapRecord.put("pshychologyType", medicalRecord.getPyschologyType());
-				mapRecord.put("modifiedDate", new Date());
-				mapRecord.put("job", medicalRecord.getJob());
-				mapRecord.put("currentAddress", medicalRecord.getCurrentAddress());
-				mapRecord.put("relativesPhone", medicalRecord.getRelativesPhone());
-				mapRecord.put("otherStatus", medicalRecord.getObstacle());
-				mapRecord.put("relativesName", medicalRecord.getRelativesName());
-				mapRecord.put("noteOfRelatives", medicalRecord.getNoteOfRelatives());
-				mapRecord.put("relativesRelationship", medicalRecord.getRelativesRelationship());
-				mapRecord.put("health", medicalRecord.getHealth());
-				mapRecord.put("learningResult", medicalRecord.getLearningResult());
-				mapRecord.put("friendStatus", medicalRecord.getFriendStatus());
-				mapRecord.put("familyStatus", medicalRecord.getFamilyStatus());
-				mapRecord.put("aroundReact", medicalRecord.getAroundReact());
-				mapRecord.put("feelingHistory", medicalRecord.getFeelingHistory());
-				mapRecord.put("reason", medicalRecord.getReason());
-				mapRecord.put("solutionInPast", medicalRecord.getSolutionInPast());
-				mapRecord.put("problemProcess", medicalRecord.getProblemProcess());	
-				mapRecord.put("currentProblem", medicalRecord.getCurrentProblem());
-				mapRecord.put("appearanceOfProblem", medicalRecord.getAppearanceOfProblem());
-				mapRecord.put("reactHistory", medicalRecord.getReactHistory());
-				mapRecord.put("strength", medicalRecord.getStrength());
-				mapRecord.put("resource", medicalRecord.getReason());
-				mapRecord.put("obstacle", medicalRecord.getObstacle());
-				mapRecord.put("result", medicalRecord.getResult());
-				mapRecord.put("processing", medicalRecord.getProcessing());
-				mapRecord.put("cause", medicalRecord.getCause());
-				mapRecord.put("method", medicalRecord.getMethod());
-				mapRecord.put("problem", medicalRecord.getProblem());
-				mapRecord.put("clientID", medicalRecord.getClient().getClientID());
-				result.add(mapRecord);
+				List<UserAccess> userAccess = userAccessDao.getUserAccessByMedicalRecord(medicalRecord);
+				if (user.getUserID() == userAccess.get(0).getUser().getUserID()) {
+					Map<String, Object> mapRecord = new HashMap<>();
+					mapRecord.put("medicalRecordID", medicalRecord.getMedicalRecordID());
+					mapRecord.put("createdDate", medicalRecord.getCreateDate());
+					mapRecord.put("pshychologyType", medicalRecord.getPyschologyType());
+					mapRecord.put("modifiedDate", new Date());
+					mapRecord.put("job", medicalRecord.getJob());
+					mapRecord.put("currentAddress", medicalRecord.getCurrentAddress());
+					mapRecord.put("relativesPhone", medicalRecord.getRelativesPhone());
+					mapRecord.put("otherStatus", medicalRecord.getObstacle());
+					mapRecord.put("relativesName", medicalRecord.getRelativesName());
+					mapRecord.put("noteOfRelatives", medicalRecord.getNoteOfRelatives());
+					mapRecord.put("relativesRelationship", medicalRecord.getRelativesRelationship());
+					mapRecord.put("health", medicalRecord.getHealth());
+					mapRecord.put("learningResult", medicalRecord.getLearningResult());
+					mapRecord.put("friendStatus", medicalRecord.getFriendStatus());
+					mapRecord.put("familyStatus", medicalRecord.getFamilyStatus());
+					mapRecord.put("aroundReact", medicalRecord.getAroundReact());
+					mapRecord.put("feelingHistory", medicalRecord.getFeelingHistory());
+					mapRecord.put("reason", medicalRecord.getReason());
+					mapRecord.put("solutionInPast", medicalRecord.getSolutionInPast());
+					mapRecord.put("problemProcess", medicalRecord.getProblemProcess());	
+					mapRecord.put("currentProblem", medicalRecord.getCurrentProblem());
+					mapRecord.put("appearanceOfProblem", medicalRecord.getAppearanceOfProblem());
+					mapRecord.put("reactHistory", medicalRecord.getReactHistory());
+					mapRecord.put("strength", medicalRecord.getStrength());
+					mapRecord.put("resource", medicalRecord.getReason());
+					mapRecord.put("obstacle", medicalRecord.getObstacle());
+					mapRecord.put("result", medicalRecord.getResult());
+					mapRecord.put("processing", medicalRecord.getProcessing());
+					mapRecord.put("cause", medicalRecord.getCause());
+					mapRecord.put("method", medicalRecord.getMethod());
+					mapRecord.put("problem", medicalRecord.getProblem());
+					mapRecord.put("clientID", medicalRecord.getClient().getClientID());
+					result.add(mapRecord);
+				}
+				
 			}
 			
 			return result;

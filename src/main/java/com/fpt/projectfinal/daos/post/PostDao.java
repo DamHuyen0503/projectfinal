@@ -63,7 +63,7 @@ public interface PostDao {
 	 */
 	public Long getCountPostsByTagID(Integer tagID, Integer page);
 	
-	public List<Post> getPostsByTagID(Integer tagID, Integer page);
+	public List<Post> getPostsByTag(Integer tagID, Integer page);
 	
 	/*
 	 * Get the latest post.
