@@ -46,7 +46,7 @@ public class NoteProcessServiceImpl  implements NoteProcessServices{
 			}
 			List<NoteProcess> notes =   noteprocessDao.getNoteProcessByMedicalRecordID(medicalRecordID);
 			if (notes.isEmpty()) {
-				map.put("error","noteProcess not found");
+				map.put("notes",notes);
 				return map;
 			}
 			List<Map<String, Object>> result = new ArrayList<>();
