@@ -25,11 +25,15 @@ public class ClientServiceImpl implements ClientService{
 	MedicalRecordDao medicalRecordDao;
 	
 	@Override
-	public List<Map<String, Object>> getAllClient(String sort, String order, int page, String searchString, int status, int expert) {
+	public Map<String, Object> getAllClient(String sort, String order, int page, String searchString, int status, int expert) {
+		Map<String, Object> mapClientResult = new HashMap<>();
 		List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
 		try { 
+			Map<String, Object> mapResult = clientDao.getAllClient(sort, order, page, searchString, status, expert);
 			
-			List<Client> setClient = clientDao.getAllClient(sort, order, page, searchString, status, expert);
+			List<Client> setClient = (List<Client>) mapResult.get("listClient");
+			int count = (int) mapResult.get("count");
+			mapClientResult.put("count", count);
 			for(Client client : setClient) {
 				
 				Map<String, Object> mapClient = new HashMap<>();
@@ -48,14 +52,13 @@ public class ClientServiceImpl implements ClientService{
 				mapClient.put("createdDate", client.getCreatedDate());
 				result.add(mapClient);
 			}
-			
-			return result;
+			mapClientResult.put("listClient", result);
+			return mapClientResult;
 		}catch (Exception e) {
 			result = new ArrayList<>();
 			Map<String, Object> error = new HashMap<>();
 			error.put("error", e.getMessage());
-			result.add(error);
-			return result;
+			return error;
 		}
 		
 	}
@@ -147,10 +150,13 @@ public class ClientServiceImpl implements ClientService{
 	}
 
 	@Override
-	public List<Map<String, Object>> getAllClient(String sort, String order, int page, String searchString,int status, String username) {
+	public Map<String, Object> getAllClient(String sort, String order, int page, String searchString,int status, String username) {
 		List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
+		Map<String, Object> mapResult = new HashMap<>();
 		try {
 			List<Client> setClient = clientDao.getAllClient(sort, order, page, searchString, status, username);
+			System.out.println("size"+ setClient.size());
+			System.out.println("userName:" + username);
 			for(Client client : setClient) {
 				Map<String, Object> mapClient = new HashMap<>();
 				mapClient.put("clientID", client.getClientID());
@@ -168,15 +174,15 @@ public class ClientServiceImpl implements ClientService{
 				mapClient.put("createdDate", client.getCreatedDate());
 				result.add(mapClient);
 			}
-			
-			return result;
+			mapResult.put("count", result.size());
+			mapResult.put("listClient", result);
+			return mapResult;
 
 		} catch (Exception e) {
 			result = new ArrayList<>();
 			Map<String, Object> error = new HashMap<>();
 			error.put("error", e.getMessage());
-			result.add(error);
-			return result;
+			return error;
 		}
 			}
 

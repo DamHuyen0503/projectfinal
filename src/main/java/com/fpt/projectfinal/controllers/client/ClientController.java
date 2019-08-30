@@ -115,15 +115,15 @@ public class ClientController {
 			List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
 			Set<String> roles = roleService.getRoleByToken("");
 			for(String role : roles) {
+				System.out.println("role:" +role);
 				if (role.equals(ROLEADMIN)) {
-					list = clientService.getAllClient(sort, order, page, searchString, status, expert);
-					return new ResponseEntity<>(list, HttpStatus.OK);
+					return new ResponseEntity<>(clientService.getAllClient(sort, order, page, searchString, status, expert), HttpStatus.OK);
 				}
 				if (role.equals(ROLEEXPERT)) {
 					String username = SecurityContextHolder.getContext().getAuthentication().getName();
 					
-					list = clientService.getAllClient(sort, order, page, searchString, status, username);
-					return new ResponseEntity<>(list, HttpStatus.OK);
+					
+					return new ResponseEntity<>(clientService.getAllClient(sort, order, page, searchString, status, username), HttpStatus.OK);
 				}
 			}	
 			return new ResponseEntity<> ("not found", HttpStatus.BAD_REQUEST);

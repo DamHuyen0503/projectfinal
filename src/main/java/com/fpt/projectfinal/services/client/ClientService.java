@@ -10,9 +10,9 @@ public interface ClientService {
 	
 	public Map<String, Object> getAll(String sort, String order, int page, String searchString);
 	
-	public List<Map<String, Object>> getAllClient(String sort, String order, int page, String searchString, int status, String username);
+	public Map<String, Object> getAllClient(String sort, String order, int page, String searchString, int status, String username);
 	
-	public List<Map<String, Object>> getAllClient(String sort, String order, int page, String searchString, int status, int expert);
+	public Map<String , Object> getAllClient(String sort, String order, int page, String searchString, int status, int expert);
 	
 	/*
 	 * Create new client. 

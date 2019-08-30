@@ -13,7 +13,7 @@ public interface ClientDao {
 	
 	public List<Client> getAllClient(String sort, String order, int page, String searchString, int status, String username);
 	
-	public List<Client> getAllClient(String sort, String order, int page, String searchString, int status, int expert);
+	public Map<String , Object> getAllClient(String sort, String order, int page, String searchString, int status, int expert);
 	
 	/*
 	 * Create new client. 

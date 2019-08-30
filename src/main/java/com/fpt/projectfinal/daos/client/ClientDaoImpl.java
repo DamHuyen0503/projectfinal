@@ -38,8 +38,9 @@ public class ClientDaoImpl implements ClientDao {
 	MedicalRecordDao medicalRecordDao; 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Client> getAllClient(String sort, String order, int page, String searchString, int status, int expert) {
+	public Map<String , Object> getAllClient(String sort, String order, int page, String searchString, int status, int expert) {
 		StringBuilder stringBuilder = new StringBuilder();
+		Map<String , Object> mapResult = new HashMap<>();
 		stringBuilder.append("SELECT distinct U.medicalRecord.client FROM UserAccess U ");
 		stringBuilder.append("WHERE U.user.userID = :userID  and fullName like :searchString ");
 		stringBuilder.append("and U.medicalRecord.status = :status ");
@@ -50,10 +51,12 @@ public class ClientDaoImpl implements ClientDao {
 		query = query.setParameter("status", status);
 		query = query.setParameter("searchString", "%" +searchString+ "%");
 		List<Client> liClient = query.getResultList();
+		mapResult.put("count", liClient.size());
 		if (status == 0) {
 			query.setFirstResult((page - 1) * 5);
 			query.setMaxResults(5);
-			return query.getResultList();
+			mapResult.put("listClient", query.getResultList());
+			return mapResult;
 		}
 		if (status == 1) {
 			List<Client> result = new ArrayList<>();
@@ -76,10 +79,11 @@ public class ClientDaoImpl implements ClientDao {
 				}
 			}
 			
-			
-			return result;
+			mapResult.put("listClient", result);
+			return mapResult;
+//			return result;
 		}
-		return new  ArrayList<>();		
+		return new  HashMap<>();		
 	}
 
 	@Override
