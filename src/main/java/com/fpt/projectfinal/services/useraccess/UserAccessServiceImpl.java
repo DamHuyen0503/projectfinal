@@ -152,10 +152,11 @@ public class UserAccessServiceImpl implements UserAccessService{
 			Account acc = accountDao.getAccountByEmail(username);
 			User user = userDao.getUserByAccount(acc);
 			List<UserAccess> userAccess = userAccessDao.getUserAccessByUser(user);
+			System.out.println("user:"+user.getUserID());
 			for (UserAccess u : userAccess) {
 				listUserAccess = new HashMap<>();
 				listUserAccess.put("userAccessID", u.getUserAccessID());
-				listUserAccess.put("permission ", u.getStatus());
+				listUserAccess.put("permission", u.getStatus());
 				listUserAccess.put("medicalRecord", u.getMedicalRecord().getMedicalRecordID());
 				listUserAccess.put("status", u.getMedicalRecord().getStatus());
 				listUserAccess.put("manager", u.getUser().getFirstName());
