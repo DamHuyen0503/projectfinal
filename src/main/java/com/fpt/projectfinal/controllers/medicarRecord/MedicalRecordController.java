@@ -167,11 +167,11 @@ public class MedicalRecordController {
 			for(String role : roles) {
 				if (role.equals(ROLEADMIN)) {
 					list = medicalRecordService.getMedicalRecordByClient(clientID);
-					return new ResponseEntity<>(list, HttpStatus.OK);
+					
 				}
 			}
-			
-			return new ResponseEntity<> ("not found", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(list, HttpStatus.OK);
+//			return new ResponseEntity<> (, HttpStatus.BAD_REQUEST);
 			
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);

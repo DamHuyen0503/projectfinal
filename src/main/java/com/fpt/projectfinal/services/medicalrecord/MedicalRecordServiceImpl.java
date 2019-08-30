@@ -420,7 +420,7 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 		
 		List<MedicalRecord> listMedical = medicalRecordDao.getMedicalRecordByClient(client);
 		if (listMedical == null) {
-			medicalRecord.put("message", "medicalRecord not found");
+//			medicalRecord.put("message", "medicalRecord not found");
 			result.add(medicalRecord);
 			return result;
 		}
