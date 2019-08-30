@@ -227,6 +227,7 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 			{
 				return "medicalRecord not found";
 			}
+			medicalRecord.setModifiedDate(new Date());
 			medicalRecord.setMedicalRecordID((int) payload.get("medicalRecordID"));
 			medicalRecord.setCreateDate(new Date());
 			medicalRecord.setStatus((int) payload.get("status"));
