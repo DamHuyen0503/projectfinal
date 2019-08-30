@@ -85,11 +85,11 @@ public class PostDaoImpl implements PostDao {
 		cr.distinct(true);
 		if (categoryID != 0) {
 			cr.where(cb.notEqual(root.get("status"), 3), cb.notEqual(root.get("status"), 0),
-					cb.like(root.get("title"), "%" + searchString + "%"), cb.notEqual(root.get("category"), 1),
+					cb.like(root.get("title"), "%" + searchString + "%"),
 					cb.equal(root.get("category"), categoryID));
 		} else
 			cr.where(cb.notEqual(root.get("status"), 3), cb.notEqual(root.get("status"), 0),
-					cb.notEqual(root.get("category"), 0), cb.like(root.get("title"), "%" + searchString + "%"));
+					cb.notEqual(root.get("category"), 0), cb.like(root.get("title"), "%" + searchString + "%"), cb.notEqual(root.get("category"), 1));
 		return session.getCurrentSession().createQuery(cr).getSingleResult();
 	}
 
