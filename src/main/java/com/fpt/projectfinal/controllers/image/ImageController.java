@@ -1,12 +1,15 @@
 package com.fpt.projectfinal.controllers.image;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,9 +34,11 @@ public class ImageController {
      * 写真のダウンロードページを表示します。
      */
     @RequestMapping(value = "/uploadOneFile/{imageName}", method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    public @ResponseBody byte[] getImage(@PathVariable(name="imageName") String imageName) throws IOException {
+    public ResponseEntity<byte[]> getImage(@PathVariable(name="imageName") String imageName) throws IOException {
       
-        return IOUtils.toByteArray(imageService.inputStream(imageName));
+        return ResponseEntity.ok()
+        	      .cacheControl(CacheControl.maxAge(2592000, TimeUnit.SECONDS).cachePublic())
+        	      .body(IOUtils.toByteArray(imageService.inputStream(imageName)));
     }
     
     
