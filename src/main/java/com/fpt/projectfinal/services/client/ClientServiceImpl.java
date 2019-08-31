@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.hibernate.annotations.Check;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,8 +36,10 @@ public class ClientServiceImpl implements ClientService{
 			int count = (int) mapResult.get("count");
 			mapClientResult.put("count", count);
 			for(Client client : setClient) {
-				
 				Map<String, Object> mapClient = new HashMap<>();
+				
+					mapClient.put("status", status);
+				
 				mapClient.put("clientID", client.getClientID());
 				mapClient.put("gender", client.getGender());
 				mapClient.put("dob", client.getDob());
@@ -155,10 +158,14 @@ public class ClientServiceImpl implements ClientService{
 		Map<String, Object> mapResult = new HashMap<>();
 		try {
 			List<Client> setClient = clientDao.getAllClient(sort, order, page, searchString, status, username);
-			System.out.println("size"+ setClient.size());
-			System.out.println("userName:" + username);
+//			System.out.println("size"+ setClient.size());
+//			System.out.println("userName:" + username);
 			for(Client client : setClient) {
+				
 				Map<String, Object> mapClient = new HashMap<>();
+				
+					mapClient.put("status", status);
+				
 				mapClient.put("clientID", client.getClientID());
 				mapClient.put("gender", client.getGender());
 				mapClient.put("dob", client.getDob());
@@ -172,6 +179,8 @@ public class ClientServiceImpl implements ClientService{
 				mapClient.put("fullName", client.getFullName());
 				mapClient.put("email", client.getEmail());
 				mapClient.put("createdDate", client.getCreatedDate());
+				List<MedicalRecord> listMedical = medicalRecordDao.getMedicalRecordByClient(client);
+				mapClient.put("countMedicalRecord", listMedical.size());
 				result.add(mapClient);
 			}
 			mapResult.put("count", result.size());
@@ -199,6 +208,19 @@ public class ClientServiceImpl implements ClientService{
 			for(Client client : listClient) {
 				List<MedicalRecord> listMedical = medicalRecordDao.getMedicalRecordByClient(client);
 				mapClient  = new HashMap<>();
+				int check = 1;
+				for (MedicalRecord medical : listMedical) {
+					
+					if (medical.getStatus() == 0) {
+						check = 0;
+					}
+				}
+				if (check == 0) {
+					mapClient.put("status", 0);
+				}
+				else {
+					mapClient.put("status", 1);
+				}
 				mapClient.put("clientID", client.getClientID());
 				mapClient.put("gender", client.getGender());
 				mapClient.put("dob", client.getDob());
