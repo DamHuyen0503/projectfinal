@@ -29,27 +29,29 @@ import com.fpt.projectfinal.models.Post;
 import com.fpt.projectfinal.models.Tag;
 import com.fpt.projectfinal.models.Test;
 import com.fpt.projectfinal.models.User;
+import com.fpt.projectfinal.services.mail.MailService;
 
 @Service
 public class PostServiceImpl implements PostService {
-	
+
+	@Autowired
+	MailService ms;
 
 	@Autowired
 	PostDao postDao;
-	
+
 	@Autowired
 	TagDao tagDao;
-	
+
 	@Autowired
 	CategoryDao categoryDao;
 
-
 	@Autowired
 	AccountDao accountDao;
-	
-	@Autowired 
+
+	@Autowired
 	UserDao userDao;
-	
+
 	@Override
 	public String updatePost(Map<String, Object> payload) {
 		Category category = null;
@@ -58,27 +60,25 @@ public class PostServiceImpl implements PostService {
 		if (username == null) {
 			return "token fail";
 		}
-		
+
 		if (payload.get("postID") == null) {
 			return "postID null";
 		}
-		if (payload.get("title").toString().length() >255) {
+		if (payload.get("title").toString().length() > 255) {
 			return "title more than 255";
 		}
-		if (payload.get("description").toString().length() >255) {
+		if (payload.get("description").toString().length() > 255) {
 			return "description more than 255";
 		}
-		if (payload.get("image").toString().length() >255) {
+		if (payload.get("image").toString().length() > 255) {
 			return "image more than 255";
 		}
 		if (payload.get("categoryID") != null) {
-			category = categoryDao.getCategoryByID((int)payload.get("categoryID"));
+			category = categoryDao.getCategoryByID((int) payload.get("categoryID"));
 		}
 		try {
 			Account acc = accountDao.getAccountByEmail(username);
-			
-		
-		
+
 			post.setUser(acc.getUser());
 			post.setModifiedDate(new Date());
 			post.setPostID((int) payload.get("postID"));
@@ -87,9 +87,8 @@ public class PostServiceImpl implements PostService {
 			post.setContent((String) payload.get("content"));
 			post.setImage((String) payload.get("image"));
 			post.setDescription((String) payload.get("description"));
-			post.setStatus((int)payload.get("status"));
-			
-			
+			post.setStatus((int) payload.get("status"));
+
 			List<Tag> listTag = tagDao.getAllTag();
 			Set<Tag> tags = new HashSet<>();
 			@SuppressWarnings("unchecked")
@@ -109,14 +108,19 @@ public class PostServiceImpl implements PostService {
 				tags.add(new Tag(obj, new Date()));
 			}
 			post.setTags(tags);
-			
+
 			postDao.updatePost(post);
+
+			// Notify subscriber if post is public
+			if (post.getStatus() == 1) {
+				ms.notifySubscriber(postDao.getPostById(post.getPostID()));
+			}
+
 			return "successful";
-		}catch (Exception e) {
+		} catch (Exception e) {
 			return e.getMessage();
 		}
-		
-	
+
 	}
 
 	@Override
@@ -128,26 +132,25 @@ public class PostServiceImpl implements PostService {
 		}
 		try {
 			post.setTags(tagDao.getTagByPost(post));
-			
+
 			map.put("postID", post.getPostID());
-			map.put("content",post.getContent());
-			map.put("createdDate",post.getCreatedDate());
-			map.put("description",post.getDescription());
-			map.put("image",post.getImage());
-			map.put("status",post.getStatus());
-			map.put("title",post.getTitle());
+			map.put("content", post.getContent());
+			map.put("createdDate", post.getCreatedDate());
+			map.put("description", post.getDescription());
+			map.put("image", post.getImage());
+			map.put("status", post.getStatus());
+			map.put("title", post.getTitle());
 			Map<String, Object> mapCate = new HashMap<>();
 			if (post.getCategory() == null) {
 				mapCate.put("categoryID", null);
 				mapCate.put("name", null);
 				map.put("category", mapCate);
-			}
-			else {
+			} else {
 				mapCate.put("categoryID", post.getCategory().getCategoryID());
 				mapCate.put("name", post.getCategory().getName());
 				map.put("category", mapCate);
 			}
-			map.put("modifiedDate",post.getModifiedDate());
+			map.put("modifiedDate", post.getModifiedDate());
 			User user = post.getUser();
 			Map<String, Object> u = new HashMap<>();
 			u.put("userID", user.getUserID());
@@ -170,13 +173,13 @@ public class PostServiceImpl implements PostService {
 			map.put("error", e.getMessage());
 			return map;
 		}
-		
+
 	}
 
 	@Override
 	public List<Post> getAllPost() {
-		List<Post> list =  postDao.getAllPost();
-		for(Post p:list) {
+		List<Post> list = postDao.getAllPost();
+		for (Post p : list) {
 			p.setTags(tagDao.getTagByPost(p));
 		}
 		return list;
@@ -191,11 +194,11 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public List<Map<String, Object>> getPostDataForTable(String sort, String order, Integer page, Integer categoryID,
 			String searchString) {
-		
-	 List<Post> list = postDao.getPostDataForTable(sort, order, page, categoryID, searchString);
-	 
-	 List<Map<String, Object>> listPost = new ArrayList<>();
-		
+
+		List<Post> list = postDao.getPostDataForTable(sort, order, page, categoryID, searchString);
+
+		List<Map<String, Object>> listPost = new ArrayList<>();
+
 		for (Post post : list) {
 			Map<String, Object> result = new HashMap<>();
 			result.put("postID", post.getPostID());
@@ -211,14 +214,11 @@ public class PostServiceImpl implements PostService {
 			Map<String, Object> mapCate = new HashMap<>();
 			mapCate.put("categoryID", post.getCategory().getCategoryID());
 			mapCate.put("name", post.getCategory().getName());
-			result.put("category", mapCate );
+			result.put("category", mapCate);
 			listPost.add(result);
 		}
 		return listPost;
-	 
-	 
-	 
-	
+
 	}
 
 	@Override
@@ -229,14 +229,14 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public List<Post> getPostByCategory(int cate) {
 		Category category = categoryDao.getCategoryByID(cate);
-		if(category == null) {
+		if (category == null) {
 			return null;
 		}
 		List<Post> list = postDao.getPostByCategory(category);
-		for(Post p:list) {
+		for (Post p : list) {
 			p.setTags(tagDao.getTagByPost(p));
 			p.setCategory(category);
-			
+
 		}
 		return list;
 	}
@@ -253,26 +253,25 @@ public class PostServiceImpl implements PostService {
 		if (payload.get("status") == null) {
 			return "status null";
 		}
-		if ((int)payload.get("status") <0 || (int) payload.get("status")>4) {
+		if ((int) payload.get("status") < 0 || (int) payload.get("status") > 4) {
 			return "status not valid";
 		}
-		if (payload.get("title").toString().length() >255) {
+		if (payload.get("title").toString().length() > 255) {
 			return "title more than 255";
 		}
-		if (payload.get("description").toString().length() >255) {
+		if (payload.get("description").toString().length() > 255) {
 			return "description more than 255";
 		}
-		if (payload.get("image").toString().length() >255) {
+		if (payload.get("image").toString().length() > 255) {
 			return "image more than 255";
 		}
 		if (payload.get("categoryID") != null) {
-			category = categoryDao.getCategoryByID((int)payload.get("categoryID"));
+			category = categoryDao.getCategoryByID((int) payload.get("categoryID"));
 		}
 		try {
 			String username = SecurityContextHolder.getContext().getAuthentication().getName();
 			Account acc = accountDao.getAccountByEmail(username);
-			
-			
+
 			Post post = new Post();
 			User user = userDao.getUserByAccount(acc);
 			post.setUser(user);
@@ -282,14 +281,13 @@ public class PostServiceImpl implements PostService {
 			post.setContent((String) payload.get("content"));
 			post.setImage((String) payload.get("image"));
 			post.setDescription((String) payload.get("description"));
-			post.setStatus((int)payload.get("status"));
-			
-			
+			post.setStatus((int) payload.get("status"));
+
 			List<Tag> listTag = tagDao.getAllTag();
 			Set<Tag> tags = new HashSet<>();
 			ArrayList<String> tagObjs = (ArrayList<String>) payload.get("tags");
 			for (String obj : tagObjs) {
-				boolean exist = false;	
+				boolean exist = false;
 				for (Tag tag : listTag) {
 					if (obj.equalsIgnoreCase(tag.getContent())) {
 						tags.add(tag);
@@ -303,16 +301,22 @@ public class PostServiceImpl implements PostService {
 				tags.add(new Tag(obj, new Date()));
 			}
 			post.setTags(tags);
-			
+
 			postDao.addPost(post);
+
+			// Notify subscriber if post is public
+			if (post.getStatus() == 1) {
+				ms.notifySubscriber(post);
+			}
+
 			return "successful";
 		} catch (Exception e) {
 			e.getMessage();
 			return e.getMessage();
 		}
-		
+
 	}
-	
+
 	@Override
 	public Long getCountPostsByTagID(Integer tagID, Integer page) {
 
@@ -360,20 +364,20 @@ public class PostServiceImpl implements PostService {
 			result.add(mapPost);
 			return result;
 		}
-		
+
 	}
 
 	@Override
 	public List<Map<String, Object>> getPostNew() {
 		List<Map<String, Object>> listPostNew = new ArrayList<>();
-		
+
 		List<Post> listPost = postDao.getPostNew();
 		for (Post post : listPost) {
 			Map<String, Object> result = new HashMap<>();
 			result.put("postID", post.getPostID());
 			result.put("content", post.getContent());
 			result.put("createdDate", post.getCreatedDate());
-			result.put("discription", post.getDescription());
+			result.put("description", post.getDescription());
 			result.put("image", post.getImage());
 			result.put("modifiedDate", post.getModifiedDate());
 			result.put("status", post.getStatus());
@@ -471,6 +475,5 @@ public class PostServiceImpl implements PostService {
 		result.put("listPost", postList);
 		return result;
 	}
-
 
 }

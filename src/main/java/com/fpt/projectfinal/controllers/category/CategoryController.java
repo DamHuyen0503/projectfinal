@@ -76,7 +76,7 @@ public class CategoryController {
 	 * Update information category.
 	 * 情報カテゴリを更新します。
 	 */
-	@RequestMapping(value = "/updateCategory",method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE})
+	@RequestMapping(value = "/updateCategory",method = RequestMethod.PUT, produces = { MediaType.APPLICATION_JSON_UTF8_VALUE})
 	public ResponseEntity<Object> updateCategory(@RequestBody Category category) {
 		try {
 			categoryService.updateCategory(category);
