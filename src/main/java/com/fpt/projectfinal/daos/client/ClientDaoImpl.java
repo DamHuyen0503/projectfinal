@@ -147,8 +147,8 @@ public class ClientDaoImpl implements ClientDao {
 			query = query.setParameter("status", status);
 			query = query.setParameter("searchString", "%" +searchString+ "%");
 			
-			query.setFirstResult((page - 1) * 5);
-			query.setMaxResults(5);
+			query.setFirstResult((page - 1) * 7);
+			query.setMaxResults(7);
 			return query.getResultList();
 		} catch (Exception e) {
 			return new ArrayList<>();
