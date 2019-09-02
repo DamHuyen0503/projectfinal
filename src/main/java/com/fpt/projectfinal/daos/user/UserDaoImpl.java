@@ -99,7 +99,7 @@ public class UserDaoImpl implements UserDao {
 		Map<String, Object> mapUser = new HashMap<String, Object>();
 		try {
 			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.append("SELECT U FROM User U JOIN U.account.roles r ");
+			stringBuilder.append("SELECT DISTINCT U FROM User U JOIN U.account.roles r ");
 			if (roleID == 0) {
 				stringBuilder.append("WHERE lastName like :searchString ");
 				stringBuilder.append("order by U.").append(sort).append(" ").append(order);

@@ -115,8 +115,8 @@ public class PostDaoImpl implements PostDao {
 		}
 
 		Query<Post> query = session.getCurrentSession().createQuery(cr);
-		query.setFirstResult((page - 1) * 3);
-		query.setMaxResults(3);
+		query.setFirstResult((page - 1) * 7);
+		query.setMaxResults(7);
 		List<Post> results = query.getResultList();
 		return results;
 	}

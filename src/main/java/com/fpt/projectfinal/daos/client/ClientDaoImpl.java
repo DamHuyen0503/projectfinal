@@ -53,8 +53,8 @@ public class ClientDaoImpl implements ClientDao {
 		List<Client> liClient = query.getResultList();
 		mapResult.put("count", liClient.size());
 		if (status == 0) {
-			query.setFirstResult((page - 1) * 5);
-			query.setMaxResults(5);
+			query.setFirstResult((page - 1) * 7);
+			query.setMaxResults(7);
 			mapResult.put("listClient", query.getResultList());
 			return mapResult;
 		}
@@ -166,8 +166,8 @@ public class ClientDaoImpl implements ClientDao {
 			query = query.setParameter("searchString", "%" +searchString+ "%");
 			List<Client> l = query.getResultList();
 			mapResult.put("count", l.size());
-			query.setFirstResult((page - 1) * 5);
-			query.setMaxResults(5);
+			query.setFirstResult((page - 1) * 7);
+			query.setMaxResults(7);
 			mapResult.put("listClient", query.getResultList());
 			
 			return mapResult ;

@@ -56,8 +56,8 @@ public class ContactDaoImpl implements ContactDao{
 			Query<Contact> q	=  session.getCurrentSession().createQuery(cr);
 			List<Contact> c = q.getResultList();
 			
-			q.setFirstResult((page - 1) * 3);
-			q.setMaxResults(3);
+			q.setFirstResult((page - 1) * 7);
+			q.setMaxResults(7);
 			List<Contact> resultContact = q.getResultList();
 			result.put("count", c.size());
 			result.put("listContact", resultContact);
