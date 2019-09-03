@@ -77,6 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	                .antMatchers(HttpMethod.GET, "/getCategoryByID/**").permitAll()
 	                .antMatchers(HttpMethod.GET, "/getPostsByTagID/**").permitAll()
 	                .antMatchers(HttpMethod.GET, "/checkTest/**").permitAll()
+	                .antMatchers(HttpMethod.GET, "/getUserByID/**").permitAll()
 	                // Need authentication.
 	                .anyRequest().authenticated()
 	                //
