@@ -327,12 +327,15 @@ public class TestServiceImpl implements TestService {
 			test.setTags(tags);
 			
 			List<Question> listQuestion = questionDao.getQuestionByTest(test);
+			Set<Result> setResult = resultDao.getResultByTest(test);
+			for (Result result : setResult) {
+				resultDao.deleteResult(result);
+			}
 			for (Question q : listQuestion) {
 				Set<Answer> setAnswer = answerDao.getAnswerByQuestion(q);
 				for(Answer ans : setAnswer) {
 					answerDao.deleteAnswer(ans);
 				}
-				
 				questionDao.deleteQuestion(q);
 			}
 			Set<Question> questions = new HashSet<>();

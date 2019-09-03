@@ -29,7 +29,7 @@ public class Result {
 	@Column(name = "content", length = 1000)
 	private String content;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name="postID")
 	private Test test;
 

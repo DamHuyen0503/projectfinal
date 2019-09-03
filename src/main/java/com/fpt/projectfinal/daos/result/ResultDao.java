@@ -12,4 +12,6 @@ public interface ResultDao {
 	 * すべてのテスト結果を取得します。
 	 */
 	public Set<Result> getResultByTest(Test test);
+	
+	public void deleteResult(Result result);
 }

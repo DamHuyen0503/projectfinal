@@ -38,4 +38,10 @@ public class ResultDaoImpl implements ResultDao {
 		return test.getResult();
 	}
 
+	@Override
+	public void deleteResult(Result result) {
+		this.session.getCurrentSession().delete(result);
+		
+	}
+
 }
