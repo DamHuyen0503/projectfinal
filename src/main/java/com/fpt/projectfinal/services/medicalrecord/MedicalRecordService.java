@@ -48,4 +48,7 @@ public interface MedicalRecordService {
 	public List<MedicalRecord> deleteMedicalRecord(int medicalRecordID);
 	
 	public List<MedicalRecord> getMedicalRecordByUserAccess(UserAccess userAccess);
+	
+	public Long countMedicalRecord();
+	
 }

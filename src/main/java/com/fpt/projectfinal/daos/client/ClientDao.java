@@ -40,4 +40,6 @@ public interface ClientDao {
 	public Set<Client> getClientByMedicalRecord(MedicalRecord medicalRecord);
 	
 	public List<ClientDao> getClientByExpert(String sort, String order, int page, String searchString, int status);
+	
+	public Long countClient();
 }

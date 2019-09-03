@@ -268,5 +268,15 @@ public class ClientDaoImpl implements ClientDao {
 		
 	}
 
+	@Override
+	public Long countClient() {
+		CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
+		CriteriaQuery<Long> query = builder.createQuery(Long.class);
+		Root<Client> root = query.from(Client.class);
+		query.select(builder.count(root));
+		List<Long> count = session.getCurrentSession().createQuery(query).getResultList();
+		return count.get(0);
+	}
+
 
 }

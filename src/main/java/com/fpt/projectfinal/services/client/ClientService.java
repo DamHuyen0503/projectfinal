@@ -31,4 +31,6 @@ public interface ClientService {
 	 * clientIDで情報クライアントを取得します。
 	 */
 	public Map<String, Object> getClientByID(int id);
+	
+	public Long countClient();
 }

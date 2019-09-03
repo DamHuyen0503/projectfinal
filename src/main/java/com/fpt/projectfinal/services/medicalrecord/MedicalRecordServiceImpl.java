@@ -455,6 +455,11 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 		return null;
 	}
 
+	@Override
+	public Long countMedicalRecord() {
+		return medicalRecordDao.countMedicalRecord();
+	}
+
 	
 
 }

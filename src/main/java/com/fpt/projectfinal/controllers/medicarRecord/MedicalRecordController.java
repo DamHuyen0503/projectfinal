@@ -171,7 +171,6 @@ public class MedicalRecordController {
 				}
 			}
 			return new ResponseEntity<>(list, HttpStatus.OK);
-//			return new ResponseEntity<> (, HttpStatus.BAD_REQUEST);
 			
 		} catch (NullPointerException e) {
 			logger.warn(e.getMessage(), e);
@@ -180,6 +179,25 @@ public class MedicalRecordController {
 			logger.error(e.getMessage(), e);
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+	
+	@RequestMapping(value = "/countMedicalRecord", method = RequestMethod.GET,
+
+			produces = { MediaType.APPLICATION_JSON_VALUE })
+	@ResponseBody
+	public ResponseEntity<Object> countMedicalRecord() {
+
+		try {
+			
+			return new ResponseEntity<>(medicalRecordService.countMedicalRecord(), HttpStatus.OK);
+		} catch (NullPointerException e) {
+			logger.warn(e.getMessage(), e);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
 	}
 	
 }

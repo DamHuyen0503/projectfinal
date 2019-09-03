@@ -170,6 +170,17 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao{
 		return this.session.getCurrentSession().createQuery("from MedicalRecord").list();
 	}
 
+
+	@Override
+	public Long countMedicalRecord() {
+		CriteriaBuilder builder = session.getCurrentSession().getCriteriaBuilder();
+		CriteriaQuery<Long> query = builder.createQuery(Long.class);
+		Root<MedicalRecord> root = query.from(MedicalRecord.class);
+		query.select(builder.count(root));
+		List<Long> count = session.getCurrentSession().createQuery(query).getResultList();
+		return count.get(0);
+	}
+
 	
 
 }

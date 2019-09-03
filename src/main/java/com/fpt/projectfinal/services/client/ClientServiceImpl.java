@@ -264,6 +264,11 @@ public class ClientServiceImpl implements ClientService{
 		
 	}
 
+	@Override
+	public Long countClient() {
+		return clientDao.countClient();
+	}
+
 	
 
 }
