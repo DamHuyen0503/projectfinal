@@ -426,6 +426,7 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 		}
 		for (MedicalRecord medical : listMedical) {
 			Map<String, Object> listUser = new HashMap<>();
+			List<Object> listManager = new ArrayList<>();
 			List<UserAccess> userAccess = userAccessDao.getUserAccessByMedicalRecord(medical);
 			medicalRecord = new HashMap<>();
 			medicalRecord.put("medicalRecordID", medical.getMedicalRecordID());
@@ -440,9 +441,9 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 				listUser.put("finishedDate", u.getFinishedDate());
 				listUser.put("startedDate", u.getStartedDate());
 				listUser.put("status", u.getStatus());
-				
+				listManager.add(listUser);
 			}
-			medicalRecord.put("manager", listUser);
+			medicalRecord.put("manager", listManager);
 			result.add(medicalRecord);
 		}
 		return result;
