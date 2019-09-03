@@ -434,9 +434,9 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 			medicalRecord.put("modifiedDate", medical.getModifiedDate());
 			medicalRecord.put("status", medical.getStatus());
 			
-			
 			for (UserAccess u : userAccess) {
 				listUser = new HashMap<>();
+				listUser.put("fullName", client.getFullName());
 				listUser.put("userAccessID", u.getUserAccessID());
 				listUser.put("finishedDate", u.getFinishedDate());
 				listUser.put("startedDate", u.getStartedDate());

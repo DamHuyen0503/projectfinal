@@ -41,47 +41,141 @@ public class ClientDaoImpl implements ClientDao {
 	public Map<String , Object> getAllClient(String sort, String order, int page, String searchString, int status, int expert) {
 		StringBuilder stringBuilder = new StringBuilder();
 		Map<String , Object> mapResult = new HashMap<>();
-		stringBuilder.append("SELECT distinct U.medicalRecord.client FROM UserAccess U ");
-		stringBuilder.append("WHERE U.user.userID = :userID  and fullName like :searchString ");
-		stringBuilder.append("and U.medicalRecord.status = :status ");
-		stringBuilder.append("order by U.medicalRecord.client.").append(sort).append(" ").append(order);
-		Query<Client> query = session.getCurrentSession().createQuery(stringBuilder.toString());
-		
-		query = query.setParameter("userID", expert);
-		query = query.setParameter("status", status);
-		query = query.setParameter("searchString", "%" +searchString+ "%");
-		List<Client> liClient = query.getResultList();
-		mapResult.put("count", liClient.size());
-		if (status == 0) {
-			query.setFirstResult((page - 1) * 7);
-			query.setMaxResults(7);
-			mapResult.put("listClient", query.getResultList());
-			return mapResult;
-		}
-		if (status == 1) {
-			List<Client> result = new ArrayList<>();
-			StringBuilder strBuilder = new StringBuilder();
-			strBuilder.append("SELECT distinct U.medicalRecord.client FROM UserAccess U ");
-			strBuilder.append("WHERE U.user.userID = :userID  and fullName like :searchString ");
-			strBuilder.append("and U.medicalRecord.status = 0 ");
-			strBuilder.append("order by U.medicalRecord.client.").append(sort).append(" ").append(order);
-			Query<Client> q = session.getCurrentSession().createQuery(strBuilder.toString());
-			q = q.setParameter("userID", expert);
-			q = q.setParameter("searchString", "%" +searchString+ "%");
-			List<Client> listClient = q.getResultList();
-			Map<Integer, String> mapClient = new HashMap<>();
-			for (Client c : listClient) {
-				mapClient.put(c.getClientID(), c.getFullName());
+		if (expert ==0 ) {
+			if (status == 0) {
+				stringBuilder.append("SELECT distinct U.medicalRecord.client FROM UserAccess U ");
+				stringBuilder.append("WHERE fullName like :searchString ");
+				stringBuilder.append("order by U.medicalRecord.client.").append(sort).append(" ").append(order);
+				Query<Client> query = session.getCurrentSession().createQuery(stringBuilder.toString());
+				query = query.setParameter("searchString", "%" +searchString+ "%");
+				List<Client> liClient = query.getResultList();
+				mapResult.put("count", liClient.size());
+				query.setFirstResult((page - 1) * 7);
+				query.setMaxResults(7);
+				mapResult.put("listClient", query.getResultList());
+				return mapResult;
 			}
-			for (Client c : liClient) {
-				if (!mapClient.containsKey(c.getClientID())) {
-					result.add(c);
-				}
+			if (status == 1) {
+				stringBuilder.append("SELECT distinct U.medicalRecord.client FROM UserAccess U ");
+				stringBuilder.append("WHERE fullName like :searchString ");
+				stringBuilder.append("and U.medicalRecord.status = :status ");
+				stringBuilder.append("order by U.medicalRecord.client.").append(sort).append(" ").append(order);
+				Query<Client> query = session.getCurrentSession().createQuery(stringBuilder.toString());
+				query = query.setParameter("status", 0);
+				query = query.setParameter("searchString", "%" +searchString+ "%");
+				List<Client> liClient = query.getResultList();
+				mapResult.put("count", liClient.size());
+				query.setFirstResult((page - 1) * 7);
+				query.setMaxResults(7);
+				mapResult.put("listClient", query.getResultList());
+				return mapResult;
 			}
+			if (status == 2) {
+				stringBuilder.append("SELECT distinct U.medicalRecord.client FROM UserAccess U ");
+				stringBuilder.append("WHERE fullName like :searchString ");
+				stringBuilder.append("and U.medicalRecord.status = :status ");
+				stringBuilder.append("order by U.medicalRecord.client.").append(sort).append(" ").append(order);
+				Query<Client> query = session.getCurrentSession().createQuery(stringBuilder.toString());
+				query = query.setParameter("status", 0);
+				query = query.setParameter("searchString", "%" +searchString+ "%");
+				List<Client> liClient0 = query.getResultList();
+				
+				
+				stringBuilder = new StringBuilder();
 			
-			mapResult.put("listClient", result);
-			return mapResult;
-//			return result;
+				stringBuilder.append("SELECT distinct U.medicalRecord.client FROM UserAccess U ");
+				stringBuilder.append("WHERE fullName like :searchString ");
+				stringBuilder.append("and U.medicalRecord.status = :status ");
+				stringBuilder.append("order by U.medicalRecord.client.").append(sort).append(" ").append(order);
+				Query<Client> q = session.getCurrentSession().createQuery(stringBuilder.toString());
+				q = q.setParameter("status", 1);
+				q = q.setParameter("searchString", "%" +searchString+ "%");
+				List<Client> liClient1 = q.getResultList();
+				Map<Integer, String> mapClient = new HashMap<>();
+				List<Client> result = new ArrayList<>();
+				for (Client c : liClient0) {
+					mapClient.put(c.getClientID(), c.getFullName());
+				}
+				for (Client c : liClient1) {
+					if (!mapClient.containsKey(c.getClientID())) {
+						result.add(c);
+					}
+				}
+				mapResult.put("listClient", result);
+				mapResult.put("count", result.size());
+				return mapResult;
+				
+			}
+		}
+		else {
+			if (status == 0) {
+				stringBuilder.append("SELECT distinct U.medicalRecord.client FROM UserAccess U ");
+				stringBuilder.append("WHERE U.user.userID = :userID  and fullName like :searchString ");
+				stringBuilder.append("order by U.medicalRecord.client.").append(sort).append(" ").append(order);
+				Query<Client> query = session.getCurrentSession().createQuery(stringBuilder.toString());
+				query = query.setParameter("searchString", "%" +searchString+ "%");
+				query = query.setParameter("userID", expert);
+				List<Client> liClient = query.getResultList();
+				mapResult.put("count", liClient.size());
+				query.setFirstResult((page - 1) * 7);
+				query.setMaxResults(7);
+				mapResult.put("listClient", query.getResultList());
+				return mapResult;
+			}
+			if (status == 1) {
+				stringBuilder.append("SELECT distinct U.medicalRecord.client FROM UserAccess U ");
+				stringBuilder.append("WHERE U.user.userID = :userID  and fullName like :searchString ");
+				stringBuilder.append("and U.medicalRecord.status = :status ");
+				stringBuilder.append("order by U.medicalRecord.client.").append(sort).append(" ").append(order);
+				Query<Client> query = session.getCurrentSession().createQuery(stringBuilder.toString());
+				query = query.setParameter("status", 0);
+				query = query.setParameter("searchString", "%" +searchString+ "%");
+				query = query.setParameter("userID", expert);
+				List<Client> liClient = query.getResultList();
+				mapResult.put("count", liClient.size());
+				query.setFirstResult((page - 1) * 7);
+				query.setMaxResults(7);
+				mapResult.put("listClient", query.getResultList());
+				return mapResult;
+			}
+			if (status == 2) {
+				stringBuilder.append("SELECT distinct U.medicalRecord.client FROM UserAccess U ");
+				stringBuilder.append("WHERE U.user.userID = :userID  and fullName like :searchString ");
+				stringBuilder.append("and U.medicalRecord.status = :status ");
+				stringBuilder.append("order by U.medicalRecord.client.").append(sort).append(" ").append(order);
+				Query<Client> query = session.getCurrentSession().createQuery(stringBuilder.toString());
+				query = query.setParameter("status", 0);
+				query = query.setParameter("userID", expert);
+				query = query.setParameter("searchString", "%" +searchString+ "%");
+				List<Client> liClient0 = query.getResultList();
+				
+				
+				stringBuilder = new StringBuilder();
+			
+				stringBuilder.append("SELECT distinct U.medicalRecord.client FROM UserAccess U ");
+				stringBuilder.append("WHERE U.user.userID = :userID  and fullName like :searchString ");
+				stringBuilder.append("and U.medicalRecord.status = :status ");
+				stringBuilder.append("order by U.medicalRecord.client.").append(sort).append(" ").append(order);
+				Query<Client> q = session.getCurrentSession().createQuery(stringBuilder.toString());
+				q = q.setParameter("status", 1);
+				q = q.setParameter("userID", expert);
+				q = q.setParameter("searchString", "%" +searchString+ "%");
+				List<Client> liClient1 = q.getResultList();
+				Map<Integer, String> mapClient = new HashMap<>();
+				List<Client> result = new ArrayList<>();
+				for (Client c : liClient0) {
+					mapClient.put(c.getClientID(), c.getFullName());
+				}
+				for (Client c : liClient1) {
+					if (!mapClient.containsKey(c.getClientID())) {
+						result.add(c);
+					}
+				}
+				mapResult.put("count", result.size());
+				mapResult.put("listClient", result);
+				return mapResult;
+				
+			}
 		}
 		return new  HashMap<>();		
 	}

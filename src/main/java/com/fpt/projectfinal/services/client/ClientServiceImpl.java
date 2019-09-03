@@ -32,24 +32,40 @@ public class ClientServiceImpl implements ClientService{
 		try { 
 			Map<String, Object> mapResult = clientDao.getAllClient(sort, order, page, searchString, status, expert);
 			
-			List<Client> setClient = (List<Client>) mapResult.get("listClient");
+			List<Client> listClient = (List<Client>) mapResult.get("listClient");
 			int count = (int) mapResult.get("count");
 			mapClientResult.put("count", count);
-			for(Client client : setClient) {
+			for(Client client : listClient) {
 				Map<String, Object> mapClient = new HashMap<>();
-				
-					mapClient.put("status", status);
+				if (status != 0) {
+					mapClient.put("status", status-1);	
+				}else 
+				   {
+					   List<MedicalRecord> listMedical = medicalRecordDao.getMedicalRecordByClient(client);
+					   mapClient  = new HashMap<>();
+					   int check = 1;
+					   for (MedicalRecord medical : listMedical) 
+					   	{
+							if (medical.getStatus() == 0) {
+								check = 0;
+							}
+						}
+						if (check == 0) {
+							mapClient.put("status", 0);
+						}
+						else {
+							mapClient.put("status", 1);
+						}
+				}
 				
 				mapClient.put("clientID", client.getClientID());
 				mapClient.put("gender", client.getGender());
 				mapClient.put("dob", client.getDob());
 				mapClient.put("address", client.getAddress());
-				
 				mapClient.put("phoneNumber", client.getPhoneNumber());
 				mapClient.put("note", client.getNote());
 				mapClient.put("alias", client.getAlias());
 				mapClient.put("ssn", client.getSsn());
-
 				mapClient.put("fullName", client.getFullName());
 				mapClient.put("email", client.getEmail());
 				mapClient.put("createdDate", client.getCreatedDate());
