@@ -37,5 +37,5 @@ public interface UserAccessDao {
 	 * get all of the user's profile management rights.
 	 * ユーザーのすべてのプロファイル管理権限を取得します。
 	 */
-	public List<UserAccess> getUserAccessByUser(User user);
+	public List<UserAccess> getUserAccessByUser(User user, int clientID);
 }

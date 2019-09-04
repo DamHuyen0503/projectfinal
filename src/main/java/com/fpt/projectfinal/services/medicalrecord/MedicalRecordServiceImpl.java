@@ -274,31 +274,31 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 			medicalRecord.setClient(client);
 			
 			
-			Set<NoteProcess> notes = new HashSet<>();
-			ArrayList<Object> note_list = (ArrayList<Object>) payload.get("notes");
-			String username = SecurityContextHolder.getContext().getAuthentication().getName();
-			Account acc = accountDao.getAccountByEmail(username);
-			for (Object result : note_list) {
-				Map<String, Object> resultmap = (Map) result;
-				
-					NoteProcess note = new NoteProcess(
-							ConvertDateTime.ConvertDate(
-									(String)resultmap.get("startTime")
-									), 
-							ConvertDateTime.ConvertDate(
-									(String)resultmap.get("endTime")
-									), 
-							(String)resultmap.get("content"), 
-							(int)resultmap.get("evaluation")
-							);
-					
-					note.setMedicalRecord(medicalRecord);
-					note.setUser(acc.getUser());
-					notes.add(note);
-				
-				
-			}
-			medicalRecord.setNoteProcess(notes);
+//			Set<NoteProcess> notes = new HashSet<>();
+//			ArrayList<Object> note_list = (ArrayList<Object>) payload.get("notes");
+//			String username = SecurityContextHolder.getContext().getAuthentication().getName();
+//			Account acc = accountDao.getAccountByEmail(username);
+//			for (Object result : note_list) {
+//				Map<String, Object> resultmap = (Map) result;
+//				
+//					NoteProcess note = new NoteProcess(
+//							ConvertDateTime.ConvertDate(
+//									(String)resultmap.get("startTime")
+//									), 
+//							ConvertDateTime.ConvertDate(
+//									(String)resultmap.get("endTime")
+//									), 
+//							(String)resultmap.get("content"), 
+//							(int)resultmap.get("evaluation")
+//							);
+//					
+//					note.setMedicalRecord(medicalRecord);
+//					note.setUser(acc.getUser());
+//					notes.add(note);
+//				
+//				
+//			}
+//			medicalRecord.setNoteProcess(notes);
 			medicalRecordDao.updateMedicalRecord(medicalRecord);
 			return "successful";
 			

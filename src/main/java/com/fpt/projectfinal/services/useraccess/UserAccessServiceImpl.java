@@ -137,7 +137,7 @@ public class UserAccessServiceImpl implements UserAccessService{
 		}
 	}
 	@Override
-	public List<Map<String, Object>> getUserAccessByUser() {
+	public List<Map<String, Object>> getUserAccessByUser(int clientID) {
 		Map<String, Object> listUserAccess = new HashMap<>();
 		List<Map<String, Object>> result = new ArrayList<>();
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -151,7 +151,7 @@ public class UserAccessServiceImpl implements UserAccessService{
 		try {
 			Account acc = accountDao.getAccountByEmail(username);
 			User user = userDao.getUserByAccount(acc);
-			List<UserAccess> userAccess = userAccessDao.getUserAccessByUser(user);
+			List<UserAccess> userAccess = userAccessDao.getUserAccessByUser(user, clientID);
 			System.out.println("user:"+user.getUserID());
 			for (UserAccess u : userAccess) {
 				listUserAccess = new HashMap<>();

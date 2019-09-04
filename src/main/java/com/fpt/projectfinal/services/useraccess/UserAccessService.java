@@ -27,7 +27,7 @@ public interface UserAccessService {
 	 * get all of the user's profile management rights.
 	 * ユーザーのすべてのプロファイル管理権限を取得します。
 	 */
-	public  List<Map<String, Object>> getUserAccessByUser();
+	public  List<Map<String, Object>> getUserAccessByUser(int clientID);
 	
 	
 }

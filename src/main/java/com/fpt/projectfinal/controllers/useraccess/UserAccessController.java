@@ -101,14 +101,14 @@ public class UserAccessController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/getUserAccessByUser", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
-	public ResponseEntity<Object>  getUserAccessByUser(){
+	public ResponseEntity<Object>  getUserAccessByUser( @RequestParam int clientID){
 		
 		try {
 			Set<String> roles = roleService.getRoleByToken("");
 			for(String role : roles) {
 				
 				if (role.equals(ROLEEXPERT)) {
-					List<Map<String, Object>> map=  userAccessService.getUserAccessByUser();
+					List<Map<String, Object>> map=  userAccessService.getUserAccessByUser(clientID);
 					return new ResponseEntity<>(map, HttpStatus.CREATED);
 				}
 			}
