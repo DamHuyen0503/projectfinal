@@ -37,11 +37,13 @@ public class ClientServiceImpl implements ClientService{
 			mapClientResult.put("count", count);
 			for(Client client : listClient) {
 				Map<String, Object> mapClient = new HashMap<>();
+				List<MedicalRecord> listMedical = medicalRecordDao.getMedicalRecordByClient(client);
+				
 				if (status != 0) {
 					mapClient.put("status", status-1);	
 				}else 
 				   {
-					   List<MedicalRecord> listMedical = medicalRecordDao.getMedicalRecordByClient(client);
+					 
 					   mapClient  = new HashMap<>();
 					   int check = 1;
 					   for (MedicalRecord medical : listMedical) 
@@ -57,7 +59,11 @@ public class ClientServiceImpl implements ClientService{
 							mapClient.put("status", 1);
 						}
 				}
-				
+				List<Integer> medicalID = new ArrayList<>(); 
+				for (MedicalRecord m : listMedical) {
+					medicalID.add(m.getMedicalRecordID());
+				}
+				mapClient.put("medicalRecordID", medicalID);
 				mapClient.put("clientID", client.getClientID());
 				mapClient.put("gender", client.getGender());
 				mapClient.put("dob", client.getDob());
@@ -177,10 +183,15 @@ public class ClientServiceImpl implements ClientService{
 //			System.out.println("size"+ setClient.size());
 //			System.out.println("userName:" + username);
 			for(Client client : setClient) {
-				
+				List<MedicalRecord> listMedical = medicalRecordDao.getMedicalRecordByClient(client);
 				Map<String, Object> mapClient = new HashMap<>();
 				
-					mapClient.put("status", status);
+				List<Integer> medicalID = new ArrayList<>(); 
+				for (MedicalRecord m : listMedical) {
+					medicalID.add(m.getMedicalRecordID());
+				}
+				mapClient.put("medicalRecordID", medicalID);
+				mapClient.put("status", status);
 				
 				mapClient.put("clientID", client.getClientID());
 				mapClient.put("gender", client.getGender());
@@ -195,7 +206,6 @@ public class ClientServiceImpl implements ClientService{
 				mapClient.put("fullName", client.getFullName());
 				mapClient.put("email", client.getEmail());
 				mapClient.put("createdDate", client.getCreatedDate());
-				List<MedicalRecord> listMedical = medicalRecordDao.getMedicalRecordByClient(client);
 				mapClient.put("countMedicalRecord", listMedical.size());
 				result.add(mapClient);
 			}
