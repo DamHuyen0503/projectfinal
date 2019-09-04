@@ -437,6 +437,7 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
 			for (UserAccess u : userAccess) {
 				
 				listUser = new HashMap<>();
+				listUser.put("userID", u.getUser().getUserID());
 				listUser.put("firstName", u.getUser().getFirstName());
 				listUser.put("lastName", u.getUser().getLastName());
 				listUser.put("userAccessID", u.getUserAccessID());
