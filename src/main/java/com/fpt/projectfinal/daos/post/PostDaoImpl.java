@@ -197,7 +197,7 @@ public class PostDaoImpl implements PostDao {
 		cr.orderBy(cb.desc(root.get("createdDate")));
 		
 		Query<Post> query = session.getCurrentSession().createQuery(cr);
-		query.setMaxResults(5);
+		query.setMaxResults(6);
 		List<Post> posts = query.getResultList();
 		
 		return posts;
