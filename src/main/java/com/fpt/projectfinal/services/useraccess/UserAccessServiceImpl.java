@@ -155,9 +155,12 @@ public class UserAccessServiceImpl implements UserAccessService{
 			System.out.println("user:"+user.getUserID());
 			for (UserAccess u : userAccess) {
 				listUserAccess = new HashMap<>();
+				listUserAccess.put("firstName", user.getFirstName());
+				listUserAccess.put("lastName", user.getLastName());
 				listUserAccess.put("userAccessID", u.getUserAccessID());
 				listUserAccess.put("permission", u.getStatus());
 				listUserAccess.put("medicalRecordID", u.getMedicalRecord().getMedicalRecordID());
+				listUserAccess.put("clientID", u.getMedicalRecord().getClient().getClientID());
 				listUserAccess.put("status", u.getMedicalRecord().getStatus());
 				listUserAccess.put("manager", u.getUser().getFirstName());
 				listUserAccess.put("createdDate", u.getMedicalRecord().getCreateDate());

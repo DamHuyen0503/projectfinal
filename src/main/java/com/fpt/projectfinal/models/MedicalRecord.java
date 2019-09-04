@@ -122,7 +122,7 @@ public class MedicalRecord {
 	@Column(name = "Result")
 	private String result;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "clientID")
 	
 	private Client client;
