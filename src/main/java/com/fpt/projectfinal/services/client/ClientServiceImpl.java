@@ -59,11 +59,8 @@ public class ClientServiceImpl implements ClientService{
 							mapClient.put("status", 1);
 						}
 				}
-				List<Integer> medicalID = new ArrayList<>(); 
-				for (MedicalRecord m : listMedical) {
-					medicalID.add(m.getMedicalRecordID());
-				}
-				mapClient.put("medicalRecordID", medicalID);
+				
+				mapClient.put("countMedicalRecord", listMedical.size());
 				mapClient.put("clientID", client.getClientID());
 				mapClient.put("gender", client.getGender());
 				mapClient.put("dob", client.getDob());
@@ -180,17 +177,10 @@ public class ClientServiceImpl implements ClientService{
 		Map<String, Object> mapResult = new HashMap<>();
 		try {
 			List<Client> setClient = clientDao.getAllClient(sort, order, page, searchString, status, username);
-//			System.out.println("size"+ setClient.size());
-//			System.out.println("userName:" + username);
 			for(Client client : setClient) {
 				List<MedicalRecord> listMedical = medicalRecordDao.getMedicalRecordByClient(client);
 				Map<String, Object> mapClient = new HashMap<>();
-				
-				List<Integer> medicalID = new ArrayList<>(); 
-				for (MedicalRecord m : listMedical) {
-					medicalID.add(m.getMedicalRecordID());
-				}
-				mapClient.put("medicalRecordID", medicalID);
+				mapClient.put("countMedicalRecord", listMedical.size());
 				mapClient.put("status", status);
 				
 				mapClient.put("clientID", client.getClientID());
