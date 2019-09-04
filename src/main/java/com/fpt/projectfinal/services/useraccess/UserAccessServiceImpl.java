@@ -165,6 +165,8 @@ public class UserAccessServiceImpl implements UserAccessService{
 				listUserAccess.put("manager", u.getUser().getFirstName());
 				listUserAccess.put("createdDate", u.getMedicalRecord().getCreateDate());
 				listUserAccess.put("modifiedDate", u.getMedicalRecord().getModifiedDate());
+				listUserAccess.put("startedDate", u.getStartedDate());
+				listUserAccess.put("finishedDate", u.getFinishedDate());
 				result.add(listUserAccess);
 				
 			}
